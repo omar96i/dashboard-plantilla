@@ -1,0 +1,38 @@
+@import "./scss/sb-admin-2.scss";
+
+.btn-search-topbar{
+    background-color: rgba(0,0,0,0.50);
+    color: rgba(255,255,255,0.70);
+    &:hover{
+        background-color: rgba(0,0,0,0.30);
+        color: rgba(255,255,255,0.70);
+    }
+}
+
+.input-search-topbar{
+    background: rgba(0,0,0,0.20);
+    color: rgba(255,255,255,0.80);
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+    padding-left: 10px;
+    border-radius: 5px;
+    &::placeholder{
+        color: rgba(255,255,255,0.60);
+    }
+    &:focus{
+        background: rgba(0,0,0,0.10);
+        color: rgba(255,255,255,0.80);
+        outline: none !important;
+        border-color: rgba(0,0,0,0.70);
+        box-shadow: 0 0 10px rgba(0,0,0,0.70);
+    }
+}
+
+.nav-item:hover{
+    background: rgba(0,0,0,0.20);
+}
+
+
