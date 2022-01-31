@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('login.login');
+    return User::with('PersonalInformation')->get();
 })->name('login');
+
+Route::post('/login', [UserController::class, 'store']);
+
 
 Route::get('/forgot-password', function () {
     return view('login.forgot-password');
