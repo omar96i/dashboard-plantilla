@@ -98,8 +98,8 @@
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item @if(Route::is('table')) active @endif">
-        <a class="nav-link" href="{{ route('table') }}">
+    <li class="nav-item">
+        <a class="nav-link">
             <i class="fas fa-fw fa-table"></i>
             <span>Tables</span></a>
     </li>
