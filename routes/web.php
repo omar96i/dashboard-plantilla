@@ -17,8 +17,7 @@ use Spatie\Permission\Models\Role;
 */
 
 Route::get('/', function () {
-    $user = User::find(1);
-    return $user;
+    return view('table');
 })->name('login');
 
 Route::post('/login', [UserController::class, 'store']);
