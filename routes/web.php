@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,8 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    return User::with('PersonalInformation')->get();
+    $user = User::find(1);
+    return $user;
 })->name('login');
 
 Route::post('/login', [UserController::class, 'store']);

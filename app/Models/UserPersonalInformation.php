@@ -12,16 +12,14 @@ class UserPersonalInformation extends Model
 
     protected $fillable = [
         'user_id',
-        'document',
-        'name',
-        'last_name',
-        'phone',
+        'documento',
+        'nombres',
+        'apellidos',
+        'telefono',
         'sexo',
-        'birth_date',
-        'city',
-        'observations',
-        'personal_email',
-        'photo',
+        'fecha_nacimiento',
+        'ciudad',
+        'foto',
     ];
 
     public function user(){
