@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Cotizaciones\CotizacionController;
+use App\Http\Controllers\Productos\ProductoController;
+use App\Http\Controllers\Usuarios\UsuarioController;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +17,26 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-Route::get('/', function () {
-    return view('table');
-})->name('login');
+Route::get('/test', function () {
+    return QrCode::generate(route('cotizaciones.index'), '../public/qrcodes/qrcode.svg');
+});
+Route::view('/', 'index')->name('home');
 
-Route::post('/login', [UserController::class, 'store']);
+Route::group(['prefix' => 'Cotizaciones'], function () {
+    Route::get('/', [CotizacionController::class, 'index'])->name('cotizaciones.index');
+    Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');
+});
 
+Route::group(['prefix' => 'Productos'], function () {
+    Route::get('/', [ProductoController::class, 'index'])->name('productos.index');
+});
 
-Route::get('/forgot-password', function () {
-    return view('login.forgot-password');
-})->name('forgot-password');
+Route::group(['prefix' => 'Usuarios'], function () {
+    Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
+    Route::post('/store', [UsuarioController::class, 'store'])->name('usuarios.store');
+    Route::post('/update/{user}', [UsuarioController::class, 'update'])->name('usuarios.update');
+    Route::get('/delete/{user}', [UsuarioController::class, 'delete'])->name('usuarios.delete');
+    Route::get('/get/{user}', [UsuarioController::class, 'get'])->name('usuarios.get');
+    Route::get('/getAll', [UsuarioController::class, 'getAll'])->name('usuarios.get-all');
 
-Route::get('/index', function () {
-    return view('index');
-})->name('index');
+});

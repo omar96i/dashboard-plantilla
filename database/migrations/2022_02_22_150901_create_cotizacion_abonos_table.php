@@ -16,8 +16,10 @@ class CreateCotizacionAbonosTable extends Migration
         Schema::create('cotizacion_abonos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('cotizacion_id');
-            $table->string('area');
-            $table->string('descripcion');
+            $table->string('nombre');
+            $table->date('fecha');
+            $table->string('valor');
+            $table->string('observacion');
             $table->timestamps();
 
             $table

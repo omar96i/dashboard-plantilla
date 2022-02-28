@@ -1,4 +1,11 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
 @import "./scss/sb-admin-2.scss";
+
 
 .btn-search-topbar{
     background-color: rgba(0,0,0,0.50);
@@ -34,5 +41,3 @@
 .nav-item:hover{
     background: rgba(0,0,0,0.20);
 }
-
-

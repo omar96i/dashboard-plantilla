@@ -16,7 +16,6 @@ class CreateSubCotizacionObservacionesTable extends Migration
         Schema::create('sub_cotizacion_observaciones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sub_cotizacion_id');
-            $table->string('area');
             $table->string('descripcion');
             $table->timestamps();
 

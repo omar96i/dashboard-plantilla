@@ -4,6 +4,7 @@
     <title>Plantilla - @yield('title')</title>
     @include('layouts._header')
     @yield('head')
+    @include('layouts._scripts_primary')
 </head>
 
 <body id="page-top">
@@ -38,13 +39,15 @@
                 <div class="modal-body">Selecciona "Cerrar sesion" si quieres terminar la sesion actual</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="{{ route('login') }}">Cerrar sesion</a>
+                    <a class="btn btn-primary" >Cerrar sesion</a>
                 </div>
             </div>
         </div>
     </div>
 
     @include('layouts._scripts')
+
+    @yield('scripts')
 </body>
 
 </html>

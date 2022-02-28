@@ -17,7 +17,7 @@ class CreateProductosCategoriasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('producto_id');
             $table->unsignedBigInteger('categoria_id');
-            $table->string('status')->default('active');
+            $table->string('estado')->default('activo');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('producto_id')
