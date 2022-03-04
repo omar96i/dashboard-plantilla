@@ -17,6 +17,7 @@ class CreateCotizacionesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('empresa_datos_id');
+            $table->string('nombre_facturar');
             $table->string('cliente_proyecto');
             $table->string('documento');
             $table->string('direccion');

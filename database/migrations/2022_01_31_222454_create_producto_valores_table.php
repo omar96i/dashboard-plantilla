@@ -17,7 +17,6 @@ class CreateProductoValoresTable extends Migration
             $table->id();
             $table->unsignedBigInteger('producto_id');
             $table->integer('valor');
-            $table->string('status')->default('activo');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('producto_id')

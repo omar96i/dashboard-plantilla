@@ -14,22 +14,6 @@ class UsuarioController extends Controller
         return view('usuarios.index');
     }
 
-    public function informacionPersonal(){
-        $informacion = new InformacionPersonal([
-            'user_id' => '1',
-            'documento' => '1088',
-            'nombres' => 'pruebas',
-            'apellidos' => 'pruebas',
-            'telefono' => '132456',
-            'sexo' => 'f',
-            'fecha_nacimiento' => Carbon::now(),
-            'ciudad' => 'prueba',
-            'foto' => 'prueba'
-        ]);
-
-        $informacion->save();
-    }
-
     public function store(Request $request){
 
         $user = new User([

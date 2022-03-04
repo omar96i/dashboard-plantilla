@@ -17,6 +17,7 @@ class Cotizacion extends Model
     protected $fillable = [
         'user_id',
         'empresa_datos_id',
+        'nombre_facturar',
         'cliente_proyecto',
         'documento',
         'direccion',

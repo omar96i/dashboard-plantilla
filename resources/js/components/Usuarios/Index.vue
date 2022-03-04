@@ -1,6 +1,6 @@
 <template>
 <div>
-    <button class="btn btn-success btn-sm mb-4" @click="agregarUsuario">
+    <button class="btn btn-success btn-sm" @click="agregarUsuario">
         <i class="fas fa-user-plus"></i>
         <samp class="pl-2">Crear Usuario</samp>
     </button>

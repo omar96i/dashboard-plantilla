@@ -186,7 +186,11 @@
                     this.loading = true;
                     let data = new FormData();
                     data.append("email", this.usuario.email)
-                    if(!this.tipo == "edit" && this.usuario.password == ''){
+                    if(this.tipo == "edit"){
+                        if(this.usuario.password != ''){
+                            data.append("password", this.usuario.password)
+                        }
+                    }else{
                         data.append("password", this.usuario.password)
                     }
                     data.append("documento", this.usuario.documento)

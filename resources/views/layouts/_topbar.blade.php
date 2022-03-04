@@ -165,6 +165,10 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <form id="logout-form" action="/logout" method="POST">
+                        @csrf
+                        <input type="submit" value="Logout" class="btn btn-secondary btn-block">
+                    </form>
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Salir
                 </a>

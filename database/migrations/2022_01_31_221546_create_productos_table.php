@@ -17,6 +17,12 @@ class CreateProductosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('descripcion');
+            $table->string('referencia');
+            $table->string('marca')->nullable();
+            $table->string('color');
+            $table->string('temperatura_calor')->nullable();
+            $table->string('voltaje')->nullable();
+            $table->string('cantidad');
             $table->string('foto');
             $table->timestamps();
             $table->softDeletes();
