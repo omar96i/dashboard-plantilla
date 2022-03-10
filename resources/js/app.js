@@ -18,6 +18,8 @@ Vue.component('productos-index', require('./components/Productos/Index.vue').def
 Vue.component('cotizaciones-index', require('./components/Cotizaciones/Index.vue').default);
 Vue.component('cotizaciones-show', require('./components/Cotizaciones/Show.vue').default);
 Vue.component('cotizaciones-form', require('./components/Cotizaciones/Form.vue').default);
+Vue.component('configuraciones-index', require('./components/Configuraciones/Index.vue').default);
+
 
 
 const app = new Vue({

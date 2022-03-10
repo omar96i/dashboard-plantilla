@@ -5,6 +5,9 @@ use App\Http\Controllers\Productos\ProductoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Configuraciones\ConfiguracionController;
+use App\Http\Controllers\Proyectos\ProyectoController;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
 
 /*
@@ -20,6 +23,9 @@ use Spatie\Permission\Contracts\Role;
 
 
 Route::get('/test', function () {
+
+    $userId = Auth::id();
+    return $userId;
 });
 
 Route::redirect('/', '/login', 301);
@@ -73,6 +79,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete/producto/{producto}', [CotizacionController::class, 'deleteProducto'])->name('cotizaciones.delete.producto');
         Route::post('/update/producto/{producto}', [CotizacionController::class, 'updateProducto'])->name('cotizaciones.update.producto');
     });
+
+    Route::group(['prefix' => 'Proyectos'], function () {
+        Route::get('/', [ProyectoController::class, 'index'])->name('proyectos.index');
+    });
+
+    Route::group(['prefix' => 'Configuraciones'], function () {
+        Route::get('/', [ConfiguracionController::class, 'index'])->name('configuraciones.index');
+        Route::post('/storeIva', [ConfiguracionController::class, 'storeIva'])->name('configuraciones.store.iva');
+        Route::get('/getIva', [ConfiguracionController::class, 'getIva'])->name('configuraciones.get.iva');
+        Route::post('/storeDatosBasicos', [ConfiguracionController::class, 'storeDatosBasicos'])->name('configuraciones.store.datos-basicos');
+        Route::get('/getDatosBasicos', [ConfiguracionController::class, 'getDatosBasicos'])->name('configuraciones.get.datos-basicos');
+    });
+
 });
 
 

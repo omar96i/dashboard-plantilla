@@ -35,10 +35,6 @@ class SubCotizacion extends Model
         return $this->hasMany(SubCotizacionProducto::class);
     }
 
-    public function manoObra(){
-        return $this->hasOne(SubCotizacionManoObra::class);
-    }
-
     // Relaciones end
 
 }

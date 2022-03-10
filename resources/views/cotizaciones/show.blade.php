@@ -45,7 +45,6 @@
                         <p class="text-muted mt-1">{{$cotizacion->email}}</p>
                     </div>
                 </div>
-                {{$cotizacion['subCotizaciones'][0]->productos[0]->productos->nombre}}
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     @foreach ($cotizacion['subCotizaciones'] as $sub_cotizacion)
                         <li class="nav-item">
@@ -108,7 +107,7 @@
                     @endforeach
                     <div class="tab-pane fade" id="consolidado" role="tabpanel" aria-labelledby="consolidado-tab">
                         <div class="table-responsive p-4">
-                            <table class="table table-bordered tables-productos" id="{{$sub_cotizacion->area}}" width="100%" cellspacing="0">
+                            <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>Area</th>

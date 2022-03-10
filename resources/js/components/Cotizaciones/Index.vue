@@ -1,7 +1,7 @@
 <template>
 <div>
     <a class="btn btn-success btn-sm" href="/Cotizaciones/form">
-        <i class="fas fa-user-plus"></i>
+        <i class="fa-solid fa-plus"></i>
         <samp class="pl-2">Cotizacion</samp>
     </a>
     <div class="table-responsive" v-if="load">

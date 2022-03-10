@@ -44,11 +44,26 @@
         </div>
     </li>
 
+    <li class="nav-item @if(Route::is('proyectos.index')) active @endif">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-four"
+            aria-expanded="true" aria-controls="collapse-four">
+            <i class="fa-solid fa-diagram-project"></i>
+            <span>Proyectos</span>
+        </a>
+        <div id="collapse-four" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Administrar</h6>
+                <a class="collapse-item" href="{{ route('proyectos.index') }}">Proyectos</a>
+                <a class="collapse-item" href="cards.html">Reportes</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item @if(Route::is('productos.index')) active @endif">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-one"
             aria-expanded="true" aria-controls="collapse-one">
-            <i class="fa-brands fa-product-hunt"></i>
+            <i class="fa-solid fa-box"></i>
             <span>Productos</span>
         </a>
         <div id="collapse-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -71,6 +86,21 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Administrar</h6>
                 <a class="collapse-item" href="{{ route('usuarios.index') }}">Usuarios</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item @if(Route::is('configuraciones.index')) active @endif">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-five"
+            aria-expanded="true" aria-controls="collapse-five">
+            <i class="fa-solid fa-gear"></i>
+            <span>Configuraciones</span>
+        </a>
+        <div id="collapse-five" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Administrar</h6>
+                <a class="collapse-item" href="{{ route('configuraciones.index') }}">Iva/Datos basicos</a>
             </div>
         </div>
     </li>

@@ -36,8 +36,11 @@
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
         </div>
-        <div class="col-12 text-center">
+        <div class="col-12 text-center" v-if="!spinner_one">
             <button class="btn btn-success btn-sm" type="submit">Guardar</button>
+        </div>
+        <div class="col-12 text-center" v-else>
+            <spinner-view :loading="spinner_one"></spinner-view>
         </div>
     </form>
 
@@ -74,10 +77,12 @@
                     <textarea class="form-control" placeholder="Observacion..." v-model="sub_cotizacion.observacion"></textarea>
                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                 </div>
-                <div class="col-12 text-center mt-4">
+                <div class="col-12 text-center mt-4" v-if="!spinner_two">
                     <button class="btn btn-success btn-sm" @click="updateSubCotizacion()">Guardar</button>
                     <button class="btn btn-danger btn-sm" v-if="sub_cotizacion.id != ''" @click="eliminarSubCotizacion">Eliminar</button>
-
+                </div>
+                <div class="col-12 text-center mt-4" v-else>
+                    <spinner-view :loading="spinner_two"></spinner-view>
                 </div>
             </div>
         </div>
@@ -187,7 +192,9 @@
                     'id' : '',
                     'ubicacion' : '',
                     'cantidad' : ''
-                }
+                },
+                spinner_one: false,
+                spinner_two: false,
             }
         },
         created(){
@@ -203,18 +210,22 @@
                 $("#modalCotizacion").modal('show')
             },
             storeCotizacion(){
+                this.spinner_one = true
                 axios.post(this.ruta, this.cotizacion).then(res=>{
                     if(res.data.saved){
+                        console.log(res.data.cotizacion)
                         this.cotizacion = res.data.cotizacion
                         this.load_second_form = true
                         this.load_first_modal = true
-                        this.getCotizacion()
                         this.alert('Cotizacion', 'Creada', 'success')
+                    }else{
+                        this.alert('Cotizacion', res.data.msg, 'error')
                     }
                     if(res.data.updated){
                         this.cotizacion = res.data.cotizacion
                         this.alert('Cotizacion', 'Actualizada', 'success')
                     }
+                    this.spinner_one = false
                 })
             },
             updateProduct: function (event) {
@@ -305,23 +316,14 @@
                     }
                 });
             },
-            getCotizacion(){
-                axios.get('/Cotizaciones/get').then(res=>{
-                    this.new_cotizacion = res.data.cotizacion
-                    this.cotizacion = res.data.cotizacion
-                    if(this.new_cotizacion != ''){
-                        this.load_second_form = true
-                        this.load_first_modal = true
-                        this.getSubCotizacion()
-                    }
-                })
-            },
 
             updateSubCotizacion(){
+                this.spinner_two = true
                 axios.post(`/Cotizaciones/update/subCotizacion/${this.sub_cotizacion.id}`, this.sub_cotizacion).then(res=>{
                     if(res.data.updated){
                         this.sub_cotizacion = res.data.sub_cotizacion
                         this.alert('Sub cotizacion', 'Actualizada', 'success')
+                        this.spinner_two = false
                     }
                 })
             },

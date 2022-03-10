@@ -20,7 +20,7 @@ class SubCotizacionObservacion extends Model
     // Relaciones start
 
     public function subCotizacion(){
-        return $this->belongsTo(SubCotizacion::class);
+        return $this->belongsTo(SubCotizacion::class, 'sub_cotizacion_id');
     }
 
     // Relaciones end

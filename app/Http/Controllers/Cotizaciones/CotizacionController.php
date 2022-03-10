@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Cotizaciones\SubCotizacion;
 use App\Models\Cotizaciones\SubCotizacionProducto;
+use App\Models\EmpresaDato;
 use App\Models\Productos\Producto;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CotizacionController extends Controller
 {
@@ -25,9 +27,15 @@ class CotizacionController extends Controller
     }
 
     public function store(Request $request){
+        $empresa_datos = EmpresaDato::count();
+        if($empresa_datos > 0){
+            $empresa_datos = EmpresaDato::get()->first();
+        }else{
+            return response()->json(['saved' => false, 'msg' => 'Error crear, Verifica que los datos basicos de la empresa esten creados']);
+        }
         $cotizacion = new Cotizacion($request->all());
-        $cotizacion->user_id = 4;
-        $cotizacion->empresa_datos_id = 1;
+        $cotizacion->user_id = Auth::id();
+        $cotizacion->empresa_datos_id = $empresa_datos->id;
         $cotizacion->fecha = Carbon::now();
         $cotizacion->estado = "activo";
         $cotizacion->save();
@@ -79,6 +87,8 @@ class CotizacionController extends Controller
         return response()->json(['deleted' => true]);
     }
 
+
+    // No esta
     public function get(){
         return response()->json(['cotizacion' => Cotizacion::find(1)]);
     }
