@@ -23,6 +23,7 @@
                                         <option value="audio">Audio</option>
                                         <option value="integracion">Integracion</option>
                                         <option value="seguridad">Seguridad</option>
+                                        <option value="mano_obra">Mano de Obra</option>
                                     </select>
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>

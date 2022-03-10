@@ -30,7 +30,8 @@ class ProductoController extends Controller
 
         $valor = new ProductoValor([
             'producto_id' => $product->id,
-            'valor' => $request->valor
+            'valor' => $request->valor,
+            'tipo' => $request->tipo
         ]);
 
         $valor->save();
@@ -54,12 +55,13 @@ class ProductoController extends Controller
 
         $valor = ProductoValor::where('producto_id', '=', $producto->id)->get();
 
-        if($valor[0]->valor != $request->valor){
+        if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo){
             ProductoValor::where('producto_id', '=', $producto->id)->delete();
 
             $valor = new ProductoValor([
                 'producto_id' => $producto->id,
-                'valor' => $request->valor
+                'valor' => $request->valor,
+                'tipo' => $request->tipo
             ]);
 
             $valor->save();

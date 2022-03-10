@@ -20,6 +20,10 @@ class CotizacionController extends Controller
         return view('cotizaciones.form');
     }
 
+    public function show(Cotizacion $cotizacion){
+        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load('whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos')]);
+    }
+
     public function store(Request $request){
         $cotizacion = new Cotizacion($request->all());
         $cotizacion->user_id = 4;
@@ -39,6 +43,13 @@ class CotizacionController extends Controller
     }
 
     public function storeProduct(SubCotizacion $sub_cotizacion, Request $request){
+        if(SubCotizacionProducto::where(['producto_id' => $request->producto_id, 'sub_cotizacion_id' => $sub_cotizacion->id])->count() > 0){
+            return response()->json(['saved' => false, 'msg' => 'El producto ya se encuenta registrado']);
+        }
+        $condicion = Producto::find($request->producto_id);
+        if($request->cantidad > $condicion->cantidad){
+            return response()->json(['saved' => false, 'msg' => 'La cantidad seleccionada excede la del stock']);
+        }
         $producto_sc = new SubCotizacionProducto($request->all());
         $producto_sc->sub_cotizacion_id = $sub_cotizacion->id;
         $producto_sc->estado = "activo";
@@ -88,11 +99,24 @@ class CotizacionController extends Controller
         return view('cotizaciones.form', compact('cotizacion'));
     }
 
-    public function deleteProducto(Producto $producto, Request $request){
-        $relacion = SubCotizacionProducto::where(['producto_id' => $producto->id, 'sub_cotizacion_id' => $request->id])->first();
-        return response()->json(['deleted' => true, 'producto' => $relacion]);
-
-        $relacion->delete();
+    public function deleteProducto(SubCotizacionProducto $producto){
+        $producto->delete();
         return response()->json(['deleted' => true]);
+    }
+
+    public function updateProducto(SubCotizacionProducto $producto, Request $request){
+        $producto->update();
+        if(isset($request->ubicacion)){
+            $producto->ubicacion = $request->ubicacion;
+        }
+        if(isset($request->cantidad)){
+            $condicion = Producto::find($producto->producto_id);
+            if($request->cantidad > $condicion->cantidad){
+                return response()->json(['updated' => false, 'msg' => 'La cantidad seleccionada excede la del stock']);
+            }
+            $producto->cantidad = $request->cantidad;
+        }
+        $producto->save();
+        return response()->json(['updated' => true, 'msg' => 'Actualizado']);
     }
 }

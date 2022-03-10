@@ -22,8 +22,13 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <label for="b-i" class="col-form-label">Cantidad:</label>
-                                    <input type="text" id="b-i" class="form-control" name="b-i" placeholder="Descripcion..." v-model="producto.cantidad">
+                                    <label for="" class="col-form-label">Cantidad:</label>
+                                    <input type="text" id="" class="form-control" name="" placeholder="Cantidad..." v-model="producto.cantidad">
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label for="" class="col-form-label">Ubicacion:</label>
+                                    <input type="text" id="" class="form-control" name="" placeholder="Ubicacion..." v-model="producto.ubicacion">
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
@@ -76,6 +81,9 @@
                         this.alert("Producto", "Agregado", "success")
                         this.producto = {}
                         this.$parent.changeValues()
+                    }else{
+                        this.alert("Producto", res.data.msg, "warning")
+                        this.producto = {}
                     }
                 })
             },

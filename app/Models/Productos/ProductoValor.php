@@ -16,7 +16,8 @@ class ProductoValor extends Model
 
     protected $fillable = [
         'producto_id',
-        'valor'
+        'valor',
+        'tipo'
     ];
 
     public function producto(){

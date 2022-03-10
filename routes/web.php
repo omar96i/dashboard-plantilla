@@ -5,6 +5,7 @@ use App\Http\Controllers\Productos\ProductoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use Spatie\Permission\Contracts\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ use App\Http\Controllers\Auth\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('/test', function () {
 });
@@ -54,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'Cotizaciones'], function () {
         Route::get('/', [CotizacionController::class, 'index'])->name('cotizaciones.index');
+        Route::get('/show/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
         Route::get('/get', [CotizacionController::class, 'get'])->name('cotizaciones.get');
         Route::get('/getAll', [CotizacionController::class, 'getAll'])->name('cotizaciones.get-all');
         Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');
@@ -67,9 +70,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get/subCotizacion/{sub_cotizacion}', [CotizacionController::class, 'getSubCotizacionOnly'])->name('cotizaciones.get.sub-cotizacion-only');
         Route::post('/store/product/{sub_cotizacion}', [CotizacionController::class, 'storeProduct'])->name('cotizaciones.store.product');
         Route::get('/delete/subCotizacion/{sub_cotizacion}', [CotizacionController::class, 'deleteSubCotizacion'])->name('cotizaciones.delete.sub-cotizacion');
-        Route::post('/delete/producto/{producto}', [CotizacionController::class, 'deleteProducto'])->name('cotizaciones.delete.producto');
+        Route::get('/delete/producto/{producto}', [CotizacionController::class, 'deleteProducto'])->name('cotizaciones.delete.producto');
+        Route::post('/update/producto/{producto}', [CotizacionController::class, 'updateProducto'])->name('cotizaciones.update.producto');
     });
-
 });
 
 

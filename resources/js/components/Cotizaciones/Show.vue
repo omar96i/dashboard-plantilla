@@ -1,9 +1,5 @@
 <template>
 <div>
-    <a class="btn btn-success btn-sm" href="/Cotizaciones/form">
-        <i class="fas fa-user-plus"></i>
-        <samp class="pl-2">Cotizacion</samp>
-    </a>
     <div class="table-responsive" v-if="load">
         <table class="table table-bordered" id="tablaCotizaciones" width="100%" cellspacing="0" >
             <thead>
@@ -57,18 +53,11 @@
             </tbody>
         </table>
     </div>
-    <div>
-        <cotizaciones-form></cotizaciones-form>
-    </div>
 </div>
 </template>
 
 <script>
-    import CotizacionesForm from './Modal.vue'
     export default {
-        components: {
-			CotizacionesForm
-		},
         data(){
             return{
                 cotizaciones:{},
@@ -79,9 +68,6 @@
             this.getCotizaciones()
         },
         methods:{
-            abrirModal(){
-                $("#modalCotizacion").modal('show')
-            },
             getCotizaciones(){
                 axios.get('/Cotizaciones/getAll').then(res=>{
                     this.cotizaciones = res.data.cotizaciones

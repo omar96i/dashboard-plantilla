@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Cotizaciones\SubCotizacionObservacion;
 use App\Models\Cotizaciones\SubCotizacionProducto;
+use App\Models\Cotizaciones\SubCotizacionManoObra;
 
 class SubCotizacion extends Model
 {
@@ -32,6 +33,10 @@ class SubCotizacion extends Model
 
     public function productos(){
         return $this->hasMany(SubCotizacionProducto::class);
+    }
+
+    public function manoObra(){
+        return $this->hasOne(SubCotizacionManoObra::class);
     }
 
     // Relaciones end

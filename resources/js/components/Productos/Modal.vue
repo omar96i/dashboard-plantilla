@@ -77,6 +77,14 @@
                                     <input type="number" v-bind:class="[{ 'is-invalid': productoValidacion.valor}, 'form-control']" name="b-i" v-model="producto.valor" placeholder="Valor..." >
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Tipo moneda:</label>
+                                    <select name="" id="" v-bind:class="[{ 'is-invalid': productoValidacion.tipo}, 'form-control']" v-model="producto.tipo">
+                                        <option value="dolar">Dolar</option>
+                                        <option value="peso_colombiano">Peso Colombiano</option>
+                                    </select>
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
                             </div>
                             <div class="text-center" v-if="!loading">
                                 <button type="submit" class="btn btn-success btn-sm">Agregar</button>
@@ -112,6 +120,7 @@
                     'temperatura_calor' : '',
                     'voltaje' : '',
                     'cantidad' : '',
+                    'tipo' : '',
                     'valor': ''
                 },
                 productoValidacion:{
@@ -123,6 +132,7 @@
                     'voltaje' : false,
                     'temperatura_calor' : false,
                     'cantidad' : false,
+                    'tipo' : false,
                     'valor': false
                 },
                 image:'',
@@ -141,6 +151,7 @@
                     'voltaje' : this.product.voltaje,
                     'temperatura_calor' : this.product.temperatura_calor,
                     'cantidad' : this.product.cantidad,
+                    'tipo' : this.product.valores[0].tipo,
                     'valor' : this.product.valores[0].valor,
                 }
                 this.imagePreview = `/img/img_productos/${this.product.foto}`
@@ -184,6 +195,7 @@
                     data.append("marca", this.producto.marca)
                     data.append("color", this.producto.color)
                     data.append("voltaje", this.producto.voltaje)
+                    data.append("tipo", this.producto.tipo)
                     data.append("temperatura_calor", this.producto.temperatura_calor)
                     data.append("cantidad", this.producto.cantidad)
                     data.append("valor", this.producto.valor)

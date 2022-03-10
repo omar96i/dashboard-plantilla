@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Cotizaciones\Cotizacion;
+use App\Models\Proyectos\Proyecto;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,6 +41,10 @@ class User extends Authenticatable
 
     public function cotizacionesCreadas(){
         return $this->hasMany(Cotizacion::class);
+    }
+
+    public function proyectos(){
+        return $this->hasMany(Proyecto::class);
     }
 
     // Relaciones end

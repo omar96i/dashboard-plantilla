@@ -45,19 +45,19 @@
     <div v-if="load_second_form">
         <hr>
         <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Sub cotizacion</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Area</h6>
             <button href="#" class="btn btn-success btn-sm btn-icon-split" @click="openModalSubCotizacion()">
                 <span class="icon text-white-50">
                     <i class="fa-solid fa-plus"></i>
                 </span>
-                <span class="text">Sub cotizacion</span>
+                <span class="text">Agregar area</span>
             </button>
         </div>
 
         <div class="col-12 mb-5">
             <div class="form-group row">
                 <div class="col-12 col-sm-6">
-                    <label for="a-i" class="col-form-label">Selecciona el area:</label>
+                    <label for="a-i" class="col-form-label text-muted">Selecciona el area:</label>
                     <select class="form-control" @change="changeValues()" v-model="sub_cotizacion.id">
                         <option value="" selected>Sin seleccionar...</option>
                         <option v-for="(sub_cotizacion, index) in sub_cotizaciones" :key="index" :value="sub_cotizacion.id">{{sub_cotizacion.area}}</option>
@@ -67,6 +67,11 @@
                 <div class="col-12 col-sm-6">
                     <label for="e-i" class="col-form-label">Descripcion:</label>
                     <input type="text" id="e-i" class="form-control" name="e-i" placeholder="Descripcion..." v-model="sub_cotizacion.descripcion">
+                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                </div>
+                <div class="col-12 col-sm-12">
+                    <label class="col-form-label">Observacion:</label>
+                    <textarea class="form-control" placeholder="Observacion..." v-model="sub_cotizacion.observacion"></textarea>
                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                 </div>
                 <div class="col-12 text-center mt-4">
@@ -80,7 +85,6 @@
 
     <div v-if="load_three_form">
         <hr>
-
         <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Productos</h6>
             <button href="#" class="btn btn-success btn-sm btn-icon-split" @click="openModalProduct()">
@@ -128,11 +132,11 @@
                         <td>{{producto.productos.nombre}}</td>
                         <td>{{producto.productos.descripcion}}</td>
                         <td>{{producto.productos.referencia}}</td>
-                        <td>NN</td>
-                        <td><input type="text" class="form-control" value="Ubicacion"></td>
-                        <td><input type="text" class="form-control" :value="producto.cantidad"></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{producto.productos.marca}}</td>
+                        <td><input type="text" class="form-control" v-bind:data-producto_id="producto.id" :value="producto.ubicacion" v-on:change="updateProduct"></td>
+                        <td><input type="text" class="form-control" v-bind:data-producto_id="producto.id" :value="producto.cantidad" v-on:change="updateProductCantidad"></td>
+                        <td>{{producto.productos.valores[0].valor}}</td>
+                        <td>{{(producto.productos.valores[0].valor*producto.cantidad)}}</td>
                         <td class="text-center">
                             <button class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash" @click="eliminarProducto(producto.id)"></i></button>
                         </td>
@@ -178,7 +182,12 @@
                 },
                 productos: {},
                 load_products: false,
-                tipo: 'insert'
+                tipo: 'insert',
+                producto_update:{
+                    'id' : '',
+                    'ubicacion' : '',
+                    'cantidad' : ''
+                }
             }
         },
         created(){
@@ -199,11 +208,45 @@
                         this.cotizacion = res.data.cotizacion
                         this.load_second_form = true
                         this.load_first_modal = true
+                        this.getCotizacion()
                         this.alert('Cotizacion', 'Creada', 'success')
                     }
                     if(res.data.updated){
                         this.cotizacion = res.data.cotizacion
                         this.alert('Cotizacion', 'Actualizada', 'success')
+                    }
+                })
+            },
+            updateProduct: function (event) {
+                this.producto_update.ubicacion = event.target.value
+                this.producto_update.id = event.target.attributes[1].value
+                axios.post(`/Cotizaciones/update/producto/${this.producto_update.id}`, this.producto_update).then(res => {
+                    if(res.data.updated){
+                        this.alert('Producto', res.data.msg, 'success')
+                        this.changeValues()
+                    }
+                    this.producto_update = {
+                        'id' : '',
+                        'ubicacion' : '',
+                        'cantidad' : ''
+                    }
+                })
+            },
+            updateProductCantidad: function (event) {
+                this.producto_update.cantidad = event.target.value
+                this.producto_update.id = event.target.attributes[1].value
+                axios.post(`/Cotizaciones/update/producto/${this.producto_update.id}`, this.producto_update).then(res => {
+                    if(res.data.updated){
+                        this.alert('Producto', res.data.msg, 'success')
+                        this.changeValues()
+                    }else{
+                        this.alert('Producto', res.data.msg, 'warning')
+                        this.changeValues()
+                    }
+                    this.producto_update = {
+                        'id' : '',
+                        'ubicacion' : '',
+                        'cantidad' : ''
                     }
                 })
             },
@@ -248,8 +291,7 @@
                     confirmButtonColor: '#FF0000',
                 }).then((result) => {
                     if(result.value){
-                        axios.post(`/Cotizaciones/delete/producto/${id_producto}`, this.sub_cotizacion).then(res => {
-                            console.log(res.data)
+                        axios.get(`/Cotizaciones/delete/producto/${id_producto}`).then(res => {
                             if(res.data.deleted){
                                 this.$fire({
                                     title: 'Producto',
@@ -293,6 +335,7 @@
                 this.load_products = false
                 if(this.sub_cotizacion.id != ''){
                     axios.get(`/Cotizaciones/get/subCotizacion/${this.sub_cotizacion.id}`).then(res=>{
+                        console.log(res.data)
                         this.productos = res.data.productos_sub_cotizacion
                         this.sub_cotizacion = res.data.sub_cotizacion
                         this.load_three_form = true
