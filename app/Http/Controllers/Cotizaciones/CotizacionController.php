@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cotizaciones;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\Cotizacion;
+use App\Models\Cotizaciones\CotizacionAbono;
 use App\Models\Cotizaciones\SubCotizacion;
 use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\EmpresaDato;
@@ -23,7 +24,7 @@ class CotizacionController extends Controller
     }
 
     public function show(Cotizacion $cotizacion){
-        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load('whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos')]);
+        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load('whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos', 'abonos')]);
     }
 
     public function store(Request $request){
@@ -128,5 +129,25 @@ class CotizacionController extends Controller
         }
         $producto->save();
         return response()->json(['updated' => true, 'msg' => 'Actualizado']);
+    }
+
+    public function getAbonos(Cotizacion $cotizacion){
+        return response()->json(['abonos' => CotizacionAbono::where('cotizacion_id', $cotizacion->id)->get()]);
+    }
+
+    public function storeAbonos(Cotizacion $cotizacion, Request $request){
+        $cotizacion_abono = new CotizacionAbono($request->all());
+        $cotizacion_abono->cotizacion_id = $cotizacion->id;
+        $cotizacion_abono->save();
+
+        return response()->json(['saved' => true]);
+    }
+
+    public function deleteAbono(CotizacionAbono $abono){
+
+    }
+
+    public function getValorGeneral(Cotizacion $cotizacion){
+        return response()->json(['cotizaciones' => $cotizacion->load('subCotizaciones.productos.productos.valores')]);
     }
 }

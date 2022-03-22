@@ -41,5 +41,9 @@ class Cotizacion extends Model
         return $this->hasMany(SubCotizacion::class);
     }
 
+    public function abonos(){
+        return $this->hasMany(CotizacionAbono::class);
+    }
+
     // Relaciones end
 }

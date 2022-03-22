@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
+        return view('home', ['date' => $date]);
+    }
+
+    public function storeTRM(Request $request){
+
     }
 }

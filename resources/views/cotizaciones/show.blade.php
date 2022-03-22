@@ -52,6 +52,9 @@
                         </li>
                     @endforeach
                     <li class="nav-item">
+                        <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos" role="tab" aria-controls="home" aria-selected="true">forma de pago</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="consolidado-tab" data-toggle="tab" href="#consolidado" role="tab" aria-controls="home" aria-selected="true">consolidado</a>
                     </li>
                 </ul>
@@ -131,6 +134,38 @@
                                             <td>{{$sub_cotizacion->descripcion}}</td>
                                             <td>Por definir</td>
                                             <td>por definir...</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="abonos" role="tabpanel" aria-labelledby="abonos-tab">
+                        <div class="table-responsive p-4">
+                            <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Fecha</th>
+                                        <th>Valor</th>
+                                        <th>Observacion</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Fecha</th>
+                                        <th>Valor</th>
+                                        <th>Observacion</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    @foreach ($cotizacion['abonos'] as $abono)
+                                        <tr>
+                                            <td>{{$abono->nombre}}</td>
+                                            <td>{{$abono->fecha}}</td>
+                                            <td>{{$abono->valor}}</td>
+                                            <td>{{$abono->observacion}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

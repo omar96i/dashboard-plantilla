@@ -81,6 +81,8 @@
                         this.alert("Producto", "Agregado", "success")
                         this.producto = {}
                         this.$parent.changeValues()
+                        this.$parent.getValorGeneral()
+
                     }else{
                         this.alert("Producto", res.data.msg, "warning")
                         this.producto = {}

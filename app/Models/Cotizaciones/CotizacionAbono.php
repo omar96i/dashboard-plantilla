@@ -23,7 +23,7 @@ class CotizacionAbono extends Model
     // Relaciones start
 
     public function cotizacion(){
-        return $this->belongsTo(Cotizacion::class);
+        return $this->belongsTo(Cotizacion::class, 'cotizacion_id');
     }
 
     // Relaciones end

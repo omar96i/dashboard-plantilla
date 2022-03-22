@@ -39,7 +39,7 @@
                 <h6 class="collapse-header">Administrar</h6>
                 <a class="collapse-item" href="{{ route('cotizaciones.index') }}">Cotizaciones</a>
                 <a class="collapse-item" href="{{ route('cotizaciones.form') }}">Crear</a>
-                <a class="collapse-item" href="cards.html">Reportes</a>
+                <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
             </div>
         </div>
     </li>
@@ -54,7 +54,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Administrar</h6>
                 <a class="collapse-item" href="{{ route('proyectos.index') }}">Proyectos</a>
-                <a class="collapse-item" href="cards.html">Reportes</a>
+                <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
             </div>
         </div>
     </li>
@@ -70,7 +70,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Administrar</h6>
                 <a class="collapse-item" href="{{ route('productos.index') }}">Productos</a>
-                <a class="collapse-item" href="cards.html">Reportes</a>
+                <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
             </div>
         </div>
     </li>

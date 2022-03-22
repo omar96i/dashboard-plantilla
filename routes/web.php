@@ -6,6 +6,7 @@ use App\Http\Controllers\Usuarios\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
+use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
@@ -37,6 +38,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    Route::group(['prefix' => 'TRM'], function () {
+        Route::post('/store', [DolarValorController::class, 'storeTRM'])->name('trm.store');
+        Route::get('/get', [DolarValorController::class, 'getTRM'])->name('trm.get');
+    });
+
     Route::group(['prefix' => 'Cotizaciones'], function () {
         Route::get('/', [CotizacionController::class, 'index'])->name('cotizaciones.index');
         Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');
@@ -62,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'Cotizaciones'], function () {
         Route::get('/', [CotizacionController::class, 'index'])->name('cotizaciones.index');
+        Route::get('/getValorGeneral/{cotizacion}', [CotizacionController::class, 'getValorGeneral'])->name('cotizaciones.get-valor-general');
         Route::get('/show/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
         Route::get('/get', [CotizacionController::class, 'get'])->name('cotizaciones.get');
         Route::get('/getAll', [CotizacionController::class, 'getAll'])->name('cotizaciones.get-all');
@@ -78,6 +85,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete/subCotizacion/{sub_cotizacion}', [CotizacionController::class, 'deleteSubCotizacion'])->name('cotizaciones.delete.sub-cotizacion');
         Route::get('/delete/producto/{producto}', [CotizacionController::class, 'deleteProducto'])->name('cotizaciones.delete.producto');
         Route::post('/update/producto/{producto}', [CotizacionController::class, 'updateProducto'])->name('cotizaciones.update.producto');
+        Route::get('/delete/producto/{producto}', [CotizacionController::class, 'deleteProducto'])->name('cotizaciones.delete.producto');
+        Route::get('/Abonos/get/{cotizacion}', [CotizacionController::class, 'getAbonos'])->name('cotizaciones.get.abonos');
+        Route::post('/Abonos/store/{cotizacion}', [CotizacionController::class, 'storeAbonos'])->name('cotizaciones.store.abonos');
+        Route::get('/Abonos/delete/{abono}', [CotizacionController::class, 'deleteAbono'])->name('cotizaciones.delete.abonos');
+
     });
 
     Route::group(['prefix' => 'Proyectos'], function () {

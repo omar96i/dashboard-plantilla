@@ -17,8 +17,9 @@
                     <th>Temperatura de calor</th>
                     <th>Voltaje</th>
                     <th>Catidad</th>
+                    <th>Tipo moneda</th>
                     <th>Valor</th>
-                    <th>Acciones</th>
+                    <th></th>
                 </tr>
             </thead>
             <tfoot>
@@ -32,8 +33,9 @@
                     <th>Temperatura de calor</th>
                     <th>Voltaje</th>
                     <th>Catidad</th>
+                    <th>Tipo moneda</th>
                     <th>Valor</th>
-                    <th>Acciones</th>
+                    <th></th>
                 </tr>
             </tfoot>
             <tbody>
@@ -47,10 +49,20 @@
                     <td>{{(producto.temperatura_calor == null)? "" : producto.temperatura_calor}}</td>
                     <td>{{(producto.voltaje == null)? "" : producto.voltaje}}</td>
                     <td>{{producto.cantidad}}</td>
-                    <td>{{producto.valores[0].valor}}</td>
+                    <td>{{(producto.valores[0].tipo == 'peso_colombiano')? "Peso colombiano" : "Dolar"}}</td>
+                    <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor)}}</td>
                     <td class="text-center">
-                        <button class="btn btn-info btn-circle btn-sm" @click="editProducto(producto.id)"><i class="fa-solid fa-user-pen"></i></button>
-                        <button class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash" @click="eliminarProducto(producto.id)"></i></button>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                                <div class="dropdown-header">Acciones:</div>
+                                <button class="dropdown-item" @click="editProducto(producto.id)"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" @click="eliminarProducto(producto.id)"><i class="fas fa-trash" ></i> Eliminar</button>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -73,11 +85,12 @@
                 productos:{},
                 load: false,
                 load_modal: false,
-                producto:null
+                producto:null,
+                dolar: {}
             }
         },
         created(){
-            this.getAllProduct()
+            this.getDolar()
         },
         methods:{
             agregarProducto(){
@@ -95,6 +108,13 @@
                     console.log(res.data)
                     this.producto = res.data.producto
                     this.openModal()
+                })
+            },
+            getDolar(){
+                axios.get('TRM/get').then(res=>{
+                    this.dolar = res.data.trm
+                }).finally(() => {
+                    this.getAllProduct()
                 })
             },
             getAllProduct(){
