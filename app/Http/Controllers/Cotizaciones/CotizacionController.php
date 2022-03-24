@@ -106,6 +106,10 @@ class CotizacionController extends Controller
         return response()->json(['cotizaciones' => Cotizacion::get()]);
     }
 
+    public function getEnabled(){
+        return response()->json(['cotizaciones' => Cotizacion::where('estado', 'activo')->get()]);
+    }
+
     public function edit(Cotizacion $cotizacion){
         return view('cotizaciones.form', compact('cotizacion'));
     }

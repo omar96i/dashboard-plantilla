@@ -14,7 +14,7 @@
                         <form>
                             <div class="col-12">
                                 <label for="a-i" class="col-form-label">Selecciona la cotizacion:</label>
-                                <input list="cotizaciones" class="form-control">
+                                <input list="cotizaciones" class="form-control" v-model="id">
                                 <datalist id="cotizaciones">
                                     <option v-for="(cotizacion, index) in cotizaciones" :key="index" :value="cotizacion.id">{{cotizacion.nombre_facturar}} - {{cotizacion.cliente_proyecto}}</option>
                                 </datalist>
@@ -48,19 +48,25 @@
                 load: false,
                 cotizaciones: {},
                 load_two: false,
+                id: ''
             }
         },
 
         created(){
-            this.ruta = `/Cotizaciones/templates/store`
             this.getCotizaciones()
         },
 
         methods:{
             store(){
+                this.ruta = `/Cotizaciones/Templates/store/${this.id}`
                 this.load = true
-                axios.post(this.ruta).then(res=>{
-
+                axios.get(this.ruta).then(res=>{
+                    if(res.data.saved){
+                        this.alert('Cotizacion', 'Creada', 'success')
+                        this.$parent.setDatos(res.data.cotizacion)
+                        this.$parent.closeModalTemplate()
+                    }
+                    this.load = false
                 })
             },
 

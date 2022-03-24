@@ -2,9 +2,9 @@
 <div>
     <div class="py-3 my-2">
         <b-button size="sm" variant="success" @click="showBottom = !showBottom">
-      Mostrar resumen
-    </b-button>
-        <button href="#" class="btn btn-success btn-sm" @click="openModalTemplate()">
+            Mostrar resumen
+        </b-button>
+        <button href="#" class="btn btn-success btn-sm" @click="openModalTemplate()" v-if="tipo == 'insert'">
             <span class="icon text-white-50">
                 <i class="fa-solid fa-plus"></i>
             </span>
@@ -378,6 +378,8 @@
                 axios.post(this.ruta, this.cotizacion).then(res=>{
                     if(res.data.saved){
                         this.cotizacion = res.data.cotizacion
+                        this.tipo = 'edit'
+                        this.ruta = `/Cotizaciones/update/${this.cotizacion.id}`
                         this.load_second_form = true
                         this.load_first_modal = true
                         this.alert('Cotizacion', 'Creada', 'success')
@@ -392,6 +394,16 @@
                     }
                     this.spinner_one = false
                 })
+            },
+            setDatos(template){
+                this.cotizacion = template
+                this.load_second_form = true
+                this.load_first_modal = true
+                this.tipo = 'edit'
+                this.ruta = `/Cotizaciones/update/${this.cotizacion.id}`
+                this.getAbonos()
+                this.getDolar()
+                this.getSubCotizacion()
             },
             updateProduct: function (event) {
                 this.producto_update.ubicacion = event.target.value

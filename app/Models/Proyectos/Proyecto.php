@@ -18,7 +18,10 @@ class Proyecto extends Model
     protected $fillable = [
         'usuario_id',
         'cotizacion_id',
-        'nombre'
+        'nombre',
+        'fecha_inicial',
+        'fecha_final',
+        'estado'
     ];
 
     public function cotizacion(){

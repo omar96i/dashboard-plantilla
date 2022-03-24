@@ -6,6 +6,7 @@ use App\Http\Controllers\Usuarios\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
+use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
         Route::get('/get', [CotizacionController::class, 'get'])->name('cotizaciones.get');
         Route::get('/getAll', [CotizacionController::class, 'getAll'])->name('cotizaciones.get-all');
+        Route::get('/getEnabled', [CotizacionController::class, 'getEnabled'])->name('cotizaciones.get-enabled');
         Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');
         Route::get('/edit/{cotizacion}', [CotizacionController::class, 'edit'])->name('cotizaciones.edit');
         Route::post('/store', [CotizacionController::class, 'store'])->name('cotizaciones.store');
@@ -89,11 +91,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/Abonos/get/{cotizacion}', [CotizacionController::class, 'getAbonos'])->name('cotizaciones.get.abonos');
         Route::post('/Abonos/store/{cotizacion}', [CotizacionController::class, 'storeAbonos'])->name('cotizaciones.store.abonos');
         Route::get('/Abonos/delete/{abono}', [CotizacionController::class, 'deleteAbono'])->name('cotizaciones.delete.abonos');
+        Route::group(['prefix' => 'Templates'], function () {
+            Route::get('/store/{cotizacion}', [CotizacionTemplateController::class, 'store'])->name('cotizaciones.store.template');
 
+        });
     });
 
     Route::group(['prefix' => 'Proyectos'], function () {
         Route::get('/', [ProyectoController::class, 'index'])->name('proyectos.index');
+        Route::get('/get', [ProyectoController::class, 'get'])->name('proyectos.get');
+        Route::post('/store', [ProyectoController::class, 'store'])->name('proyectos.store');
+        Route::post('/edit/{proyecto}', [ProyectoController::class, 'edit'])->name('proyectos.edit');
+        Route::get('/form/{proyecto?}', [ProyectoController::class, 'form'])->name('proyectos.form');
+
     });
 
     Route::group(['prefix' => 'Configuraciones'], function () {

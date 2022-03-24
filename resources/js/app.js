@@ -29,8 +29,8 @@ Vue.component('cotizaciones-show', require('./components/Cotizaciones/Show.vue')
 Vue.component('cotizaciones-form', require('./components/Cotizaciones/Form.vue').default);
 Vue.component('configuraciones-index', require('./components/Configuraciones/Index.vue').default);
 Vue.component('home-index', require('./components/Home.vue').default);
-
-
+Vue.component('proyectos-index', require('./components/Proyectos/Index.vue').default);
+Vue.component('proyectos-form', require('./components/Proyectos/Form.vue').default);
 
 
 const app = new Vue({
