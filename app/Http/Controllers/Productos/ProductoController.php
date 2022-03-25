@@ -71,7 +71,7 @@ class ProductoController extends Controller
     }
 
     public function getAll(){
-        return response()->json(['productos' => Producto::with('valores')->get()]);
+        return response()->json(['productos' => Producto::with('valores', 'categoria')->get()]);
     }
 
     public function delete(Producto $producto){

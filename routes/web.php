@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
 use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
+use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
@@ -56,6 +57,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete/{producto}', [ProductoController::class, 'delete'])->name('productos.delete');
         Route::get('/get/{producto}', [ProductoController::class, 'get'])->name('productos.get');
         Route::post('/update/{producto}', [ProductoController::class, 'update'])->name('productos.update');
+        Route::group(['prefix' => 'Categorias'], function () {
+            Route::post('/store', [CategoriaController::class, 'store'])->name('productos.categorias.store');
+            Route::post('/update/{categoria}', [CategoriaController::class, 'update'])->name('productos.categorias.update');
+            Route::get('/get', [CategoriaController::class, 'get'])->name('productos.categorias.get');
+            Route::get('/get/{categoria}', [CategoriaController::class, 'getCategoria'])->name('productos.categorias.get-categoria');
+            Route::get('/delete/{categoria}', [CategoriaController::class, 'delete'])->name('productos.categorias.delete');
+        });
     });
 
     Route::group(['prefix' => 'Usuarios'], function () {

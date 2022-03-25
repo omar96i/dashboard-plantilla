@@ -86,6 +86,27 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Categoria  <a href="#" @click="cambiarValorLoadCategoria()"><i class="fa-solid fa-gear"></i></a></label>
+                                    <div v-if="!load_categoria">
+                                        <b-form-select v-model="producto.categoria_id" :options="options_categoria" v-bind:class="[{ 'is-invalid': productoValidacion.categoria}]"></b-form-select>
+                                        <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                    </div>
+                                    <div v-else>
+                                        <b-input-group>
+                                            <b-form-input type="text" v-model="categoria.nombre" v-bind:class="[{ 'is-invalid': categoriaValidacion.nombre}]"></b-form-input>
+                                            <b-input-group-append>
+                                            <b-button variant="outline-success" @click="storeCategoria()">Agregar</b-button>
+                                            <b-button variant="outline-danger" @click="cambiarValorLoadCategoria()">X</b-button>
+
+                                            </b-input-group-append>
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </b-input-group>
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="text-center" v-if="!loading">
                                 <button type="submit" class="btn btn-success btn-sm">Agregar</button>
                                 <button type="button" class="btn btn-secondary btn-sm">Cerrar</button>
@@ -121,7 +142,8 @@
                     'voltaje' : '',
                     'cantidad' : '',
                     'tipo' : '',
-                    'valor': ''
+                    'valor': '',
+                    'categoria_id' : ''
                 },
                 productoValidacion:{
                     'nombre' : false,
@@ -133,11 +155,18 @@
                     'temperatura_calor' : false,
                     'cantidad' : false,
                     'tipo' : false,
-                    'valor': false
+                    'valor': false,
+                    'categoria_id' : false
                 },
                 image:'',
                 ruta: '',
                 loading: false,
+                load_categoria: false,
+                categoria: {},
+                categoriaValidacion: {
+                    'nombre' : false
+                },
+                options_categoria: []
             }
         },
         created(){
@@ -151,14 +180,17 @@
                     'voltaje' : this.product.voltaje,
                     'temperatura_calor' : this.product.temperatura_calor,
                     'cantidad' : this.product.cantidad,
+                    'categoria_id' : this.product.categoria_id,
                     'tipo' : this.product.valores[0].tipo,
                     'valor' : this.product.valores[0].valor,
                 }
                 this.imagePreview = `/img/img_productos/${this.product.foto}`
             }
             this.ruta = (this.tipo == "edit") ? `/Productos/update/${this.product.id}` : '/Productos/store'
+            this.getCategorias()
         },
         methods:{
+
             onImageChange(e){
                 this.image = e.target.files[0]
 
@@ -174,6 +206,15 @@
                     }
                 }
             },
+
+            getCategorias(){
+                axios.get('/Productos/Categorias/get').then(res=>{
+                    res.data.categorias.forEach(categoria => {
+                        this.options_categoria.push({ value : categoria.id, text : categoria.nombre})
+                    });
+                })
+            },
+
             action(){
                 if(
                     this.producto.nombre == '' ||
@@ -181,6 +222,7 @@
                     this.producto.referencia == '' ||
                     this.producto.color == '' ||
                     this.producto.cantidad == '' ||
+                    this.producto.categoria_id == '' ||
                     this.producto.valor == ''
                 )
                 {
@@ -199,14 +241,13 @@
                     data.append("temperatura_calor", this.producto.temperatura_calor)
                     data.append("cantidad", this.producto.cantidad)
                     data.append("valor", this.producto.valor)
+                    data.append("categoria_id", this.producto.categoria_id)
+
                     if(this.image != ''){
                         data.append("foto", this.image, this.image.name)
                     }
 
                     axios.post(this.ruta, data).then(res=>{
-                        if(res.data.saved){
-
-                        }
                         this.loading = false
                         this.alert("Producto", (this.tipo == "edit")? "Producto Editado": "Producto Creado", "success")
                         this.closeModal()
@@ -215,10 +256,38 @@
                 }
             },
 
+            cambiarValorLoadCategoria(){
+                this.load_categoria = (this.load_categoria)? false : true
+            },
+
+            storeCategoria(){
+                if(this.categoria.nombre == ''){
+                    this.validarCategoria()
+                }else{
+                    axios.post('/Productos/Categorias/store', this.categoria).then(res=>{
+                        if(res.data.saved){
+                           this.alert('Categoria', 'Creada', 'success')
+                           this.categoria = {}
+                           this.options_categoria.push({ value : res.data.categoria.id, text : res.data.categoria.nombre})
+                           this.cambiarValorLoadCategoria()
+                        }
+                    })
+                }
+            },
+
+            validarCategoria(){
+                if(this.categoria.nombre == ''){
+                    this.categoriaValidacion.nombre = true
+                }else{
+                    this.categoriaValidacion.nombre = false
+                }
+            },
+
             closeModal(){
                 this.$parent.getAllProduct()
                 this.$parent.closeModal()
             },
+
             Validar(){
                 if(this.producto.nombre == ''){
                     this.productoValidacion.nombre = true
@@ -249,6 +318,11 @@
                     this.productoValidacion.valor = true
                 }else{
                     this.productoValidacion.valor = false
+                }
+                if(this.producto.categoria_id == ''){
+                    this.productoValidacion.categoria_id = true
+                }else{
+                    this.productoValidacion.categoria_id = false
                 }
             },
 

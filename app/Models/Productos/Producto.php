@@ -6,6 +6,7 @@ use App\Models\Cotizaciones\SubCotizacionProducto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Productos\ProductoValor;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Producto extends Model
@@ -24,6 +25,7 @@ class Producto extends Model
         'temperatura_calor',
         'voltaje',
         'cantidad',
+        'categoria_id',
         'foto'
     ];
 
@@ -35,6 +37,10 @@ class Producto extends Model
 
     public function valores(){
         return $this->hasMany(ProductoValor::class);
+    }
+
+    public function categoria(){
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
     public static function findByIdSubCotizacion($id)
