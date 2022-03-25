@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\UsersExport;
 use App\Http\Controllers\Cotizaciones\CotizacionController;
 use App\Http\Controllers\Productos\ProductoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +28,7 @@ use Spatie\Permission\Contracts\Role;
 
 
 Route::get('/test', function () {
-
-    $userId = Auth::id();
-    return $userId;
+    return Excel::download(new UsersExport, 'users.xlsx');
 });
 
 Route::redirect('/', '/login', 301);
