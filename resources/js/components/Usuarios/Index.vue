@@ -36,7 +36,7 @@
             </tfoot>
             <tbody>
                 <tr v-for="(usuario, index) in usuarios" :key="index">
-                    <td>{{usuario.informacion_personal.foto}}</td>
+                    <td class="text-center"><img v-bind:src="usuario.informacion_personal.foto == 'default.jpg'? 'img/img_usuarios/'+usuario.informacion_personal.foto: url+usuario.informacion_personal.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                     <td>{{usuario.informacion_personal.documento}}</td>
                     <td>{{usuario.informacion_personal.nombres}}</td>
                     <td>{{usuario.informacion_personal.apellidos}}</td>
@@ -62,11 +62,13 @@
 </template>
 
 <script>
+    import url from '../../mixins/cloudinary'
     import UserModal from './Modal.vue'
     export default {
         components: {
 			UserModal
 		},
+        mixins: [url],
         data(){
             return{
                 usuarios:{},

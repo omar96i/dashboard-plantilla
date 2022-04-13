@@ -28,7 +28,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-    return Excel::download(new UsersExport, 'users.xlsx');
 });
 
 Route::redirect('/', '/login', 301);

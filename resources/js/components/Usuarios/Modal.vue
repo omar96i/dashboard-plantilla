@@ -13,80 +13,81 @@
                     <div class="modal-body">
                         <form method="post" @submit.prevent="action" enctype="multipart/form-data">
                             <div class="form-group row text-center">
-                                <div class="col-12">
-                                    <img v-bind:src="imagePreview" alt="" style="width: 20em; border-radius: 12px;">
+                                <div class="col-12 col-md-4">
+                                    <div class="col-12">
+                                        <img v-bind:src="imagePreview" alt="" style="width: 20em; border-radius: 12px;">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="foto" class="btn btn-success btn-sm btn-block">Selecciona una imagen</label>
+                                        <input type="file" class="form-control" style="display:none" id="foto" name="foto" v-on:change="onImageChange">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <label for="foto" class="btn btn-success btn-sm btn-block">Selecciona una imagen</label>
-                                    <input type="file" class="form-control" style="display:none" id="foto" name="foto" v-on:change="onImageChange">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Email</label>
-                                    <input type="email" v-bind:class="[{ 'is-invalid': usuarioValidacion.email}, 'form-control']" v-model="usuario.email" placeholder="Email..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <label for="b-i" class="col-form-label">Password:</label>
-                                    <input type="password" id="b-i" v-bind:class="[{ 'is-invalid': usuarioValidacion.password}, 'form-control']" v-model="usuario.password" name="b-i" placeholder="Password..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Documento</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.documento}, 'form-control']" v-model="usuario.documento" name="b-i" placeholder="Documento..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Nombres:</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.nombres}, 'form-control']" v-model="usuario.nombres" name="b-i" placeholder="Nombres..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Apellidos:</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.apellidos}, 'form-control']" v-model="usuario.apellidos" name="b-i" placeholder="Apellidos..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Telefono:</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.telefono}, 'form-control']" name="b-i"  v-model="usuario.telefono" placeholder="Telefono..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Fecha Nacimiento:</label>
-                                    <input type="date" v-bind:class="[{ 'is-invalid': usuarioValidacion.fecha_nacimiento}, 'form-control']" v-model="usuario.fecha_nacimiento" name="b-i" >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Cuidad:</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.ciudad}, 'form-control']" name="b-i" v-model="usuario.ciudad" placeholder="Cuidad..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Sexo:</label>
-                                    <select name="" v-model="usuario.sexo" v-bind:class="[{ 'is-invalid': usuarioValidacion.sexo}, 'form-control']" >
-                                        <option value="hombre">Hombre</option>
-                                        <option value="mujer">Mujer</option>
-                                    </select>
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Rol:</label>
-                                    <select name="" v-model="usuario.role" v-bind:class="[{ 'is-invalid': usuarioValidacion.role}, 'form-control']" >
-                                        <option value="admin">admin</option>
-                                    </select>
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                <div class="col-12 col-md-8">
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Email</label>
+                                            <input type="email" v-bind:class="[{ 'is-invalid': usuarioValidacion.email}, 'form-control']" v-model="usuario.email" placeholder="Email..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label for="b-i" class="col-form-label">Password:</label>
+                                            <input type="password" id="b-i" v-bind:class="[{ 'is-invalid': usuarioValidacion.password}, 'form-control']" v-model="usuario.password" name="b-i" placeholder="Password..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Documento</label>
+                                            <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.documento}, 'form-control']" v-model="usuario.documento" name="b-i" placeholder="Documento..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Nombres:</label>
+                                            <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.nombres}, 'form-control']" v-model="usuario.nombres" name="b-i" placeholder="Nombres..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Apellidos:</label>
+                                            <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.apellidos}, 'form-control']" v-model="usuario.apellidos" name="b-i" placeholder="Apellidos..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Telefono:</label>
+                                            <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.telefono}, 'form-control']" name="b-i"  v-model="usuario.telefono" placeholder="Telefono..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Fecha Nacimiento:</label>
+                                            <input type="date" v-bind:class="[{ 'is-invalid': usuarioValidacion.fecha_nacimiento}, 'form-control']" v-model="usuario.fecha_nacimiento" name="b-i" >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Cuidad:</label>
+                                            <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.ciudad}, 'form-control']" name="b-i" v-model="usuario.ciudad" placeholder="Cuidad..." >
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Sexo:</label>
+                                            <select name="" v-model="usuario.sexo" v-bind:class="[{ 'is-invalid': usuarioValidacion.sexo}, 'form-control']" >
+                                                <option value="hombre">Hombre</option>
+                                                <option value="mujer">Mujer</option>
+                                            </select>
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <label class="col-form-label">Rol:</label>
+                                            <select name="" v-model="usuario.role" v-bind:class="[{ 'is-invalid': usuarioValidacion.role}, 'form-control']" >
+                                                <option value="admin">admin</option>
+                                            </select>
+                                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="text-center" v-if="!loading">
@@ -105,12 +106,14 @@
 </template>
 
 <script>
+    import url from '../../mixins/cloudinary'
     import SpinnerView from '../Spinner.vue'
     export default {
         props:['user', 'tipo'],
         components: {
-			SpinnerView
+			SpinnerView,
 		},
+        mixins: [url],
         data(){
             return{
                 imagePreview:'/img/img_usuarios/default.jpg',
@@ -141,7 +144,6 @@
                 image:'',
                 ruta: '',
                 loading: false,
-
             }
         },
         created(){
@@ -159,7 +161,7 @@
                     'ciudad' : this.user.informacion_personal.ciudad,
                     'role': this.user.role_user[0]
                 }
-                this.imagePreview = `/img/img_usuarios/${this.user.informacion_personal.foto}`
+                this.imagePreview = (this.user.informacion_personal.foto == "default.jpg")? '/img/img_usuarios/default.jpg' : this.url+this.user.informacion_personal.foto
             }
 
             this.ruta = (this.tipo == "edit") ? `/Usuarios/update/${this.user.id}` : '/Usuarios/store'
@@ -183,7 +185,7 @@
                     this.Validar()
                 }else
                 {
-                    this.loading = true;
+                    this.loading = true
                     let data = new FormData();
                     data.append("email", this.usuario.email)
                     if(this.tipo == "edit"){

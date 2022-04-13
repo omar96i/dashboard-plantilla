@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\Users\User;
 use App\Models\Users\InformacionPersonal;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class UsuarioController extends Controller
 {
+
+    public function prueba(Request $request){
+        $response = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
+
+        dd($response);
+
+    }
+
     public function index(){
         return view('usuarios.index');
     }
@@ -34,9 +43,9 @@ class UsuarioController extends Controller
         ]);
 
         if(isset($request->foto)){
-			$imageName = time() . '.' . $request->foto->extension();
-        	$request->foto->move(public_path('img/img_usuarios'), $imageName);
-		}else{
+            $result = $request->foto->storeOnCloudinary('img_usuarios');
+            $imageName = $result->getPublicId();
+        }else{
             $imageName = "default.jpg";
         }
 
@@ -48,7 +57,6 @@ class UsuarioController extends Controller
     }
 
     public function update(User $user, Request $request){
-
         $user->email = $request->email;
         if(isset($request->password)){
             $user->password = $request->password;
@@ -58,19 +66,12 @@ class UsuarioController extends Controller
 
         $informacion_personal = InformacionPersonal::where('user_id', '=', $user->id)->get();
 
-        if($informacion_personal[0]->foto != "default.jpg"){
-            $image_path = "img/img_usuarios/".$informacion_personal[0]->foto;
-
-            if (file_exists($image_path)) {
-                @unlink($image_path);
-            }
-        }
-
         if(isset($request->foto)){
-			$imageName = time() . '.' . $request->foto->extension();
-        	$request->foto->move(public_path('img/img_usuarios'), $imageName);
-		}else{
-            $imageName = "default.jpg";
+            if($informacion_personal[0]->foto != "default.jpg"){
+                cloudinary()->destroy($informacion_personal[0]->foto);
+            }
+            $result = $request->foto->storeOnCloudinary('img_usuarios');
+            $informacion_personal[0]->foto = $result->getPublicId();
         }
 
         $informacion_personal[0]->documento = $request->documento;
