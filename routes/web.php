@@ -11,6 +11,8 @@ use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoController;
+use App\Http\Controllers\Proyectos\ProyectoPlanoController;
+use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
 use Maatwebsite\Excel\Facades\Excel;
@@ -28,6 +30,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
+
+    $plano = new ProyectoPlano([
+        'proyecto_id' => 3,
+        'usuario_id' => 3,
+        'descripcion' => "OK",
+        'file' => "ok",
+        'estado' => 'pendiente'
+    ]);
+
+    return $plano->save();
 });
 
 Route::redirect('/', '/login', 301);
@@ -107,9 +119,24 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'Proyectos'], function () {
         Route::get('/', [ProyectoController::class, 'index'])->name('proyectos.index');
         Route::get('/get', [ProyectoController::class, 'get'])->name('proyectos.get');
+        Route::get('/show/{proyecto}', [ProyectoController::class, 'show'])->name('proyectos.show');
         Route::post('/store', [ProyectoController::class, 'store'])->name('proyectos.store');
         Route::post('/edit/{proyecto}', [ProyectoController::class, 'edit'])->name('proyectos.edit');
         Route::get('/form/{proyecto?}', [ProyectoController::class, 'form'])->name('proyectos.form');
+        Route::get('/planos', [ProyectoPlanoController::class, 'index'])->name('proyectos.planos');
+
+        Route::group(['prefix' => 'Planos'], function () {
+            Route::post('/store', [ProyectoPlanoController::class, 'store'])->name('proyectos.planos.store');
+            Route::get('/get', [ProyectoPlanoController::class, 'get'])->name('proyectos.planos.get');
+            Route::get('/delete/{proyecto_plano}', [ProyectoPlanoController::class, 'delete'])->name('proyectos.planos.delete');
+        });
+
+        Route::group(['prefix' => 'PlanosAdmin'], function () {
+            Route::get('/index', [ProyectoPlanoController::class, 'indexAdmin'])->name('proyectos.planos.admin.index');
+            Route::get('/get', [ProyectoPlanoController::class, 'getAdmin'])->name('proyectos.planos.admin.get');
+            Route::get('/aprobar/{proyecto_plano}', [ProyectoPlanoController::class, 'aprobar'])->name('proyectos.planos.admin.aprobar');
+            Route::get('/rechazar/{proyecto_plano}', [ProyectoPlanoController::class, 'rechazar'])->name('proyectos.planos.admin.rechazar');
+        });
 
     });
 

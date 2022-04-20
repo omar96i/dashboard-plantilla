@@ -17,11 +17,10 @@ class ProductoController extends Controller
         $product = new Producto($request->all());
 
         if(isset($request->foto)){
-			$imageName = time() . '.' . $request->foto->extension();
-        	$request->foto->move(public_path('img/img_productos'), $imageName);
-		}else{
-            $imageName = "default.png";
+            $result = $request->foto->storeOnCloudinary('img_productos');
+            $imageName = $result->getPublicId();
         }
+
         $product->foto = $imageName;
 
         $product->save();
@@ -44,10 +43,8 @@ class ProductoController extends Controller
         $producto->update($request->all());
 
         if(isset($request->foto)){
-			$imageName = time() . '.' . $request->foto->extension();
-        	$request->foto->move(public_path('img/img_productos'), $imageName);
-		}else{
-            $imageName = "default.png";
+            $result = $request->foto->storeOnCloudinary('img_productos');
+            $imageName = $result->getPublicId();
         }
 
         $producto->foto = $imageName;

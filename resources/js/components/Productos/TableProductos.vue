@@ -47,7 +47,7 @@
                 </tfoot>
                 <tbody>
                     <tr v-for="(producto, index) in productos" :key="index">
-                        <td>{{producto.foto}}</td>
+                        <td><img v-bind:src="producto.foto == 'default.png'? 'img/img_productos/'+producto.foto: url+producto.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                         <td>{{producto.referencia}}</td>
                         <td>{{producto.nombre}}</td>
                         <td>{{producto.descripcion}}</td>
@@ -84,10 +84,13 @@
 
 <script>
     import ProductModal from './Modal.vue'
+    import url from '../../mixins/cloudinary'
+
     export default {
         components: {
 			ProductModal
 		},
+        mixins: [url],
         data(){
             return{
                 productos:{},

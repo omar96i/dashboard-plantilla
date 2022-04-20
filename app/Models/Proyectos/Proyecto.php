@@ -31,4 +31,8 @@ class Proyecto extends Model
     public function whoCreated(){
         return $this->belongsTo(User::class, 'usuario_id');
     }
+
+    public function planos(){
+        return $this->hasMany(ProyectoPlano::class);
+    }
 }

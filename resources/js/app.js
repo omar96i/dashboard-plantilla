@@ -31,6 +31,10 @@ Vue.component('configuraciones-index', require('./components/Configuraciones/Ind
 Vue.component('home-index', require('./components/Home.vue').default);
 Vue.component('proyectos-index', require('./components/Proyectos/Index.vue').default);
 Vue.component('proyectos-form', require('./components/Proyectos/Form.vue').default);
+Vue.component('proyectos-planos', require('./components/Proyectos/Planos/Index.vue').default);
+Vue.component('proyectos-planos-admin', require('./components/Proyectos/Planos/Admin/Index.vue').default);
+
+
 
 
 const app = new Vue({

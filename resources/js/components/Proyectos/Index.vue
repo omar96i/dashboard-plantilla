@@ -30,7 +30,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                 <div class="dropdown-header">Acciones:</div>
-                                <a class="dropdown-item"><i class="fa-solid fa-eye"></i> Ver</a>
+                                <a class="dropdown-item" :href="'/Proyectos/show/'+proyecto.id"><i class="fa-solid fa-eye"></i> Ver</a>
                                 <a class="dropdown-item" :href="'/Proyectos/form/'+proyecto.id"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>

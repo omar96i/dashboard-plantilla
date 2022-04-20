@@ -51,4 +51,8 @@ class ProyectoController extends Controller
         $cotizacion->save();
         return response()->json(['edited' => true, 'proyecto' => $proyecto, 'cotizacion' => $cotizacion]);
     }
+
+    public function show(Proyecto $proyecto){
+        return view('proyectos.show', ['proyecto' => $proyecto->load('whoCreated.informacionPersonal', 'planos.whoCreated.informacionPersonal', 'cotizacion')]);
+    }
 }

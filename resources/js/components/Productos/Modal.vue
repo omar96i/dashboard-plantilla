@@ -124,10 +124,13 @@
 
 <script>
     import SpinnerView from '../Spinner.vue'
+    import url from '../../mixins/cloudinary'
+
     export default {
         components: {
 			SpinnerView
 		},
+        mixins: [url],
         props:['product', 'tipo'],
         data(){
             return{
@@ -184,7 +187,7 @@
                     'tipo' : this.product.valores[0].tipo,
                     'valor' : this.product.valores[0].valor,
                 }
-                this.imagePreview = `/img/img_productos/${this.product.foto}`
+                this.imagePreview = (this.product.foto == "default.png")? '/img/img_productos/default.png' : this.url+this.product.foto
             }
             this.ruta = (this.tipo == "edit") ? `/Productos/update/${this.product.id}` : '/Productos/store'
             this.getCategorias()

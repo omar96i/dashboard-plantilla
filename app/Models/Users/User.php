@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Proyectos\Proyecto;
+use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +48,9 @@ class User extends Authenticatable
         return $this->hasMany(Proyecto::class);
     }
 
+    public function planos(){
+        return $this->hasMany(ProyectoPlano::class);
+    }
     // Relaciones end
 
     // Mutadores
