@@ -5,6 +5,7 @@ namespace App\Models\Cotizaciones;
 use App\Models\EmpresaDato;
 use App\Models\Users\User;
 use App\Models\Cotizaciones\SubCotizacion;
+use App\Models\Proyectos\Proyecto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,6 +44,10 @@ class Cotizacion extends Model
 
     public function abonos(){
         return $this->hasMany(CotizacionAbono::class);
+    }
+
+    public function proyecto(){
+        return $this->hasOne(Proyecto::class);
     }
 
     // Relaciones end

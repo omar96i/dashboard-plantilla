@@ -33,6 +33,10 @@ Vue.component('proyectos-index', require('./components/Proyectos/Index.vue').def
 Vue.component('proyectos-form', require('./components/Proyectos/Form.vue').default);
 Vue.component('proyectos-planos', require('./components/Proyectos/Planos/Index.vue').default);
 Vue.component('proyectos-planos-admin', require('./components/Proyectos/Planos/Admin/Index.vue').default);
+Vue.component('proyectos-actividades', require('./components/Proyectos/Actividades/Index.vue').default);
+Vue.component('proyectos-actividades-form', require('./components/Proyectos/Actividades/Form.vue').default);
+
+
 
 
 

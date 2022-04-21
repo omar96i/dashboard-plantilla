@@ -53,6 +53,6 @@ class ProyectoController extends Controller
     }
 
     public function show(Proyecto $proyecto){
-        return view('proyectos.show', ['proyecto' => $proyecto->load('whoCreated.informacionPersonal', 'planos.whoCreated.informacionPersonal', 'cotizacion')]);
+        return view('proyectos.show', ['proyecto' => $proyecto->load('whoCreated.informacionPersonal', 'planos.whoCreated.informacionPersonal', 'cotizacion'), 'inventario' => Proyecto::inventario($proyecto->id)]);
     }
 }

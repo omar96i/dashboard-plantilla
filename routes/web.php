@@ -10,8 +10,10 @@ use App\Http\Controllers\Configuraciones\ConfiguracionController;
 use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\Productos\CategoriaController;
+use App\Http\Controllers\Proyectos\ProyectoActividadController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
+use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
@@ -31,15 +33,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/test', function () {
 
-    $plano = new ProyectoPlano([
-        'proyecto_id' => 3,
-        'usuario_id' => 3,
-        'descripcion' => "OK",
-        'file' => "ok",
-        'estado' => 'pendiente'
-    ]);
-
-    return $plano->save();
+    return ProyectoActividad::with('proyecto', 'empleado.informacionPersonal')->get();
 });
 
 Route::redirect('/', '/login', 301);
@@ -138,6 +132,16 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/rechazar/{proyecto_plano}', [ProyectoPlanoController::class, 'rechazar'])->name('proyectos.planos.admin.rechazar');
         });
 
+        Route::group(['prefix' => 'Actividades'], function () {
+            Route::get('/', [ProyectoActividadController::class, 'index'])->name('proyectos.actividades.index');
+            Route::get('/get', [ProyectoActividadController::class, 'get'])->name('proyectos.actividades.get');
+            Route::get('/form/{actividad?}', [ProyectoActividadController::class, 'form'])->name('proyectos.actividades.form');
+            Route::post('/store', [ProyectoActividadController::class, 'store'])->name('proyectos.actividades.store');
+            Route::post('/update/{actividad}', [ProyectoActividadController::class, 'update'])->name('proyectos.actividades.update');
+            Route::post('/Files/store', [ProyectoActividadController::class, 'storeFiles'])->name('proyectos.actividades.files.store');
+            Route::get('/Files/delete/{file}', [ProyectoActividadController::class, 'deleteFiles'])->name('proyectos.actividades.files.delete');
+            Route::get('/Files/get/{actividad}', [ProyectoActividadController::class, 'getFiles'])->name('proyectos.actividades.files.get');
+        });
     });
 
     Route::group(['prefix' => 'Configuraciones'], function () {

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Cotizaciones\SubCotizacion;
 use App\Models\Productos\Producto;
+use App\Models\Proyectos\ProyectoActividadProducto;
 
 class SubCotizacionProducto extends Model
 {
@@ -28,6 +29,10 @@ class SubCotizacionProducto extends Model
 
     public function subCotizacion(){
         return $this->belongsToMany(SubCotizacion::class, 'sub_cotizacion_id');
+    }
+
+    public function actividad_inventario(){
+        return $this->hasMany(ProyectoActividadProducto::class);
     }
 
     // Relaciones end

@@ -50,6 +50,12 @@
                     <li class="nav-item">
                         <a class="nav-link" id="planos-tab" data-toggle="tab" href="#planos" role="tab" aria-controls="home" aria-selected="true">Planos</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="inventario-tab" data-toggle="tab" href="#inventario" role="tab" aria-controls="home" aria-selected="true">Inventario general</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="actividades-tab" data-toggle="tab" href="#actividades" role="tab" aria-controls="home" aria-selected="true">Actividades</a>
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade" id="planos" role="tabpanel" aria-labelledby="planos-tab">
@@ -89,6 +95,68 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="inventario" role="tabpanel" aria-labelledby="inventario-tab">
+                        <div class="table-responsive p-4">
+                            <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Nombre</th>
+                                        <th>Descripcion</th>
+                                        <th>Referencia</th>
+                                        <th>Marca</th>
+                                        <th>Color</th>
+                                        <th>Temperatura</th>
+                                        <th>Voltaje</th>
+                                        <th>Cantidad asignada</th>
+                                        <th>Ubicacion</th>
+                                        <th>Categoria</th>
+                                        <th>Area</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Nombre</th>
+                                        <th>Descripcion</th>
+                                        <th>Referencia</th>
+                                        <th>Marca</th>
+                                        <th>Color</th>
+                                        <th>Temperatura</th>
+                                        <th>Voltaje</th>
+                                        <th>Cantidad asignada</th>
+                                        <th>Ubicacion</th>
+                                        <th>Categoria</th>
+                                        <th>Area</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    @foreach ($inventario[0]->cotizacion->subCotizaciones as $sub_cotizacion)
+                                        @foreach ($sub_cotizacion->productos as $producto)
+                                            <tr>
+                                                <td><img src="{{$producto->productos->foto == 'default.png'? '/img/img_productos/default.png': 'https://res.cloudinary.com/dcj3tck83/image/upload/v1649869726/'.$producto->productos->foto}}" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                                                <td>{{$producto->productos->nombre}}</td>
+                                                <td>{{$producto->productos->descripcion}}</td>
+                                                <td>{{$producto->productos->referencia}}</td>
+                                                <td>{{$producto->productos->marca}}</td>
+                                                <td>{{$producto->productos->color}}</td>
+                                                <td>{{$producto->productos->temperatura_calor}}</td>
+                                                <td>{{$producto->productos->voltaje}}</td>
+                                                <td>{{$producto->cantidad}}</td>
+                                                <td>{{$producto->ubicacion}}</td>
+                                                <td>{{$producto->productos->categoria['nombre']}}</td>
+                                                <td>{{$sub_cotizacion->area}}</td>
+                                                <td></td>
+                                            </tr>
+                                        @endforeach
+
                                     @endforeach
                                 </tbody>
                             </table>

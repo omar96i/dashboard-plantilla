@@ -35,4 +35,12 @@ class Proyecto extends Model
     public function planos(){
         return $this->hasMany(ProyectoPlano::class);
     }
+
+    public function inventario($id){
+        return self::with('cotizacion.subCotizaciones.productos.productos.categoria')->where('id', $id)->get();
+    }
+
+    public function actividades(){
+        return $this->hasMany(ProyectoActividad::class);
+    }
 }
