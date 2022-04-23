@@ -5,14 +5,13 @@ namespace App\Models\Proyectos;
 use App\Models\Cotizaciones\SubCotizacionProducto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProyectoActividadProducto extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'proyecto_actividad_productos';
-    protected $softDelete = true;
+
 
     protected $fillable = [
         'sub_cotizacion_producto_id',
@@ -27,5 +26,13 @@ class ProyectoActividadProducto extends Model
 
     public function productos(){
         return $this->belongsTo(SubCotizacionProducto::class, 'sub_cotizacion_producto_id');
+    }
+
+    public static function validarProducto($id, $actividad_id){
+        return self::where('sub_cotizacion_producto_id', $id)->where('proyecto_actividad_id', $actividad_id)->count();
+    }
+
+    public static function getInventario($actividad_id){
+        return self::where('proyecto_actividad_id', $actividad_id)->with('productos.productos.categoria')->get();
     }
 }

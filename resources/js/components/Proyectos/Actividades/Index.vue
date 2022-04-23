@@ -43,7 +43,7 @@
                                 <a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> Ver</a>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/form/'+actividad.id"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
+                                <button class="dropdown-item" @click="eliminarActividad(actividad.id)" href="#"><i class="fas fa-trash"></i> Eliminar</button>
                             </div>
                         </div>
                     </td>
@@ -73,8 +73,8 @@
 
         methods:{
             getActividades(){
+                this.load = false
                 axios.get('/Proyectos/Actividades/get').then(res=>{
-                    console.log(res.data.actividades)
                     this.actividades = res.data.actividades
                     this.load = true
                 }).finally(() => {
@@ -97,6 +97,31 @@
                         })
                     }, 200)
                 })
+            },
+            eliminarActividad(id){
+                this.$fire({
+                    title: 'Actividad',
+                    text: 'Estas seguro de eliminar el dato seleccionado?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#FF0000',
+                }).then((result) => {
+                    if(result.value){
+                        axios.get(`/Proyectos/Actividades/delete/${id}`).then(res => {
+                            if(res.data.deleted){
+                                this.$fire({
+                                    title: 'Actividad',
+                                    text: 'Eliminada',
+                                    type: 'error',
+                                    timer: 3000
+                                })
+                                this.getActividades()
+                            }
+                        })
+                    }
+                });
             }
         }
 

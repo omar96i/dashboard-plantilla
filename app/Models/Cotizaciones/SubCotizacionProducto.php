@@ -28,7 +28,7 @@ class SubCotizacionProducto extends Model
     }
 
     public function subCotizacion(){
-        return $this->belongsToMany(SubCotizacion::class, 'sub_cotizacion_id');
+        return $this->belongsTo(SubCotizacion::class, 'sub_cotizacion_id');
     }
 
     public function actividad_inventario(){
@@ -36,4 +36,14 @@ class SubCotizacionProducto extends Model
     }
 
     // Relaciones end
+
+    public static function getInventario($id){
+        return self::whereHas('subCotizacion.cotizacion.proyecto', function ($query) use($id) {
+            $query->where('id', '=', $id);
+        })->with('productos')->get();
+    }
+
+    public static function validar($id, $cantidad){
+        return self::where('id', '=', $id)->where('cantidad', '<', $cantidad)->count();
+    }
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Proyectos;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadFile;
+use App\Models\Proyectos\ProyectoActividadProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +23,11 @@ class ProyectoActividadController extends Controller
             return view('proyectos.actividades.form', ['actividad' => $actividad]);
         }
 
+    }
+
+    public function delete(ProyectoActividad $actividad){
+        $actividad->delete();
+        return response()->json(['deleted' => true]);
     }
 
     public function store(Request $request){
@@ -46,6 +53,24 @@ class ProyectoActividadController extends Controller
         ]);
         $file->save();
         return response()->json(['status' => true, 'file' => $file]);
+    }
+
+    public function storeInventario(ProyectoActividad $actividad, Request $request){
+        $producto = new ProyectoActividadProducto($request->all());
+        $producto->proyecto_actividad_id = $actividad->id;
+        $producto->estado = "asignado";
+        if(ProyectoActividadProducto::validarProducto($producto->sub_cotizacion_producto_id, $producto->proyecto_actividad_id) > 0){
+            return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
+        }
+        if(SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
+            return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+        }
+        $producto->save();
+        return response()->json(['status' => true, 'msg' => 'Producto agregado.']);
+    }
+
+    public function getInventario(ProyectoActividad $actividad){
+        return response()->json(['inventario' => ProyectoActividadProducto::getInventario($actividad->id)]);
     }
 
     public function getFiles(ProyectoActividad $actividad){

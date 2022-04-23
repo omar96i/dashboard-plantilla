@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proyectos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\Cotizacion;
+use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\Proyecto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,5 +55,9 @@ class ProyectoController extends Controller
 
     public function show(Proyecto $proyecto){
         return view('proyectos.show', ['proyecto' => $proyecto->load('whoCreated.informacionPersonal', 'planos.whoCreated.informacionPersonal', 'cotizacion'), 'inventario' => Proyecto::inventario($proyecto->id)]);
+    }
+
+    public function getInventario(Proyecto $proyecto){
+        return response()->json(['inventario' => SubCotizacionProducto::getInventario($proyecto->id)]);
     }
 }

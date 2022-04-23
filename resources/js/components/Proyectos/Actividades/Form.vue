@@ -80,40 +80,139 @@
         </div>
         <hr>
         <div v-if="load_form_file">
-            <div class="col-12 mt-3">
-                <form action="post" enctype="multipart/form-data" @submit.prevent="storeImage">
-                    <div class="col-12 text-center my-2">
-                        <h5>Subir archivos</h5>
+            <b-tabs content-class="mt-3">
+                <b-tab title="Subir archivos" active>
+                    <div class="col-12 mt-3">
+                        <form action="post" enctype="multipart/form-data" @submit.prevent="storeImage">
+                            <div class="col-12 text-center my-2">
+                                <h5>Subir archivos</h5>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-10 text-center">
+                                    <input type="file" class="form-control" accept=" video/*, image/*"  id="foto" name="foto" v-on:change="onImageChange">
+                                </div>
+                                <div class="text-center col-2">
+                                    <b-button block variant="success" type="submit" v-bind:disabled="loading_btn"><b-spinner small type="grow" v-if="loading_btn"></b-spinner> Agregar</b-button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-10 text-center">
-                            <input type="file" class="form-control" accept=" video/*, image/*"  id="foto" name="foto" v-on:change="onImageChange">
-                        </div>
-                        <div class="text-center col-2">
-                            <b-button block variant="success" type="submit" v-bind:disabled="loading_btn"><b-spinner small type="grow" v-if="loading_btn"></b-spinner> Agregar</b-button>
+                    <div class="row row-cols-1 row-cols-md-2 g-4 mt-4" v-if="loading_files">
+                        <div class="col" v-for="(file, index) in files.files" :key="index">
+                            <div class="card">
+                                <div style="z-index: 1; position: absolute;">
+                                    <button class="btn btn-danger btn-circle" @click="deleteFile(file.id)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <a target="_blank" :href="(file.tipo == 'video/mp4')? 'https://res.cloudinary.com/dcj3tck83/video/upload/v1650564336/'+file.file: 'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" class="btn btn-info btn-circle">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                </div>
+                                <b-img-lazy v-if="file.tipo != 'video/mp4'" :src="'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" alt="Image 1" style="height:300px;"></b-img-lazy>
+                                <video class="card-img-top" height="300px" controls v-else style="height:300px;">
+                                    <source :src="'https://res.cloudinary.com/dcj3tck83/video/upload/v1650564336/'+file.file" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="row row-cols-1 row-cols-md-2 g-4 mt-4" v-if="loading_files">
-                <div class="col" v-for="(file, index) in files.files" :key="index">
-                    <div class="card">
-                        <div style="z-index: 1; position: absolute;">
-                            <button class="btn btn-danger btn-circle" @click="deleteFile(file.id)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <a target="_blank" :href="(file.tipo == 'video/mp4')? 'https://res.cloudinary.com/dcj3tck83/video/upload/v1650564336/'+file.file: 'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" class="btn btn-info btn-circle">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
+                </b-tab>
+                <b-tab title="Añadir inventario">
+                    <div class="col-12">
+                        <div class="row">
+                            <b-row class="col-6">
+                                <b-col sm="12">
+                                    <label>Productos</label>
+                                    <b-form-select :state="inventarioValidador.sub_cotizacion_producto_id" v-model="inventario.sub_cotizacion_producto_id" :options="productos"></b-form-select>
+                                    <b-form-invalid-feedback :state="inventarioValidador.sub_cotizacion_producto_id">
+                                        Debe seleccionar un producto
+                                    </b-form-invalid-feedback>
+                                    <b-form-valid-feedback :state="inventarioValidador.sub_cotizacion_producto_id">
+                                        Esta bien!
+                                    </b-form-valid-feedback>
+                                </b-col>
+                            </b-row>
+                            <b-row class="col-6">
+                                <b-col sm="12">
+                                    <label>Cantidad</label>
+                                    <b-form-input type="number" :state="inventarioValidador.cantidad" v-model="inventario.cantidad" placeholder="Cantidad"></b-form-input>
+                                    <b-form-invalid-feedback :state="inventarioValidador.cantidad">
+                                        Debe asignar una cantidad
+                                    </b-form-invalid-feedback>
+                                    <b-form-valid-feedback :state="inventarioValidador.cantidad">
+                                        Esta bien!
+                                    </b-form-valid-feedback>
+                                </b-col>
+                            </b-row>
                         </div>
-                        <b-img-lazy v-if="file.tipo != 'video/mp4'" :src="'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" alt="Image 1" style="height:300px;"></b-img-lazy>
-                        <video class="card-img-top" height="300px" controls v-else style="height:300px;">
-                            <source :src="'https://res.cloudinary.com/dcj3tck83/video/upload/v1650564336/'+file.file" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <div class="text-center mt-3">
+                            <b-button variant="success" v-bind:disabled="loading_btn_2" @click="storeProducto()"><b-spinner small type="grow" v-if="loading_btn_2"></b-spinner> Agregar</b-button>
+                        </div>
                     </div>
-                </div>
-            </div>
+                    <div class="table-responsive" v-if="load_table_inventario">
+                        <table class="table table-bordered" id="tablaInventario" width="100%" cellspacing="0" >
+                            <thead>
+                                <tr>
+                                    <th class="color-gray">Foto</th>
+                                    <th class="color-gray">Nombre</th>
+                                    <th class="color-gray">Descripcion</th>
+                                    <th class="color-gray">Referencia</th>
+                                    <th class="color-gray">Marca</th>
+                                    <th class="color-gray">Categoria</th>
+                                    <th class="color-gray">Color</th>
+                                    <th class="color-gray">Temperatura de calor</th>
+                                    <th class="color-gray">Voltaje</th>
+                                    <th class="color-gray">Cantidad</th>
+                                    <th class="color-gray">Ubicacion</th>
+                                    <th class="color-gray"></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th class="color-gray"><input type="text" class="form-control" disabled></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"><input type="text" class="form-control"></th>
+                                    <th class="color-gray"></th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr v-for="(producto, index) in inventario_actividad" :key="index">
+                                    <td><img v-bind:src="producto.productos.productos.foto == 'default.png'? '/img/img_productos/'+producto.productos.productos.foto: url+producto.productos.productos.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                                    <td>{{producto.productos.productos.nombre}}</td>
+                                    <td>{{producto.productos.productos.descripcion}}</td>
+                                    <td>{{producto.productos.productos.referencia}}</td>
+                                    <td>{{producto.productos.productos.marca}}</td>
+                                    <td>{{(producto.productos.productos.categoria_id == null)? 'Sin definiar' : producto.productos.productos.categoria.nombre}}</td>
+                                    <td>{{producto.productos.productos.color}}</td>
+                                    <td>{{producto.productos.productos.temperatura_calor}}</td>
+                                    <td>{{producto.productos.productos.voltaje}}</td>
+                                    <td>{{producto.cantidad}}</td>
+                                    <td>{{producto.productos.ubicacion}}</td>
+                                    <td class="text-center">
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                                                <div class="dropdown-header">Acciones:</div>
+                                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </b-tab>
+            </b-tabs>
         </div>
     </div>
 </template>
@@ -142,6 +241,14 @@
                     'fecha_final': null,
                     'descripcion': null
                 },
+                inventario:{
+                    'sub_cotizacion_producto_id': '',
+                    'cantidad' : ''
+                },
+                inventarioValidador:{
+                    'sub_cotizacion_producto_id': null,
+                    'cantidad' : null
+                },
                 tipo: 'insert',
                 file_tipo: '',
                 image: '',
@@ -149,7 +256,11 @@
                 loading_files: false,
                 ruta: '',
                 load_form_file: false,
-                loading_btn: false
+                loading_btn: false,
+                loading_btn_2: false,
+                productos: [],
+                load_table_inventario: false,
+                inventario_actividad: {}
             }
         },
 
@@ -161,10 +272,20 @@
                 this.tipo = 'edit'
                 this.load_form_file = true
                 this.getFiles()
+                this.getInventario()
+                this.getInventarioActividad()
             }
         },
 
         methods:{
+
+            getInventario(){
+                axios.get(`/Proyectos/Inventario/get/${this.actividad.proyecto_id}`).then(res=>{
+                    res.data.inventario.forEach(producto => {
+                        this.productos.push({ value : producto.id, text : producto.productos.nombre+' - Disponibilidad: '+producto.cantidad})
+                    });
+                })
+            },
 
             getProyectos(){
                 axios.get('/Proyectos/get').then(res=>{
@@ -179,6 +300,52 @@
                     res.data.usuarios.forEach(usuario => {
                         this.usuarios.push({ value : usuario.id, text : usuario.informacion_personal.documento+" - "+usuario.informacion_personal.nombres+" "+usuario.informacion_personal.apellidos})
                     });
+                })
+            },
+
+            storeProducto(){
+                if(this.inventario.sub_cotizacion_producto_id != '' && this.inventario.cantidad != ''){
+                    axios.post(`/Proyectos/Actividades/Inventario/store/${this.actividad.id}`, this.inventario).then(res=>{
+                        if(res.data.status){
+                            this.alert('Producto', res.data.msg, 'success')
+                            this.inventario.sub_cotizacion_producto_id = ''
+                            this.inventario.cantidad = ''
+                            this.getInventarioActividad()
+                        }else{
+                            this.alert('Producto', res.data.msg, 'error')
+                        }
+                    })
+                }else{
+                    this.inventarioValidador.sub_cotizacion_producto_id = (this.inventario.sub_cotizacion_producto_id == '')? false : true
+                    this.inventarioValidador.cantidad = (this.inventario.cantidad == '')? false : true
+                }
+            },
+
+            getInventarioActividad(){
+                this.load_table_inventario = false
+                axios.get(`/Proyectos/Actividades/Inventario/get/${this.actividad.id}`).then(res=>{
+                    console.log(res.data)
+                    this.inventario_actividad = res.data.inventario
+                    this.load_table_inventario = true
+                }).finally(() => {
+                    setTimeout(() => {
+                        $(`#tablaInventario`).DataTable({
+                            initComplete: function () {
+                                // Apply the search
+                                this.api().columns().every( function () {
+                                    var that = this;
+
+                                    $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                                        if ( that.search() !== this.value ) {
+                                            that
+                                                .search( this.value )
+                                                .draw();
+                                        }
+                                    } );
+                                } );
+                            }
+                        })
+                    }, 200)
                 })
             },
 
@@ -217,6 +384,8 @@
                             this.actividad = res.data.actividad
                             this.tipo = 'edit'
                             this.load_form_file = true
+                            this.getInventario()
+                            this.getInventarioActividad()
                         }
                         if(res.data.updated){
                             this.alert('Actividad', 'Actualizada', 'success')
