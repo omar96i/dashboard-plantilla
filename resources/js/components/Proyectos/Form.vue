@@ -3,42 +3,41 @@
         <div class="form-group row">
             <div class="col-12 col-lg-6 mb-sm-2">
                 <label for="cotizaciones">Cotizaciones</label>
-                <b-form-input list="input-list-cotizaciones" id="cotizaciones" v-model="proyecto.cotizacion_id" :state="validacion_cotizacion"></b-form-input>
-                <b-form-datalist id="input-list-cotizaciones" :options="options"></b-form-datalist>
-                <b-form-invalid-feedback :state="validacion_cotizacion">
+                <b-form-select v-model="proyecto.cotizacion_id" :options="options" :state="proyectoValidacion.cotizacion_id"></b-form-select>
+                <b-form-invalid-feedback :state="proyectoValidacion.cotizacion_id">
                     Selecciona una cotizacion
                 </b-form-invalid-feedback>
-                <b-form-valid-feedback :state="validacion_cotizacion">
+                <b-form-valid-feedback :state="proyectoValidacion.cotizacion_id">
                     OK!.
                 </b-form-valid-feedback>
             </div>
             <div class="col-12 col-lg-6 mb-sm-2">
                 <label for="nombre_proyecto">Nombre del proyecto</label>
-                <b-form-input v-model="proyecto.nombre" :state="validacion_nombre" id="nombre_proyecto"></b-form-input>
-                <b-form-invalid-feedback :state="validacion_nombre">
+                <b-form-input v-model="proyecto.nombre" :state="proyectoValidacion.nombre" id="nombre_proyecto"></b-form-input>
+                <b-form-invalid-feedback :state="proyectoValidacion.nombre">
                     El campo no puede estar vacio
                 </b-form-invalid-feedback>
-                <b-form-valid-feedback :state="validacion_nombre">
+                <b-form-valid-feedback :state="proyectoValidacion.nombre">
                     OK!.
                 </b-form-valid-feedback>
             </div>
             <div class="col-12 col-lg-6 mb-sm-2">
                 <label for="fecha_inicial">Fecha inicial</label>
-                <b-form-datepicker id="fecha_inicial" class="mb-2" :state="validacion_fecha_inicial" v-model="proyecto.fecha_inicial" placeholder="Selecciona una fecha"></b-form-datepicker>
-                <b-form-invalid-feedback :state="validacion_fecha_inicial">
+                <b-form-datepicker id="fecha_inicial" class="mb-2" :state="proyectoValidacion.fecha_inicial" v-model="proyecto.fecha_inicial" placeholder="Selecciona una fecha"></b-form-datepicker>
+                <b-form-invalid-feedback :state="proyectoValidacion.fecha_inicial">
                     El campo no puede estar vacio
                 </b-form-invalid-feedback>
-                <b-form-valid-feedback :state="validacion_fecha_inicial">
+                <b-form-valid-feedback :state="proyectoValidacion.fecha_inicial">
                     OK!.
                 </b-form-valid-feedback>
             </div>
             <div class="col-12 col-lg-6 mb-sm-2">
                 <label for="fecha_final">Fecha final</label>
-                <b-form-datepicker id="fecha_final" class="mb-2" :state="validacion_fecha_final" v-model="proyecto.fecha_final" placeholder="Selecciona una fecha"></b-form-datepicker>
-                <b-form-invalid-feedback :state="validacion_fecha_final">
+                <b-form-datepicker id="fecha_final" class="mb-2" :state="proyectoValidacion.fecha_final" v-model="proyecto.fecha_final" placeholder="Selecciona una fecha"></b-form-datepicker>
+                <b-form-invalid-feedback :state="proyectoValidacion.fecha_final">
                     El campo no puede estar vacio
                 </b-form-invalid-feedback>
-                <b-form-valid-feedback :state="validacion_fecha_final">
+                <b-form-valid-feedback :state="proyectoValidacion.fecha_final">
                     OK!.
                 </b-form-valid-feedback>
             </div>
@@ -62,6 +61,12 @@ export default {
                 'cotizacion_id' : '',
                 'fecha_inicial': '',
                 'fecha_final' : ''
+            },
+            proyectoValidacion:{
+                'nombre' : null,
+                'cotizacion_id' : null,
+                'fecha_inicial': null,
+                'fecha_final' : null
             },
             tipo: 'insert',
             ruta: '',
@@ -90,10 +95,10 @@ export default {
         },
         store(){
             if(
-                this.proyecto.nombre.length > 0 &&
-                this.proyecto.cotizacion_id.length > 0 &&
-                this.proyecto.fecha_inicial.length > 0 &&
-                this.proyecto.fecha_final.length > 0
+                this.proyecto.nombre != '' &&
+                this.proyecto.cotizacion_id != '' &&
+                this.proyecto.fecha_inicial != '' &&
+                this.proyecto.fecha_final != ''
             ){
                 this.ruta = (this.tipo == 'insert')? '/Proyectos/store' : `/Proyectos/edit/${this.proyecto.id}`
                 axios.post(this.ruta, this.proyecto).then(res=>{
@@ -111,8 +116,15 @@ export default {
                 })
 
             }else{
-                this.alert('Proyecto', 'Faltan espacios sin llenar, por favor llenalos', 'warning')
+                this.validar()
             }
+        },
+
+        validar(){
+            this.proyectoValidacion.nombre = (this.proyecto.nombre == '')? false : true
+            this.proyectoValidacion.cotizacion_id = (this.proyecto.cotizacion_id == '')? false : true
+            this.proyectoValidacion.fecha_inicial = (this.proyecto.fecha_inicial == '')? false : true
+            this.proyectoValidacion.fecha_final = (this.proyecto.fecha_final == '')? false : true
         },
 
         alert(titulo, text, tipo){
@@ -124,19 +136,5 @@ export default {
             })
         }
     },
-    computed: {
-        validacion_nombre() {
-            return this.proyecto.nombre.length > 0
-        },
-        validacion_cotizacion(){
-            return this.proyecto.cotizacion_id.length > 0
-        },
-        validacion_fecha_inicial(){
-            return this.proyecto.fecha_inicial.length > 0
-        },
-        validacion_fecha_final(){
-            return this.proyecto.fecha_final.length > 0
-        }
-    }
 }
 </script>

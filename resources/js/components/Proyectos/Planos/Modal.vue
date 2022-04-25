@@ -28,7 +28,7 @@
 
                                 <div class="col-7">
                                     <div class="col-12">
-                                        <label for="b-i" class="col-form-label">Descripcion:</label>
+                                        <label for="b-i" class="col-form-label">Proyecto:</label>
                                         <b-form-select v-model="plano.proyecto_id" :options="options_proyectos" v-bind:class="[{ 'is-invalid': planoValidacion.proyecto_id}]"></b-form-select>
                                         <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                     </div>

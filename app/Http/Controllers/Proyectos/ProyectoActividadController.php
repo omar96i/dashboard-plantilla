@@ -7,6 +7,7 @@ use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadFile;
 use App\Models\Proyectos\ProyectoActividadProducto;
+use App\Models\Proyectos\ProyectoActividadReporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +15,11 @@ class ProyectoActividadController extends Controller
 {
     public function index(){
         return view('proyectos.actividades.index');
+    }
+
+    public function show(ProyectoActividad $actividad){
+        $reportes = ProyectoActividadReporte::with('producto.productos.productos', 'usuario.informacionPersonal')->where('actividad_id', $actividad->id)->get();
+        return view('proyectos.actividades.show', ['actividad' => $actividad->load('whoCreated.informacionPersonal', 'proyecto', 'empleado.informacionPersonal', 'files', 'inventario.productos.productos'), 'reportes' => $reportes]);
     }
 
     public function form(ProyectoActividad $actividad = null){

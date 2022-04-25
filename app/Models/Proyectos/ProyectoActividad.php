@@ -43,4 +43,8 @@ class ProyectoActividad extends Model
     public function inventario(){
         return $this->hasMany(ProyectoActividadProducto::class);
     }
+
+    public function reportes(){
+        return $this->hasMany(ProyectoActividadReporte::class, 'actividad_id');
+    }
 }

@@ -162,6 +162,54 @@
                             </table>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="actividades" role="tabpanel" aria-labelledby="actividades-tab">
+                        <div class="table-responsive p-4">
+                            <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripcion</th>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha final</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripcion</th>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha final</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    @foreach ($proyecto->actividades as $actividad)
+                                        <tr>
+                                            <td>{{$actividad->empleado->informacionPersonal->nombres.' '.$actividad->empleado->informacionPersonal->apellidos}}</td>
+                                            <td>{{$actividad->descripcion}}</td>
+                                            <td>{{$actividad->fecha_inicio}}</td>
+                                            <td>{{$actividad->fecha_final}}</td>
+                                            <td>{{$actividad->estado}}</td>
+                                            <td class="text-center">
+                                                <div class="dropdown no-arrow">
+                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                                                        <div class="dropdown-header">Acciones:</div>
+                                                        <a class="dropdown-item" href="{{route('proyectos.actividades.show', ['actividad' => $actividad->id])}}" target="_blank"><i class="fa-solid fa-eye"></i> Ver Actividad</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

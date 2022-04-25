@@ -1,11 +1,11 @@
 <template>
 <div>
-    <div class="card text-center mb-3">
-        <div class="card-body">
-            <button v-bind:class="[{ 'active': !load}, 'btn', 'btn-primary', 'btn-sm']" @click="tableProduct()">Productos</button>
-            <button v-bind:class="[{ 'active': load}, 'btn', 'btn-primary', 'btn-sm']" @click="tableCategorias()">Categorias</button>
-        </div>
+    <div class="col-12 text-center">
+         <button v-bind:class="[{ 'active': !load}, 'btn', 'btn-primary']" @click="tableProduct()">Productos</button>
+    <button v-bind:class="[{ 'active': load}, 'btn', 'btn-primary']" @click="tableCategorias()">Categorias</button>
     </div>
+
+
     <table-productos v-if="!load"></table-productos>
     <table-categorias v-else></table-categorias>
 </div>

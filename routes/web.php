@@ -11,11 +11,13 @@ use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadController;
+use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
 use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadProducto;
+use App\Models\Proyectos\ProyectoActividadReporte;
 use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Contracts\Role;
@@ -136,9 +138,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::group(['prefix' => 'Actividades'], function () {
             Route::get('/', [ProyectoActividadController::class, 'index'])->name('proyectos.actividades.index');
+            Route::get('/show/{actividad}', [ProyectoActividadController::class, 'show'])->name('proyectos.actividades.show');
             Route::get('/get', [ProyectoActividadController::class, 'get'])->name('proyectos.actividades.get');
             Route::get('/delete/{actividad}', [ProyectoActividadController::class, 'delete'])->name('proyectos.actividades.delete');
-
             Route::get('/form/{actividad?}', [ProyectoActividadController::class, 'form'])->name('proyectos.actividades.form');
             Route::post('/store', [ProyectoActividadController::class, 'store'])->name('proyectos.actividades.store');
             Route::post('/update/{actividad}', [ProyectoActividadController::class, 'update'])->name('proyectos.actividades.update');
@@ -147,6 +149,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/Files/get/{actividad}', [ProyectoActividadController::class, 'getFiles'])->name('proyectos.actividades.files.get');
             Route::post('/Inventario/store/{actividad}', [ProyectoActividadController::class, 'storeInventario'])->name('proyectos.actividades.inventario.store');
             Route::get('/Inventario/get/{actividad}', [ProyectoActividadController::class, 'getInventario'])->name('proyectos.actividades.inventario.get');
+            Route::group(['prefix' => 'Reportes'], function () {
+                Route::get('/', [ProyectoActividadReporteController::class, 'index'])->name('proyectos.actividades.reportes.index');
+                Route::get('/get', [ProyectoActividadReporteController::class, 'get'])->name('proyectos.actividades.reportes.get');
+                Route::get('/confirm/{reporte}', [ProyectoActividadReporteController::class, 'confirm'])->name('proyectos.actividades.reportes.confirm');
+                Route::get('/cancel/{reporte}', [ProyectoActividadReporteController::class, 'cancel'])->name('proyectos.actividades.reportes.cancel');
+                Route::post('/store/{actividad}', [ProyectoActividadReporteController::class, 'store'])->name('proyectos.actividades.reportes.store');
+            });
+
         });
     });
 

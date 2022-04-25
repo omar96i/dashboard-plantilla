@@ -40,8 +40,9 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                 <div class="dropdown-header">Acciones:</div>
-                                <a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> Ver</a>
+                                <a class="dropdown-item" :href="'/Proyectos/Actividades/show/'+actividad.id"><i class="fa-solid fa-eye"></i> Ver</a>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/form/'+actividad.id"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                <a class="dropdown-item" href="#" @click="openModal(actividad.id)"> <i class="fa-solid fa-file-circle-exclamation"></i> Realizar reporte</a>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" @click="eliminarActividad(actividad.id)" href="#"><i class="fas fa-trash"></i> Eliminar</button>
                             </div>
@@ -51,19 +52,28 @@
             </tbody>
         </table>
     </div>
+    <div v-if="load_modal">
+        <actividades-modal :actividad_id="actividad_id"></actividades-modal>
+    </div>
 </div>
 </template>
 
 <script>
     import url from '../../../mixins/cloudinary'
+    import ActividadesModal from './Modal.vue'
     export default {
+        components:{
+            ActividadesModal
+        },
 
         mixins: [url],
 
         data(){
             return{
                 actividades:{},
-                load: false
+                load: false,
+                actividad_id: '',
+                load_modal: false
             }
         },
 
@@ -72,6 +82,20 @@
         },
 
         methods:{
+            openModal(id){
+                this.actividad_id = id
+                this.load_modal = true
+                setTimeout(() => {
+                    $('#modalReportes').modal('show')
+				}, 200)
+            },
+
+            closeModal(){
+                $('#modalReportes').modal('hide')
+                setTimeout(() => {
+                    this.load_modal = false
+				}, 200)
+            },
             getActividades(){
                 this.load = false
                 axios.get('/Proyectos/Actividades/get').then(res=>{

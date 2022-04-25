@@ -28,6 +28,10 @@ class ProyectoActividadProducto extends Model
         return $this->belongsTo(SubCotizacionProducto::class, 'sub_cotizacion_producto_id');
     }
 
+    public function reportes(){
+        return $this->hasMany(ProyectoActividadReporte::class);
+    }
+
     public static function validarProducto($id, $actividad_id){
         return self::where('sub_cotizacion_producto_id', $id)->where('proyecto_actividad_id', $actividad_id)->count();
     }

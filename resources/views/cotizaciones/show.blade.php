@@ -92,7 +92,7 @@
                                     <tbody>
                                         @foreach ($sub_cotizacion->productos as $producto)
                                             <tr>
-                                                <td>{{$producto->productos->foto}}</td>
+                                                <td><img src="{{($producto->productos->foto == "default.png")? '/img/img_productos/default.png': 'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'.$producto->productos->foto}}" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                                                 <td>{{$producto->productos->nombre}}</td>
                                                 <td>{{$producto->productos->descripcion}}</td>
                                                 <td>{{$producto->productos->referencia}}</td>

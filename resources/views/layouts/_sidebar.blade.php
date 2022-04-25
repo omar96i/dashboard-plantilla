@@ -60,6 +60,7 @@
                 <a class="collapse-item" href="{{ route('proyectos.planos.admin.index') }}">Planos Admin</a>
                 <h6 class="collapse-header">Actividades</h6>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
+                <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
 
                 <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
             </div>

@@ -54,7 +54,7 @@ class ProyectoController extends Controller
     }
 
     public function show(Proyecto $proyecto){
-        return view('proyectos.show', ['proyecto' => $proyecto->load('whoCreated.informacionPersonal', 'planos.whoCreated.informacionPersonal', 'cotizacion'), 'inventario' => Proyecto::inventario($proyecto->id)]);
+        return view('proyectos.show', ['proyecto' => $proyecto->load('whoCreated.informacionPersonal', 'planos.whoCreated.informacionPersonal', 'cotizacion', 'actividades.empleado.informacionPersonal'), 'inventario' => Proyecto::inventario($proyecto->id)]);
     }
 
     public function getInventario(Proyecto $proyecto){

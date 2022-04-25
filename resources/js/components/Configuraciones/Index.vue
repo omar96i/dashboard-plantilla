@@ -57,14 +57,25 @@
             <spinner-view :loading="spinner_two"></spinner-view>
         </div>
     </form>
+
+    <hr>
+    <h5>Condiciones</h5>
+
+    <button class="btn btn-success" @click="openModal()">agregar</button>
+
+
+    <modal-condiciones></modal-condiciones>
+
 </div>
 </template>
 
 <script>
     import SpinnerView from '../Spinner.vue'
+    import ModalCondiciones from './ModalCondiciones.vue'
     export default {
         components: {
-			SpinnerView
+			SpinnerView,
+            ModalCondiciones
 		},
         data(){
             return{
@@ -79,6 +90,9 @@
             this.getDatosBasicos()
         },
         methods:{
+            openModal(){
+                $("#modalCondiciones").modal('show')
+            },
             getIva(){
                 axios.get('/Configuraciones/getIva').then(res=>{
                     if(res.data.iva != null){
