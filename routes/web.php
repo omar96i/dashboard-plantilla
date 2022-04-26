@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
 use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadController;
 use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
@@ -44,6 +45,10 @@ Route::redirect('/', '/login', 301);
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/upload', [FileUploadController::class, 'showUploadForm']);
+Route::post('/upload', [FileUploadController::class, 'storeUploads']);
+
 
 Route::middleware(['auth'])->group(function () {
 
