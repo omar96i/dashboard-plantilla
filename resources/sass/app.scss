@@ -49,3 +49,15 @@
 th{
     color: gray;
 }
+
+.card-hover{
+    &:hover{
+        background-color: rgb(241, 241, 241);
+        cursor: pointer;
+    }
+
+}
+
+.font-size-tittle{
+    font-size: 1em;
+}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cotizaciones;
 
+use App\Events\CotizacionEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Cotizaciones\CotizacionAbono;
@@ -40,6 +41,9 @@ class CotizacionController extends Controller
         $cotizacion->fecha = Carbon::now();
         $cotizacion->estado = "activo";
         $cotizacion->save();
+        $tipo['accion'] = "insert";
+        $tipo['tabla'] = "cotizaciones";
+        event(new CotizacionEvent($cotizacion, $tipo));
         return response()->json(['saved' => true, 'cotizacion' => $cotizacion]);
 
     }
@@ -67,8 +71,12 @@ class CotizacionController extends Controller
     }
 
     public function update(Cotizacion $cotizacion, Request $request){
+        $old_cotizacion = Cotizacion::find($cotizacion->id);
         $cotizacion->update($request->all());
         $cotizacion->save();
+        $tipo['accion'] = "update";
+        $tipo['tabla'] = "cotizaciones";
+        event(new CotizacionEvent($cotizacion, $tipo, $old_cotizacion));
         return response()->json(['updated' => true, 'cotizacion' => $cotizacion]);
     }
 
@@ -79,7 +87,11 @@ class CotizacionController extends Controller
     }
 
     public function delete(Cotizacion $cotizacion){
+        $old_cotizacion = $cotizacion;
         $cotizacion->delete();
+        $tipo['accion'] = "delete";
+        $tipo['tabla'] = "cotizaciones";
+        event(new CotizacionEvent($cotizacion, $tipo, $old_cotizacion));
         return response()->json(['deleted' => true]);
     }
 

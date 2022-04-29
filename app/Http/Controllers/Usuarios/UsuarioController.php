@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Usuarios;
 
+use App\Events\UserEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users\User;
 use App\Models\Users\InformacionPersonal;
+use App\Notifications\UserNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,9 +16,7 @@ class UsuarioController extends Controller
 
     public function prueba(Request $request){
         $response = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();
-
         dd($response);
-
     }
 
     public function index(){
@@ -52,11 +52,16 @@ class UsuarioController extends Controller
         $informacion->foto = $imageName;
         $informacion->save();
 
+        $tipo['accion'] = "insert";
+        $tipo['tabla'] = "users";
+
         $user->assignRole($request->role);
+        event(new UserEvent($user->load('informacionPersonal'), $tipo));
         return response()->json(['saved' => true]);
     }
 
     public function update(User $user, Request $request){
+        $old_user = $user->load('informacionPersonal');
         $user->email = $request->email;
         if(isset($request->password)){
             $user->password = $request->password;
@@ -83,12 +88,22 @@ class UsuarioController extends Controller
         $informacion_personal[0]->ciudad = $request->ciudad;
         $informacion_personal[0]->update();
 
+
+        $tipo['accion'] = "update";
+        $tipo['tabla'] = "users";
+
+        event(new UserEvent($user->load('informacionPersonal'), $tipo, $old_user));
+
         return response()->json(['saved' => true]);
 
     }
 
     public function delete(User $user){
+        $old_user = $user->load('informacionPersonal');
         $user->delete();
+        $tipo['accion'] = "delete";
+        $tipo['tabla'] = "users";
+        event(new UserEvent($user->load('informacionPersonal'), $tipo, $old_user));
 		return response()->json(['delete' => $user]);
     }
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\Configuraciones\ConfiguracionController;
 use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadController;
 use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
@@ -38,7 +39,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/test', function () {
 
-    return ProyectoActividadProducto::validarProducto(23, 5);
+    return auth()->user()->readNotifications;
 });
 
 Route::redirect('/', '/login', 301);
@@ -64,6 +65,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');
     });
 
+    Route::group(['prefix' => 'Notificaciones'], function () {
+        Route::get('/index/{tipo?}', [NotificacionController::class, 'index'])->name('notificaciones.index');
+        Route::get('/readAll', [NotificacionController::class, 'readAll'])->name('notificaciones.read.all');
+        Route::get('/read/{id}', [NotificacionController::class, 'read'])->name('notificaciones.read');
+        Route::get('/show/{id}', [NotificacionController::class, 'show'])->name('notificaciones.show');
+
+    });
+
     Route::group(['prefix' => 'Productos'], function () {
         Route::get('/', [ProductoController::class, 'index'])->name('productos.index');
         Route::post('/store', [ProductoController::class, 'store'])->name('productos.store');
@@ -79,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/delete/{categoria}', [CategoriaController::class, 'delete'])->name('productos.categorias.delete');
         });
     });
+
 
     Route::group(['prefix' => 'Usuarios'], function () {
         Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
