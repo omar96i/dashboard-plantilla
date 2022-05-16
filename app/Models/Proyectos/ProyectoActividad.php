@@ -19,6 +19,7 @@ class ProyectoActividad extends Model
         'empleado_id',
         'usuario_id',
         'descripcion',
+        'finalizacion_descripcion',
         'fecha_inicio',
         'fecha_final',
         'estado'
@@ -46,5 +47,13 @@ class ProyectoActividad extends Model
 
     public function reportes(){
         return $this->hasMany(ProyectoActividadReporte::class, 'actividad_id');
+    }
+
+    public function pruebas(){
+        return $this->hasOne(ProyectoActividadPrueba::class, 'actividad_id');
+    }
+
+    public function solicitudes(){
+        return $this->hasMany(ProyectoActividadProductoSolicitud::class, 'actividad_id');
     }
 }

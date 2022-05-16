@@ -6,6 +6,7 @@
                 <tr>
                     <th class="color-gray">Proyecto</th>
                     <th class="color-gray">Descripcion</th>
+                    <th class="color-gray">Detalles de accion</th>
                     <th class="color-gray">Fecha</th>
                     <th class="color-gray">Estado</th>
                     <th class="color-gray"></th>
@@ -17,6 +18,7 @@
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"></th>
                 </tr>
             </tfoot>
@@ -24,6 +26,8 @@
                 <tr v-for="(plano, index) in planos" :key="index">
                     <td><a :href="'/Proyectos/show/'+plano.proyecto.id" style="color: #1E42F7; text-decoration: none;" target="_blank">{{plano.proyecto.nombre}}</a></td>
                     <td>{{plano.descripcion}}</td>
+                    <td>{{plano.descripcion_accion}}</td>
+
                     <td>{{new Date(plano.created_at).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', })}}</td>
                     <td> <b-alert show :variant="color(plano.estado)" class="text-capitalize">{{plano.estado}}</b-alert></td>
                     <td class="text-center">
@@ -60,7 +64,10 @@
                 load_modal: false,
                 planos: {},
                 load: false,
-                setColor : ''
+                setColor : '',
+                plano:{
+                    'descripcion_accion': ''
+                }
             }
         },
 
@@ -115,13 +122,16 @@
                     title: 'Plano',
                     text: 'Estas seguro de aprobar?',
                     type: 'warning',
+                    input: 'text',
                     showCancelButton: true,
                     confirmButtonText: 'Aprobar',
                     cancelButtonText: 'Cancelar',
+                    showLoaderOnConfirm: true,
                     confirmButtonColor: '#2EE129',
                 }).then((result) => {
                     if(result.value){
-                        axios.get(`/Proyectos/PlanosAdmin/aprobar/${plano_id}`).then(res => {
+                        this.plano.descripcion_accion = result.value
+                        axios.post(`/Proyectos/PlanosAdmin/aprobar/${plano_id}`, this.plano).then(res => {
                             if(res.data.status){
                                 this.$fire({
                                     title: 'Plano',
@@ -141,13 +151,16 @@
                     title: 'Plano',
                     text: 'Estas seguro de rechazar?',
                     type: 'warning',
+                    input: 'text',
                     showCancelButton: true,
                     confirmButtonText: 'Rechazar',
+                    showLoaderOnConfirm: true,
                     cancelButtonText: 'Cancelar',
                     confirmButtonColor: '#FF0000',
                 }).then((result) => {
                     if(result.value){
-                        axios.get(`/Proyectos/PlanosAdmin/rechazar/${plano_id}`).then(res => {
+                        this.plano.descripcion_accion = result.value
+                        axios.post(`/Proyectos/PlanosAdmin/rechazar/${plano_id}`, this.plano).then(res => {
                             if(res.data.status){
                                 this.$fire({
                                     title: 'Plano',

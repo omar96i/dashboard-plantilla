@@ -38,14 +38,16 @@ class ProyectoPlanoController extends Controller
         return response()->json(['deleted' => true]);
     }
 
-    public function aprobar(ProyectoPlano $proyecto_plano){
+    public function aprobar(ProyectoPlano $proyecto_plano, Request $request){
+        $proyecto_plano->descripcion_accion = $request->descripcion_accion;
         $proyecto_plano->estado = "aprobado";
         $proyecto_plano->save();
 
-        return response()->json(['status' => true]);
+        return response()->json(['status' => true, 'request' => $request->descripcion_accion]);
     }
 
-    public function rechazar(ProyectoPlano $proyecto_plano){
+    public function rechazar(ProyectoPlano $proyecto_plano, Request $request){
+        $proyecto_plano->descripcion_accion = $request->descripcion_accion;
         $proyecto_plano->estado = "rechazado";
         $proyecto_plano->save();
         return response()->json(['status' => true]);

@@ -34,8 +34,11 @@ Vue.component('proyectos-form', require('./components/Proyectos/Form.vue').defau
 Vue.component('proyectos-planos', require('./components/Proyectos/Planos/Index.vue').default);
 Vue.component('proyectos-planos-admin', require('./components/Proyectos/Planos/Admin/Index.vue').default);
 Vue.component('proyectos-actividades', require('./components/Proyectos/Actividades/Index.vue').default);
+Vue.component('proyectos-tecnico-actividades', require('./components/Proyectos/Actividades/Tecnico/Index.vue').default);
+Vue.component('proyectos-tecnico-actividades-calendario', require('./components/Proyectos/Actividades/Tecnico/Calendario.vue').default);
 Vue.component('proyectos-actividades-form', require('./components/Proyectos/Actividades/Form.vue').default);
 Vue.component('proyectos-reportes', require('./components/Proyectos/Reportes/Index.vue').default);
+
 
 const app = new Vue({
     el: '#app',

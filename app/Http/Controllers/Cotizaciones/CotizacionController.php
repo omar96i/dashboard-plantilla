@@ -59,10 +59,6 @@ class CotizacionController extends Controller
         if(SubCotizacionProducto::where(['producto_id' => $request->producto_id, 'sub_cotizacion_id' => $sub_cotizacion->id])->count() > 0){
             return response()->json(['saved' => false, 'msg' => 'El producto ya se encuenta registrado']);
         }
-        $condicion = Producto::find($request->producto_id);
-        if($request->cantidad > $condicion->cantidad){
-            return response()->json(['saved' => false, 'msg' => 'La cantidad seleccionada excede la del stock']);
-        }
         $producto_sc = new SubCotizacionProducto($request->all());
         $producto_sc->sub_cotizacion_id = $sub_cotizacion->id;
         $producto_sc->estado = "activo";
@@ -137,10 +133,6 @@ class CotizacionController extends Controller
             $producto->ubicacion = $request->ubicacion;
         }
         if(isset($request->cantidad)){
-            $condicion = Producto::find($producto->producto_id);
-            if($request->cantidad > $condicion->cantidad){
-                return response()->json(['updated' => false, 'msg' => 'La cantidad seleccionada excede la del stock']);
-            }
             $producto->cantidad = $request->cantidad;
         }
         $producto->save();

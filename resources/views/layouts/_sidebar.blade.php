@@ -24,7 +24,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Administrar
+        Administrador
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
@@ -112,8 +112,87 @@
             </div>
         </div>
     </li>
-    <hr class="sidebar-divider d-none d-md-block">
 
+    @role('lider.electrico|admin')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Lider Electrico
+        </div>
+
+        <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.planos')) active @endif">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-le-one"
+                aria-expanded="true" aria-controls="collapse-le-one">
+                <i class="fa-solid fa-diagram-project"></i>
+                <span>Proyectos</span>
+            </a>
+            <div id="collapse-le-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Vizualizar</h6>
+                    <a class="collapse-item" href="{{ route('proyectos.index') }}">Proyectos</a>
+                    <h6 class="collapse-header">Planos</h6>
+                    <a class="collapse-item" href="{{ route('proyectos.planos') }}">Planos</a>
+                </div>
+            </div>
+        </li>
+    @endrole
+
+    @role('lider.ingenieria|admin')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Lider de ingenieria
+        </div>
+
+        <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.planos')) active @endif">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-li-one"
+                aria-expanded="true" aria-controls="collapse-li-one">
+                <i class="fa-solid fa-diagram-project"></i>
+                <span>Proyectos</span>
+            </a>
+            <div id="collapse-li-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Administrar</h6>
+                    <a class="collapse-item" href="{{ route('proyectos.index') }}">Proyectos</a>
+                    <h6 class="collapse-header">Actividades</h6>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
+                </div>
+            </div>
+        </li>
+    @endrole
+
+    @role('tecnico|admin')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Tecnico
+        </div>
+
+        <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.actividades.calendario')) active @endif">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-t-one"
+                aria-expanded="true" aria-controls="collapse-t-one">
+                <i class="fa-regular fa-calendar-days"></i>
+                <span>Actividades</span>
+            </a>
+            <div id="collapse-t-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Administrar</h6>
+                    <a class="collapse-item" href="{{ route('proyectos.index') }}">Actividades</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.calendario') }}">Calendario</a>
+                </div>
+            </div>
+        </li>
+    @endrole
+
+
+    <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>

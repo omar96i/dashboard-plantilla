@@ -22,7 +22,7 @@ use App\Models\Proyectos\ProyectoActividadProducto;
 use App\Models\Proyectos\ProyectoActividadReporte;
 use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Contracts\Role;
+use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 
 /*
@@ -38,8 +38,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-
-    return auth()->user()->readNotifications;
+    return view('proyectos.actividades.tecnico.index');
 });
 
 Route::redirect('/', '/login', 301);
@@ -147,14 +146,18 @@ Route::middleware(['auth'])->group(function () {
         Route::group(['prefix' => 'PlanosAdmin'], function () {
             Route::get('/index', [ProyectoPlanoController::class, 'indexAdmin'])->name('proyectos.planos.admin.index');
             Route::get('/get', [ProyectoPlanoController::class, 'getAdmin'])->name('proyectos.planos.admin.get');
-            Route::get('/aprobar/{proyecto_plano}', [ProyectoPlanoController::class, 'aprobar'])->name('proyectos.planos.admin.aprobar');
-            Route::get('/rechazar/{proyecto_plano}', [ProyectoPlanoController::class, 'rechazar'])->name('proyectos.planos.admin.rechazar');
+            Route::post('/aprobar/{proyecto_plano}', [ProyectoPlanoController::class, 'aprobar'])->name('proyectos.planos.admin.aprobar');
+            Route::post('/rechazar/{proyecto_plano}', [ProyectoPlanoController::class, 'rechazar'])->name('proyectos.planos.admin.rechazar');
         });
 
         Route::group(['prefix' => 'Actividades'], function () {
             Route::get('/', [ProyectoActividadController::class, 'index'])->name('proyectos.actividades.index');
             Route::get('/show/{actividad}', [ProyectoActividadController::class, 'show'])->name('proyectos.actividades.show');
             Route::get('/get', [ProyectoActividadController::class, 'get'])->name('proyectos.actividades.get');
+            Route::post('/Finalizar/{actividad}', [ProyectoActividadController::class, 'finalizarActividad'])->name('proyectos.actividades.finalizar');
+            Route::get('/get/{actividad}', [ProyectoActividadController::class, 'getActividad'])->name('proyectos.actividades.get.actividad');
+            Route::get('/calendario', [ProyectoActividadController::class, 'calendario'])->name('proyectos.actividades.calendario');
+            Route::get('/getActividadesUsuario', [ProyectoActividadController::class, 'getActividadesUsuario'])->name('proyectos.actividades.get-actividades-usuario');
             Route::get('/delete/{actividad}', [ProyectoActividadController::class, 'delete'])->name('proyectos.actividades.delete');
             Route::get('/form/{actividad?}', [ProyectoActividadController::class, 'form'])->name('proyectos.actividades.form');
             Route::post('/store', [ProyectoActividadController::class, 'store'])->name('proyectos.actividades.store');
