@@ -23,7 +23,7 @@ class ProyectoActividadProductoSolicitud extends Model
         return $this->belongsTo(ProyectoActividad::class, 'actividad_id');
     }
 
-    public function productos(){
+    public function producto(){
         return $this->belongsTo(Producto::class, 'producto_id');
     }
 }

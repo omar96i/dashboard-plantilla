@@ -56,4 +56,8 @@ class ProyectoActividad extends Model
     public function solicitudes(){
         return $this->hasMany(ProyectoActividadProductoSolicitud::class, 'actividad_id');
     }
+
+    public function asistencias(){
+        return $this->hasMany(ProyectoActividadAsistencia::class, 'actividad_id');
+    }
 }

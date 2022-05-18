@@ -52,70 +52,39 @@
                                 </div>
                             </b-tab>
                             <b-tab title="Inventario">
-                                <div class="table-responsive p-4">
-                                    <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Foto</th>
-                                                <th>Nombre</th>
-                                                <th>Descripcion</th>
-                                                <th>Referencia</th>
-                                                <th>Marca</th>
-                                                <th>Color</th>
-                                                <th>Temperatura</th>
-                                                <th>Voltaje</th>
-                                                <th>Cantidad asignada</th>
-                                                <th>Ubicacion</th>
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                                <th class="color-gray"><input type="text" class="form-control"></th>
-                                            </tr>
-                                        </tfoot>
-                                        <tbody>
-                                            <tr v-for="(producto, index) in actividad.inventario" :key="index">
-                                                <td><img :src="(producto.productos.productos.foto == 'default.png')? '/img/img_productos/default.png' : `https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/${producto.productos.productos.foto}`" style="width: 70px; border-radius: 50%; height: 60px;"></td>
-                                                <td>{{producto.productos.productos.nombre}}</td>
-                                                <td>{{producto.productos.productos.descripcion}}</td>
-                                                <td>{{producto.productos.productos.referencia}}</td>
-                                                <td>{{producto.productos.productos.marca}}</td>
-                                                <td>{{producto.productos.productos.color}}</td>
-                                                <td>{{producto.productos.productos.temperatura_calor}}</td>
-                                                <td>{{producto.productos.productos.voltaje}}</td>
-                                                <td>{{producto.cantidad}}</td>
-                                                <td>{{producto.productos.ubicacion}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <inventario-table :inventario="actividad.inventario"></inventario-table>
+                            </b-tab>
+                            <b-tab title="Reportes">
+                                <reportes-table :reportes="actividad.reportes"></reportes-table>
+                            </b-tab>
+                            <b-tab title="Solicitudes">
+                                <solicitudes-table :solicitudes="actividad.solicitudes"></solicitudes-table>
+                            </b-tab>
+                            <b-tab title="Asistencias">
+                                <asistencia-table :asistencias="actividad.asistencias"></asistencia-table>
                             </b-tab>
                             <b-tab title="Acciones">
                                 <div class="row container text-center">
-                                    <div class="col-12 col-sm-4 my-2 mt-sm-0">
-                                        <b-button variant="success" @click="setForm('reportes')">Enviar Reporte</b-button>
+                                    <div class="col-12 col-sm-3 my-2 mt-sm-0">
+                                        <b-button variant="primary" @click="setForm('reportes')">Enviar Reporte</b-button>
                                     </div>
-                                    <div class="col-12 col-sm-4 my-2 mt-sm-0">
-                                        <b-button variant="success" @click="setForm('solicitud_productos')">Solicitar Producto</b-button>
+                                    <div class="col-12 col-sm-3 my-2 mt-sm-0">
+                                        <b-button variant="primary" @click="setForm('solicitud_productos')">Solicitar Producto</b-button>
                                     </div>
-                                    <div class="col-12 col-sm-4 my-2 mt-sm-0">
-                                        <b-button variant="success" @click="setForm('finalizar')">Finalizar actividad</b-button>
+                                    <div class="col-12 col-sm-3 my-2 mt-sm-0">
+                                        <b-button variant="primary" @click="setForm('finalizar')">Finalizar actividad</b-button>
+                                    </div>
+                                    <div class="col-12 col-sm-3 my-2 mt-sm-0" v-if="actividad.estado != 'completado'">
+                                        <b-button variant="primary" :disabled="loading" @click="ubicacion()">
+                                            <b-spinner small type="grow" v-if="loading"></b-spinner>
+                                            Asistencia
+                                        </b-button>
                                     </div>
                                 </div>
                                 <div>
                                     <form-reportes :actividad_id="id" :estado="actividad.estado" v-if="load_form_reportes"></form-reportes>
                                     <form-solicitud-productos :actividad_id="id" :estado="actividad.estado" v-if="load_form_solicitud_productos"></form-solicitud-productos>
                                     <form-finalizar :actividad_id="id" :estado="actividad.estado" v-if="load_form_finalizar"></form-finalizar>
-
                                 </div>
                             </b-tab>
                         </b-tabs>
@@ -127,6 +96,10 @@
 </template>
 
 <script>
+    import ReportesTable from './Tables/ReportesTable.vue'
+    import AsistenciaTable from './Tables/AsistenciaTable.vue'
+    import InventarioTable from './Tables/InventarioTable.vue'
+    import SolicitudesTable from './Tables/SolicitudesTable.vue'
     import FormSolicitudProductos from './Forms/SolicitudProductos.vue'
     import FormReportes from './Forms/Reportes.vue'
     import FormFinalizar from './Forms/Finalizar.vue'
@@ -136,7 +109,11 @@
         components: {
             FormReportes,
             FormSolicitudProductos,
-            FormFinalizar
+            FormFinalizar,
+            ReportesTable,
+            SolicitudesTable,
+            InventarioTable,
+            AsistenciaTable
         },
         data(){
             return{
@@ -146,7 +123,12 @@
                 load_form_reportes: false,
                 load_form_solicitud_productos: false,
                 load_form_finalizar: false,
-
+                asistencia: {
+                    latitude: '',
+                    longitude: '',
+                    url: ''
+                },
+                loading: false
             }
         },
         created(){
@@ -158,25 +140,8 @@
                 axios.get(`/Proyectos/Actividades/get/${this.id}`).then(res=>{
                     this.actividad = res.data.actividad
                     this.load = true
-                }).finally(() => {
-                    setTimeout(() => {
-                        $(`.tables-productos`).DataTable({
-                            initComplete: function () {
-                                // Apply the search
-                                this.api().columns().every( function () {
-                                    var that = this;
-
-                                    $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                                        if ( that.search() !== this.value ) {
-                                            that
-                                                .search( this.value )
-                                                .draw();
-                                        }
-                                    } );
-                                } );
-                            }
-                        })
-                    }, 200)
+                }).catch(function (error) {
+                    console.log(error.response)
                 })
             },
             getColorAlert(estado){
@@ -194,6 +159,71 @@
                 this.load_form_reportes = (tipo == 'reportes')? true : false
                 this.load_form_solicitud_productos = (tipo == 'solicitud_productos')? true : false
                 this.load_form_finalizar = (tipo == 'finalizar')? true : false
+            },
+            ubicacion(){
+
+                if (!"geolocation" in navigator) {
+                    this.alert('Error', 'Tu navegador no soporta, Geolocation', 'error')
+                }
+
+                const onUbicacionConcedida = ubicacion => {
+                    const coordenadas = ubicacion.coords;
+                    this.asistencia = {
+                        latitude: coordenadas.latitude,
+                        longitude: coordenadas.longitude,
+                        url: `https://www.google.com/maps/@${coordenadas.latitude},${coordenadas.longitude},20z`
+                    }
+                    this.setAsistencia()
+                }
+
+                const onErrorDeUbicacion = err => {
+                    console.log("Error obteniendo ubicación: ", err);
+                    this.alert('Error', 'Error obteniendo ubicación', 'error')
+
+                }
+
+                const opcionesDeSolicitud = {
+                    enableHighAccuracy: true, // Alta precisión
+                    maximumAge: 0, // No queremos caché
+                    timeout: 5000 // Esperar solo 5 segundos
+                };
+                // Solicitar
+                navigator.geolocation.getCurrentPosition(onUbicacionConcedida, onErrorDeUbicacion, opcionesDeSolicitud);
+            },
+            alert(titulo, text, tipo){
+                this.$fire({
+                    title: titulo,
+                    text: text,
+                    type: tipo,
+                    timer: 3000
+                })
+            },
+            setAsistencia(){
+                this.$fire({
+                    title: 'Asistencia',
+                    text: 'Una vez realizada no se podra cambiar.',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#1cc88a',
+                }).then((result) => {
+                    if(result.value){
+                        this.loading = true
+                        axios.post(`/Proyectos/Actividades/Asistencias/store/${this.actividad.id}`, this.asistencia).then(res=>{
+                            console.log(res.data)
+                            if(res.data.status){
+                                this.alert('Asistencia', res.data.msg, 'success')
+                            }else{
+                                this.alert('Asistencia', res.data.msg, 'error')
+                            }
+                            this.loading = false
+                        }).catch(function (error) {
+                            this.alert('Asistencia', 'Error en el servidor contactese con el programador', 'error')
+                            this.loading = false
+                        });
+                    }
+                });
             }
         }
     }

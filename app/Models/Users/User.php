@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Proyectos\Proyecto;
+use App\Models\Proyectos\ProyectoActividadAsistencia;
 use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,6 +51,10 @@ class User extends Authenticatable
 
     public function planos(){
         return $this->hasMany(ProyectoPlano::class);
+    }
+
+    public function asistencias(){
+        return $this->hasMany(ProyectoActividadAsistencia::class, 'user_id');
     }
     // Relaciones end
 

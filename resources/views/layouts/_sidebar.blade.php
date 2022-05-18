@@ -1,7 +1,7 @@
 <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #313a46">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-image"></i>
         </div>
@@ -21,6 +21,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+
+    @role('sub.admin|admin')
 
     <!-- Heading -->
     <div class="sidebar-heading">
@@ -44,7 +46,7 @@
         </div>
     </li>
 
-    <li class="nav-item @if(Route::is('proyectos.index')) active @endif">
+    <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.actividades.reportes.index')||Route::is('proyectos.actividades.index')||Route::is('proyectos.planos.admin.index')||Route::is('proyectos.form')) active @endif">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-four"
             aria-expanded="true" aria-controls="collapse-four">
             <i class="fa-solid fa-diagram-project"></i>
@@ -56,8 +58,7 @@
                 <a class="collapse-item" href="{{ route('proyectos.index') }}">Proyectos</a>
                 <a class="collapse-item" href="{{ route('proyectos.form') }}">Crear</a>
                 <h6 class="collapse-header">Planos</h6>
-                <a class="collapse-item" href="{{ route('proyectos.planos') }}">Planos LE</a>
-                <a class="collapse-item" href="{{ route('proyectos.planos.admin.index') }}">Planos Admin</a>
+                <a class="collapse-item" href="{{ route('proyectos.planos.admin.index') }}">Planos</a>
                 <h6 class="collapse-header">Actividades</h6>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
@@ -112,7 +113,7 @@
             </div>
         </div>
     </li>
-
+    @endrole
     @role('lider.electrico|admin')
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -148,7 +149,7 @@
             Lider de ingenieria
         </div>
 
-        <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.planos')) active @endif">
+        <li class="nav-item @if(Route::is('proyectos.actividades.reportes.index')||Route::is('proyectos.actividades.solicitudes.index')||Route::is('proyectos.actividades.index')||Route::is('proyectos.index')||Route::is('proyectos.actividades.asistencias.index')) active @endif">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-li-one"
                 aria-expanded="true" aria-controls="collapse-li-one">
                 <i class="fa-solid fa-diagram-project"></i>
@@ -160,6 +161,8 @@
                     <a class="collapse-item" href="{{ route('proyectos.index') }}">Proyectos</a>
                     <h6 class="collapse-header">Actividades</h6>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.asistencias.index') }}">Asistencias</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes de producto</a>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
                 </div>
             </div>
@@ -175,7 +178,7 @@
             Tecnico
         </div>
 
-        <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.actividades.calendario')) active @endif">
+        <li class="nav-item @if(Route::is('proyectos.actividades.tecnico.index')||Route::is('proyectos.actividades.calendario')) active @endif">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-t-one"
                 aria-expanded="true" aria-controls="collapse-t-one">
                 <i class="fa-regular fa-calendar-days"></i>
@@ -184,7 +187,7 @@
             <div id="collapse-t-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Administrar</h6>
-                    <a class="collapse-item" href="{{ route('proyectos.index') }}">Actividades</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.tecnico.index') }}">Actividades</a>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.calendario') }}">Calendario</a>
                 </div>
             </div>

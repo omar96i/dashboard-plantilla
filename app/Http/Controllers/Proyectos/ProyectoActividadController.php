@@ -7,6 +7,7 @@ use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadFile;
 use App\Models\Proyectos\ProyectoActividadProducto;
+use App\Models\Proyectos\ProyectoActividadProductoSolicitud;
 use App\Models\Proyectos\ProyectoActividadPrueba;
 use App\Models\Proyectos\ProyectoActividadReporte;
 use Illuminate\Http\Request;
@@ -16,6 +17,10 @@ class ProyectoActividadController extends Controller
 {
     public function index(){
         return view('proyectos.actividades.index');
+    }
+
+    public function indexTecnico(){
+        return view('proyectos.actividades.tecnico.index');
     }
 
     public function show(ProyectoActividad $actividad){
@@ -94,7 +99,7 @@ class ProyectoActividadController extends Controller
     }
 
     public function getActividadesUsuario(){
-        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal')->get()]);
+        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal')->where('empleado_id', Auth::id())->get()]);
     }
 
     public function calendario(){
@@ -102,7 +107,7 @@ class ProyectoActividadController extends Controller
     }
 
     public function getActividad(ProyectoActividad $actividad){
-        return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'pruebas')]);
+        return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'pruebas', 'reportes.producto.productos.productos', 'solicitudes.producto', 'asistencias')]);
     }
 
     public function finalizarActividad(ProyectoActividad $actividad, Request $request){
@@ -126,4 +131,6 @@ class ProyectoActividadController extends Controller
 
         /////////////////////////////////////// FALTA DESCONTAR PRODUCTOS ///////////////////////////////
     }
+
+
 }

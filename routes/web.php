@@ -12,7 +12,9 @@ use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\Productos\CategoriaController;
+use App\Http\Controllers\Proyectos\ProyectoActividadAsistenciaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadController;
+use App\Http\Controllers\Proyectos\ProyectoActividadProductoSolicitudController;
 use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
@@ -38,7 +40,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-    return view('proyectos.actividades.tecnico.index');
+    return Auth::user()->role_user[0];
 });
 
 Route::redirect('/', '/login', 301);
@@ -152,6 +154,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::group(['prefix' => 'Actividades'], function () {
             Route::get('/', [ProyectoActividadController::class, 'index'])->name('proyectos.actividades.index');
+            Route::get('/tecnico', [ProyectoActividadController::class, 'indexTecnico'])->name('proyectos.actividades.tecnico.index');
             Route::get('/show/{actividad}', [ProyectoActividadController::class, 'show'])->name('proyectos.actividades.show');
             Route::get('/get', [ProyectoActividadController::class, 'get'])->name('proyectos.actividades.get');
             Route::post('/Finalizar/{actividad}', [ProyectoActividadController::class, 'finalizarActividad'])->name('proyectos.actividades.finalizar');
@@ -167,6 +170,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/Files/get/{actividad}', [ProyectoActividadController::class, 'getFiles'])->name('proyectos.actividades.files.get');
             Route::post('/Inventario/store/{actividad}', [ProyectoActividadController::class, 'storeInventario'])->name('proyectos.actividades.inventario.store');
             Route::get('/Inventario/get/{actividad}', [ProyectoActividadController::class, 'getInventario'])->name('proyectos.actividades.inventario.get');
+
             Route::group(['prefix' => 'Reportes'], function () {
                 Route::get('/', [ProyectoActividadReporteController::class, 'index'])->name('proyectos.actividades.reportes.index');
                 Route::get('/get', [ProyectoActividadReporteController::class, 'get'])->name('proyectos.actividades.reportes.get');
@@ -175,6 +179,20 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/store/{actividad}', [ProyectoActividadReporteController::class, 'store'])->name('proyectos.actividades.reportes.store');
             });
 
+            Route::group(['prefix' => 'Solicitudes'], function () {
+                Route::get('/', [ProyectoActividadProductoSolicitudController::class, 'index'])->name('proyectos.actividades.solicitudes.index');
+                Route::get('/get', [ProyectoActividadProductoSolicitudController::class, 'get'])->name('proyectos.actividades.solicitudes.get');
+                Route::get('/update/{solicitud}/{estado}', [ProyectoActividadProductoSolicitudController::class, 'updateEstado'])->name('proyectos.actividades.solicitudes.update-estado');
+
+                Route::post('/store/{actividad}', [ProyectoActividadProductoSolicitudController::class, 'store'])->name('proyectos.actividades.solicitudes.store');
+            });
+
+            Route::group(['prefix' => 'Asistencias'], function () {
+                Route::get('/', [ProyectoActividadAsistenciaController::class, 'index'])->name('proyectos.actividades.asistencias.index');
+                Route::get('/get', [ProyectoActividadAsistenciaController::class, 'get'])->name('proyectos.actividades.asistencias.get');
+
+                Route::post('/store/{actividad}', [ProyectoActividadAsistenciaController::class, 'store'])->name('proyectos.actividades.asistencias.store');
+            });
         });
     });
 
