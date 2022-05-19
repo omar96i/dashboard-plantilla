@@ -1,5 +1,21 @@
 <template>
     <div v-if="load">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-lg-3">
+                    <b-alert show variant="success">Aprobado</b-alert>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <b-alert show variant="info">Aceptado</b-alert>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <b-alert show variant="primary">Pedido</b-alert>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <b-alert show variant="danger">Rechazado</b-alert>
+                </div>
+            </div>
+        </div>
         <solicitudes-table :solicitudes="solicitudes"></solicitudes-table>
     </div>
 </template>

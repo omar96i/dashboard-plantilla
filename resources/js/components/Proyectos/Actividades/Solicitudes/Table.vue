@@ -57,8 +57,11 @@
                 if(estado == 'pedido'){
                     return 'primary'
                 }
-                if(estado == 'aceptado'){
+                if(estado == 'aprobado'){
                     return 'success'
+                }
+                if(estado == 'aceptado'){
+                    return 'info'
                 }
                 if(estado == 'rechazado'){
                     return 'danger'

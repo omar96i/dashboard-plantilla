@@ -95,11 +95,11 @@ class ProyectoActividadController extends Controller
     }
 
     public function get(){
-        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal')->get()]);
+        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal', 'reagendamientos')->get()]);
     }
 
     public function getActividadesUsuario(){
-        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal')->where('empleado_id', Auth::id())->get()]);
+        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal', 'reagendamientos')->where('empleado_id', Auth::id())->get()]);
     }
 
     public function calendario(){

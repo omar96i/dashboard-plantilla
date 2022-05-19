@@ -29,10 +29,9 @@
                     <td>{{actividad.proyecto.nombre}}</td>
                     <td>{{actividad.empleado.informacion_personal.nombres}}</td>
                     <td>{{actividad.descripcion}}</td>
-                    <td>{{actividad.fecha_inicio}}</td>
-                    <td>{{actividad.fecha_final}}</td>
+                    <td>{{(actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_inicio : actividad.fecha_inicio}}</td>
+                    <td>{{(actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_final : actividad.fecha_final}}</td>
                     <td>{{actividad.estado}}</td>
-
                     <td class="text-center">
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,7 +41,7 @@
                                 <div class="dropdown-header">Acciones:</div>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/show/'+actividad.id"><i class="fa-solid fa-eye"></i> Ver</a>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/form/'+actividad.id"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
-                                <a class="dropdown-item" href="#" @click="openModal(actividad.id)"> <i class="fa-solid fa-file-circle-exclamation"></i> Realizar reporte</a>
+                                <a class="dropdown-item" href="#" @click="openModal(actividad.id)"> <i class="fa-regular fa-calendar-days"></i> Reagendar</a>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" @click="eliminarActividad(actividad.id)" href="#"><i class="fas fa-trash"></i> Eliminar</button>
                             </div>

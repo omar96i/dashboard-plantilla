@@ -1,5 +1,18 @@
 <template>
 <div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <b-alert show variant="success">Arreglado</b-alert>
+            </div>
+            <div class="col-12 col-lg-4">
+                <b-alert show variant="warning">Pendiente</b-alert>
+            </div>
+            <div class="col-12 col-lg-4">
+                <b-alert show variant="danger">Baja</b-alert>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive" v-if="load">
         <table class="table table-bordered" id="tableReportes" width="100%" cellspacing="0" >
             <thead>
@@ -37,8 +50,6 @@
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                 <div class="dropdown-header">Acciones:</div>
                                 <button class="dropdown-item" @click="accion(reporte.id)"> <i class="fa-solid fa-pen-to-square"></i> Accion</button>
-                                <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
                             </div>
                         </div>
                     </td>

@@ -15,7 +15,25 @@ class RoleSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-			'name' => 'admin',
+			'name' => 'sub.admin',
+			'guard_name' => 'web',
+			'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+		]);
+        DB::table('roles')->insert([
+			'name' => 'lider.electrico',
+			'guard_name' => 'web',
+			'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+		]);
+        DB::table('roles')->insert([
+			'name' => 'lider.ingenieria',
+			'guard_name' => 'web',
+			'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+		]);
+        DB::table('roles')->insert([
+			'name' => 'tecnico',
 			'guard_name' => 'web',
 			'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
 			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),

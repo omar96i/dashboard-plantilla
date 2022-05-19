@@ -15,6 +15,7 @@ use App\Http\Controllers\Productos\CategoriaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadAsistenciaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadController;
 use App\Http\Controllers\Proyectos\ProyectoActividadProductoSolicitudController;
+use App\Http\Controllers\Proyectos\ProyectoActividadReagendamientoController;
 use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
@@ -185,6 +186,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/update/{solicitud}/{estado}', [ProyectoActividadProductoSolicitudController::class, 'updateEstado'])->name('proyectos.actividades.solicitudes.update-estado');
 
                 Route::post('/store/{actividad}', [ProyectoActividadProductoSolicitudController::class, 'store'])->name('proyectos.actividades.solicitudes.store');
+            });
+
+            Route::group(['prefix' => 'Reagendamientos'], function () {
+                Route::get('/', [ProyectoActividadReagendamientoController::class, 'index'])->name('proyectos.actividades.reagendamientos.index');
+                Route::get('/get', [ProyectoActividadReagendamientoController::class, 'get'])->name('proyectos.actividades.reagendamientos.get');
+                Route::post('/store/{actividad}', [ProyectoActividadReagendamientoController::class, 'store'])->name('proyectos.actividades.reagendamientos.store');
             });
 
             Route::group(['prefix' => 'Asistencias'], function () {

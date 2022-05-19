@@ -40,6 +40,8 @@ Vue.component('proyectos-actividades-form', require('./components/Proyectos/Acti
 Vue.component('proyectos-reportes', require('./components/Proyectos/Reportes/Index.vue').default);
 Vue.component('proyectos-actividades-asistencia', require('./components/Proyectos/Actividades/Asistencias/Index.vue').default);
 Vue.component('proyectos-actividades-solicitud', require('./components/Proyectos/Actividades/Solicitudes/Index.vue').default);
+Vue.component('proyectos-actividades-reagendamientos', require('./components/Proyectos/Actividades/Reagendamientos/Index.vue').default);
+
 
 
 

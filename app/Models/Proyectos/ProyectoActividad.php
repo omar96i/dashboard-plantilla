@@ -60,4 +60,8 @@ class ProyectoActividad extends Model
     public function asistencias(){
         return $this->hasMany(ProyectoActividadAsistencia::class, 'actividad_id');
     }
+
+    public function reagendamientos(){
+        return $this->hasMany(ProyectoActividadReagendamiento::class, 'actividad_id');
+    }
 }

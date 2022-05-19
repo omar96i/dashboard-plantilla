@@ -138,7 +138,7 @@ export default {
             axios.get('/Proyectos/Actividades/getActividadesUsuario').then(res=>{
                 this.actividades = res.data.actividades
                 res.data.actividades.forEach(actividad => {
-                    this.calendarOptions.events.push({ title: 'Actividad', start: actividad.fecha_inicio, end: actividad.fecha_final , id: actividad.id, backgroundColor: this.getColor(actividad.estado), textColor: this.getColorText(actividad.estado), borderColor: this.getColorBorder(actividad.estado) })
+                    this.calendarOptions.events.push({ title: 'Actividad', start: (actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_inicio : actividad.fecha_inicio, end: (actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_final : actividad.fecha_final , id: actividad.id, backgroundColor: this.getColor(actividad.estado), textColor: this.getColorText(actividad.estado), borderColor: this.getColorBorder(actividad.estado) })
                 });
                 this.load = true
             })

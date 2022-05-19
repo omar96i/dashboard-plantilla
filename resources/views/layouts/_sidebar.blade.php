@@ -3,9 +3,8 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-image"></i>
+            <img src="img/icons/icon.png" width="100">
         </div>
-        <div class="sidebar-brand-text mx-3">NOMBRE</div>
     </a>
 
     <!-- Divider -->
@@ -61,6 +60,7 @@
                 <a class="collapse-item" href="{{ route('proyectos.planos.admin.index') }}">Planos</a>
                 <h6 class="collapse-header">Actividades</h6>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
+                <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes</a>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
 
                 <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
@@ -163,6 +163,7 @@
                     <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.asistencias.index') }}">Asistencias</a>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes de producto</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.reagendamientos.index') }}">Reagendamientos</a>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
                 </div>
             </div>

@@ -4,6 +4,20 @@
         <i class="fa-solid fa-plus"></i>
         <samp class="pl-2">Cotizacion</samp>
     </a>
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <b-alert show variant="success">Finalizado</b-alert>
+            </div>
+            <div class="col-12 col-lg-4">
+                <b-alert show variant="info">Activo</b-alert>
+            </div>
+            <div class="col-12 col-lg-4">
+                <b-alert show variant="warning">Progreso</b-alert>
+            </div>
+
+        </div>
+    </div>
     <div class="table-responsive" v-if="load">
         <table class="table table-bordered" id="tablaCotizaciones" width="100%" cellspacing="0" >
             <thead>
@@ -20,14 +34,14 @@
             </thead>
             <tfoot>
                 <tr>
-                    <th>Nombre a Facturar</th>
-                    <th>Cliente del proyecto</th>
-                    <th>Documento</th>
-                    <th>Direccion</th>
-                    <th>Fecha</th>
-                    <th>Email</th>
-                    <th>Estado</th>
-                    <th></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"></th>
                 </tr>
             </tfoot>
             <tbody>
@@ -38,7 +52,7 @@
                     <td>{{cotizacion.direccion}}</td>
                     <td>{{cotizacion.fecha}}</td>
                     <td>{{cotizacion.email}}</td>
-                    <td>{{cotizacion.estado}}</td>
+                    <td><b-alert :variant="getColor(cotizacion.estado)" show>{{cotizacion.estado}}</b-alert></td>
                     <td class="text-center">
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,9 +103,20 @@
                 }).finally(() => {
                     setTimeout(() => {
                         $(`#tablaCotizaciones`).DataTable({
-                            dom: 'Bfrtip',
-                            buttons: ['excel', 'copy'],
-                            process: true
+                            initComplete: function () {
+                                // Apply the search
+                                this.api().columns().every( function () {
+                                    var that = this;
+
+                                    $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                                        if ( that.search() !== this.value ) {
+                                            that
+                                                .search( this.value )
+                                                .draw();
+                                        }
+                                    } );
+                                } );
+                            }
                         })
                     }, 200)
                 })
@@ -121,7 +146,18 @@
                         })
                     }
                 });
-            }
+            },
+            getColor(estado){
+                if(estado == 'progreso'){
+                    return "warning"
+                }
+                if(estado == 'activo'){
+                    return "info"
+                }
+                if(estado == 'finalizado'){
+                    return "success"
+                }
+            },
         }
     }
 </script>

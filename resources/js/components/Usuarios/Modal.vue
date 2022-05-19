@@ -84,6 +84,11 @@
                                             <label class="col-form-label">Rol:</label>
                                             <select name="" v-model="usuario.role" v-bind:class="[{ 'is-invalid': usuarioValidacion.role}, 'form-control']" >
                                                 <option value="admin">admin</option>
+                                                <option value="lider.electrico">lider.electrico</option>
+                                                <option value="lider.ingenieria">lider.ingenieria</option>
+                                                <option value="sub.admin">sub.admin</option>
+                                                <option value="tecnico">tecnico</option>
+
                                             </select>
                                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                         </div>
