@@ -7,6 +7,7 @@ use App\Http\Controllers\Usuarios\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
+use App\Http\Controllers\Cotizaciones\CotizacionFileController;
 use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\FileUploadController;
@@ -125,8 +126,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/Abonos/get/{cotizacion}', [CotizacionController::class, 'getAbonos'])->name('cotizaciones.get.abonos');
         Route::post('/Abonos/store/{cotizacion}', [CotizacionController::class, 'storeAbonos'])->name('cotizaciones.store.abonos');
         Route::get('/Abonos/delete/{abono}', [CotizacionController::class, 'deleteAbono'])->name('cotizaciones.delete.abonos');
+
         Route::group(['prefix' => 'Templates'], function () {
             Route::get('/store/{cotizacion}', [CotizacionTemplateController::class, 'store'])->name('cotizaciones.store.template');
+        });
+
+        Route::group(['prefix' => 'Files'], function () {
+            Route::post('/store/{cotizacion}', [CotizacionFileController::class, 'store'])->name('cotizaciones.store.files');
+            Route::get('/get/{cotizacion}', [CotizacionFileController::class, 'get'])->name('cotizaciones.get.files');
+            Route::get('/delete/{file}', [CotizacionFileController::class, 'delete'])->name('cotizaciones.delete.files');
         });
     });
 

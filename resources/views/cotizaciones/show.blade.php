@@ -52,10 +52,13 @@
                         </li>
                     @endforeach
                     <li class="nav-item">
-                        <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos" role="tab" aria-controls="home" aria-selected="true">forma de pago</a>
+                        <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos" role="tab" aria-controls="home" aria-selected="true">Forma de pago</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="consolidado-tab" data-toggle="tab" href="#consolidado" role="tab" aria-controls="home" aria-selected="true">consolidado</a>
+                        <a class="nav-link" id="consolidado-tab" data-toggle="tab" href="#consolidado" role="tab" aria-controls="home" aria-selected="true">Consolidado</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="planos-tab" data-toggle="tab" href="#planos" role="tab" aria-controls="home" aria-selected="true">Planos</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -170,6 +173,22 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="planos" role="tabpanel" aria-labelledby="planos-tab">
+                        <div class="row row-cols-1 row-cols-md-2 g-4 mt-4" v-if="loading_files">
+                            @foreach ($cotizacion['files'] as $file)
+                            <div class="col">
+                                <div class="card">
+                                    <div style="z-index: 1; position: absolute;">
+                                        <a target="_blank" href="https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/{{$file->file}}" class="btn btn-info btn-circle">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+                                    <img src="https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/{{$file->file}}" alt="Image 1" style="height:300px;">
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ class CotizacionController extends Controller
     }
 
     public function show(Cotizacion $cotizacion){
-        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load('whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos', 'abonos')]);
+        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load('whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos', 'abonos', 'files')]);
     }
 
     public function store(Request $request){

@@ -50,5 +50,9 @@ class Cotizacion extends Model
         return $this->hasOne(Proyecto::class);
     }
 
+    public function files(){
+        return $this->hasMany(CotizacionFile::class, 'cotizacion_id');
+    }
+
     // Relaciones end
 }

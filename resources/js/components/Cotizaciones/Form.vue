@@ -59,7 +59,6 @@
     <b-tabs content-class="mt-3">
         <b-tab title="Areas" active>
             <div v-if="load_second_form">
-                <hr>
                 <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 text-primary">Area</h6>
                     <button href="#" class="btn btn-success btn-sm" @click="openModalSubCotizacion()">
@@ -171,7 +170,6 @@
         </b-tab>
         <b-tab title="Abonos">
             <div v-if="load_second_form">
-                <hr>
                 <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 text-primary">Abonos</h6>
                     <button href="#" class="btn btn-success btn-sm" @click="openModalAbonos()">
@@ -214,6 +212,38 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </b-tab>
+        <b-tab title="Planos">
+            <div class="col-12 mt-3">
+                <form action="post" enctype="multipart/form-data" @submit.prevent="storeImage">
+                    <div class="col-12 text-center my-2">
+                        <h5>Subir archivos</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-10 text-center">
+                            <input type="file" class="form-control" accept=" video/*, image/*"  id="foto" name="foto" v-on:change="onImageChange">
+                        </div>
+                        <div class="text-center col-2">
+                            <b-button block variant="success" type="submit" v-bind:disabled="loading_btn"><b-spinner small type="grow" v-if="loading_btn"></b-spinner> Agregar</b-button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 g-4 mt-4" v-if="loading_files">
+                <div class="col" v-for="(file, index) in files.files" :key="index">
+                    <div class="card">
+                        <div style="z-index: 1; position: absolute;">
+                            <button class="btn btn-danger btn-circle" @click="deleteFile(file.id)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <a target="_blank" :href="'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" class="btn btn-info btn-circle">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </div>
+                        <b-img-lazy :src="'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" alt="Image 1" style="height:300px;"></b-img-lazy>
+                    </div>
                 </div>
             </div>
         </b-tab>
@@ -315,7 +345,11 @@
                 showBottom: false,
                 showTop: false,
                 dolar: {},
-                show: true
+                show: true,
+                loading_btn: false,
+                image: '',
+                files: {},
+                loading_files: false
             }
         },
         created(){
@@ -324,6 +358,7 @@
                 this.getSubCotizacion()
                 this.getAbonos()
                 this.getDolar()
+                this.getFiles()
                 this.tipo = 'edit'
             }
             this.ruta = (this.tipo == "insert")? '/Cotizaciones/store' : `/Cotizaciones/update/${this.cotizacion.id}`
@@ -353,6 +388,79 @@
                     this.sub_cotizacion_valor.total = this.sub_cotizacion_valor.iva + this.sub_cotizacion_valor.sub_total
                 }
             },
+            onImageChange(e){
+                this.image = e.target.files[0]
+
+                let reader  = new FileReader()
+
+                reader.addEventListener("load", function () {
+                    this.imagePreview = reader.result
+                }.bind(this), false);
+
+                if( this.image ){
+                    if ( /\.(jpe?g|png|gif)$/i.test( this.image.name ) ) {
+                        reader.readAsDataURL( this.image )
+                    }
+                }
+            },
+            storeImage(){
+                if(this.image != ''){
+                    this.loading_btn = true
+                    let data = new FormData();
+                    data.append("file", this.image)
+                    data.append("cotizacion_id", this.cotizacion.id)
+
+                    axios.post(`/Cotizaciones/Files/store/${this.cotizacion.id}`, data).then(res=>{
+                        if(res.data.status){
+                            this.getFiles()
+                            this.alert('Archivo', 'Subido', 'success')
+
+                        }
+                        this.loading_btn = false
+                        this.image = ''
+                    }).catch(function (error) {
+                        console.log(error.response)
+                        this.loading = false
+                    });
+                }else{
+                    this.alert('Archivo', 'Sin seleccionar', 'error')
+                }
+            },
+
+            deleteFile(id){
+                this.$fire({
+                    title: 'Archivo',
+                    text: 'Estas seguro de eliminar el archivo seleccionado?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#FF0000',
+                }).then((result) => {
+                    if(result.value){
+                        axios.get(`/Cotizaciones/Files/delete/${id}`).then(res => {
+                            if(res.data.deleted){
+                                this.$fire({
+                                    title: 'Archivo',
+                                    text: 'Eliminado',
+                                    type: 'error',
+                                    timer: 3000
+                                })
+                                this.getFiles()
+                            }
+                        })
+                    }
+                });
+            },
+
+            getFiles(){
+                this.loading_files = false
+                axios.get(`/Cotizaciones/Files/get/${this.cotizacion.id}`).then(res=>{
+                    this.files = res.data.files
+                    this.loading_files = true
+                })
+            },
+
             getValorGeneral(){
                 this.cotizacion_valor_general= {
                     'sub_valor' : 0,
