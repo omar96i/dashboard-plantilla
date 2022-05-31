@@ -74,9 +74,16 @@
                             <div class="form-group row">
                                 <div class="col-12 col-sm-6">
                                     <label class="col-form-label">Valor:</label>
-                                    <input type="number" v-bind:class="[{ 'is-invalid': productoValidacion.valor}, 'form-control']" name="b-i" v-model="producto.valor" placeholder="Valor..." >
+                                    <input type="number" v-bind:class="[{ 'is-invalid': productoValidacion.valor}, 'form-control']" name="b-i" v-model="producto.valor" placeholder="Valor de producto a clientes..." >
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
+                                 <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Sub valor:</label>
+                                    <input type="number" v-bind:class="[{ 'is-invalid': productoValidacion.sub_valor}, 'form-control']" name="b-i" v-model="producto.sub_valor" placeholder="Valor de producto a empresa..." >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-12 col-sm-6">
                                     <label class="col-form-label">Tipo moneda:</label>
                                     <select name="" id="" v-bind:class="[{ 'is-invalid': productoValidacion.tipo}, 'form-control']" v-model="producto.tipo">
@@ -85,8 +92,6 @@
                                     </select>
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
                                 <div class="col-12 col-sm-6">
                                     <label class="col-form-label">Categoria  <a href="#" @click="cambiarValorLoadCategoria()"><i class="fa-solid fa-gear"></i></a></label>
                                     <div v-if="!load_categoria">
@@ -146,6 +151,7 @@
                     'cantidad' : '',
                     'tipo' : '',
                     'valor': '',
+                    'sub_valor': '',
                     'categoria_id' : ''
                 },
                 productoValidacion:{
@@ -159,6 +165,7 @@
                     'cantidad' : false,
                     'tipo' : false,
                     'valor': false,
+                    'sub_valor': false,
                     'categoria_id' : false
                 },
                 image:'',
@@ -186,6 +193,7 @@
                     'categoria_id' : this.product.categoria_id,
                     'tipo' : this.product.valores[0].tipo,
                     'valor' : this.product.valores[0].valor,
+                    'sub_valor' : this.product.valores[0].sub_valor
                 }
                 this.imagePreview = (this.product.foto == "default.png")? '/img/img_productos/default.png' : this.url+this.product.foto
             }
@@ -226,7 +234,8 @@
                     this.producto.color == '' ||
                     this.producto.cantidad == '' ||
                     this.producto.categoria_id == '' ||
-                    this.producto.valor == ''
+                    this.producto.valor == '' ||
+                    this.producto.sub_valor == ''
                 )
                 {
                     this.Validar()
@@ -244,6 +253,7 @@
                     data.append("temperatura_calor", this.producto.temperatura_calor)
                     data.append("cantidad", this.producto.cantidad)
                     data.append("valor", this.producto.valor)
+                    data.append("sub_valor", this.producto.sub_valor)
                     data.append("categoria_id", this.producto.categoria_id)
 
                     if(this.image != ''){
@@ -254,7 +264,9 @@
                         this.loading = false
                         this.alert("Producto", (this.tipo == "edit")? "Producto Editado": "Producto Creado", "success")
                         this.closeModal()
-                    })
+                    }).catch(function (error) {
+                        console.log(error.response)
+                    });
 
                 }
             },
@@ -321,6 +333,11 @@
                     this.productoValidacion.valor = true
                 }else{
                     this.productoValidacion.valor = false
+                }
+                if(this.producto.sub_valor == ''){
+                    this.productoValidacion.sub_valor = true
+                }else{
+                    this.productoValidacion.sub_valor = false
                 }
                 if(this.producto.categoria_id == ''){
                     this.productoValidacion.categoria_id = true

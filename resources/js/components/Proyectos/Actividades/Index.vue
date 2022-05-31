@@ -41,7 +41,7 @@
                                 <div class="dropdown-header">Acciones:</div>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/show/'+actividad.id"><i class="fa-solid fa-eye"></i> Ver</a>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/form/'+actividad.id"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
-                                <a class="dropdown-item" href="#" @click="openModal(actividad.id)"> <i class="fa-regular fa-calendar-days"></i> Reagendar</a>
+                                <a class="dropdown-item" href="#" @click="openModal(actividad.id)"> <i class="fa-regular fa-calendar-days"></i> Acciones</a>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" @click="eliminarActividad(actividad.id)" href="#"><i class="fas fa-trash"></i> Eliminar</button>
                             </div>

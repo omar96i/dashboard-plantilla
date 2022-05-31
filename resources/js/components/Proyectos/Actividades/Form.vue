@@ -190,7 +190,7 @@
                                     <td>{{producto.productos.productos.descripcion}}</td>
                                     <td>{{producto.productos.productos.referencia}}</td>
                                     <td>{{producto.productos.productos.marca}}</td>
-                                    <td>{{(producto.productos.productos.categoria_id == null)? 'Sin definiar' : producto.productos.productos.categoria.nombre}}</td>
+                                    <td>{{(producto.productos.productos.categoria_id == null)? 'Sin definir' : producto.productos.productos.categoria.nombre}}</td>
                                     <td>{{producto.productos.productos.color}}</td>
                                     <td>{{producto.productos.productos.temperatura_calor}}</td>
                                     <td>{{producto.productos.productos.voltaje}}</td>
@@ -282,7 +282,7 @@
             getInventario(){
                 axios.get(`/Proyectos/Inventario/get/${this.actividad.proyecto_id}`).then(res=>{
                     res.data.inventario.forEach(producto => {
-                        this.productos.push({ value : producto.id, text : producto.productos.nombre+' - Disponibilidad: '+producto.cantidad})
+                        this.productos.push({ value : producto.id, text : producto.productos.nombre+' - Disponibilidad: '+(producto.cantidad-producto.cantidad_usada)})
                     });
                 })
             },
@@ -324,7 +324,6 @@
             getInventarioActividad(){
                 this.load_table_inventario = false
                 axios.get(`/Proyectos/Actividades/Inventario/get/${this.actividad.id}`).then(res=>{
-                    console.log(res.data)
                     this.inventario_actividad = res.data.inventario
                     this.load_table_inventario = true
                 }).finally(() => {

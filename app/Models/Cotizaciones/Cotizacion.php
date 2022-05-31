@@ -5,6 +5,7 @@ namespace App\Models\Cotizaciones;
 use App\Models\EmpresaDato;
 use App\Models\Users\User;
 use App\Models\Cotizaciones\SubCotizacion;
+use App\Models\Dolar\DolarValor;
 use App\Models\Proyectos\Proyecto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class Cotizacion extends Model
     protected $fillable = [
         'user_id',
         'empresa_datos_id',
+        'dolar_id',
         'nombre_facturar',
         'cliente_proyecto',
         'documento',
@@ -48,6 +50,10 @@ class Cotizacion extends Model
 
     public function proyecto(){
         return $this->hasOne(Proyecto::class);
+    }
+
+    public function dolar(){
+        return $this->belongsTo(DolarValor::class, 'dolar_id');
     }
 
     public function files(){

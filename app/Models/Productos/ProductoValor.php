@@ -17,6 +17,7 @@ class ProductoValor extends Model
     protected $fillable = [
         'producto_id',
         'valor',
+        'sub_valor',
         'tipo'
     ];
 

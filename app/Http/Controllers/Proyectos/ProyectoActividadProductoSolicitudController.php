@@ -26,7 +26,7 @@ class ProyectoActividadProductoSolicitudController extends Controller
     }
 
     public function updateEstado(ProyectoActividadProductoSolicitud $solicitud, $estado){
-        if(Auth::user()->role_user[0] == 'admin'){
+        if(Auth::user()->role_user[0] == 'admin' || Auth::user()->role_user[0] == 'administracion.venta'){
             $estado = ($estado == 'aceptado')? 'aprobado' : 'rechazado';
         }
         $solicitud->estado = $estado;

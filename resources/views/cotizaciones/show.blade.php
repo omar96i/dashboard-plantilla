@@ -20,7 +20,7 @@
                     <h4>Datos Financieros</h4>
                 </div>
                 <div class="row p-4">
-                    <div class="col-4">
+                    <div class="col-4" style="border-left: 0.01cm solid;">
                         <h4>Nombre a facturar</h4>
                         <p class="text-muted mt-1">{{$cotizacion->nombre_facturar}}</p>
                     </div>
@@ -32,7 +32,7 @@
                         <h4>Nit ó Cédula</h4>
                         <p class="text-muted mt-1">{{$cotizacion->documento}}</p>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4" style="border-left: 0.01cm solid;">
                         <h4>Direccion</h4>
                         <p class="text-muted mt-1">{{$cotizacion->direccion}}</p>
                     </div>
@@ -43,6 +43,10 @@
                     <div class="col-4" style="border-left: 0.01cm solid;">
                         <h4>Email</h4>
                         <p class="text-muted mt-1">{{$cotizacion->email}}</p>
+                    </div>
+                    <div class="col-4" style="border-left: 0.01cm solid;">
+                        <h4>Dolar</h4>
+                        <p class="text-muted mt-1">{{$cotizacion->dolar->valor}}</p>
                     </div>
                 </div>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -74,24 +78,15 @@
                                             <th>Referencia</th>
                                             <th>Marca</th>
                                             <th>Ubicacion</th>
-                                            <th>Cant</th>
+                                            <th>Cant. Asignada</th>
+                                            <th>Cant. Usada</th>
+                                            <th>Cant. Disponible</th>
+                                            <th>Valor unidad</th>
+                                            <th>Valor Total</th>
                                             <th>Valor unidad</th>
                                             <th>Valor Total</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Foto</th>
-                                            <td>Nombre</td>
-                                            <th>Descripcion</th>
-                                            <th>Referencia</th>
-                                            <th>Marca</th>
-                                            <th>Ubicacion</th>
-                                            <th>Cant</th>
-                                            <th>Valor unidad</th>
-                                            <th>Valor Total</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         @foreach ($sub_cotizacion->productos as $producto)
                                             <tr>
@@ -101,9 +96,33 @@
                                                 <td>{{$producto->productos->referencia}}</td>
                                                 <td>{{$producto->productos->marca}}</td>
                                                 <td>{{$producto->ubicacion}}</td>
-                                                <td>{{$producto->cantidad}}</td>
-                                                <td>por definir...</td>
-                                                <td>por definir...</td>
+                                                <td>
+                                                    @if ($producto->cantidad > $producto->productos->cantidad)
+                                                        <div class="alert alert-danger" role="alert">
+                                                            {{$producto->cantidad}}
+                                                        </div>
+                                                    @else
+                                                        <div class="alert alert-success" role="alert">
+                                                            {{$producto->cantidad}}
+                                                        </div>
+                                                    @endif
+                                                </td>
+                                                <td>{{$producto->cantidad_usada}}</td>
+                                                <td>
+                                                    @if ($producto->cantidad > $producto->productos->cantidad)
+                                                        <div class="alert alert-danger" role="alert">
+                                                            {{$producto->productos->cantidad}}
+                                                        </div>
+                                                    @else
+                                                        <div class="alert alert-success" role="alert">
+                                                            {{$producto->productos->cantidad}}
+                                                        </div>
+                                                    @endif
+                                                </td>
+                                                <td><small>USD</small> {{($producto->productos->valores[0]->tipo == 'dolar')? $producto->productos->valores[0]->valor: '-'}}</td>
+                                                <td><small>USD</small> {{($producto->productos->valores[0]->tipo == 'dolar')? $producto->productos->valores[0]->valor * $producto->cantidad: '-'}}</td>
+                                                <td>{{($producto->productos->valores[0]->tipo == 'dolar')? $producto->productos->valores[0]->valor * $cotizacion->dolar->valor : $producto->productos->valores[0]->valor}}</td>
+                                                <td>{{($producto->productos->valores[0]->tipo == 'dolar')? ($producto->productos->valores[0]->valor * $producto->cantidad) * $cotizacion->dolar->valor : $producto->productos->valores[0]->valor*$producto->cantidad}}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -112,13 +131,13 @@
                         </div>
                     @endforeach
                     <div class="tab-pane fade" id="consolidado" role="tabpanel" aria-labelledby="consolidado-tab">
+
                         <div class="table-responsive p-4">
                             <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>Area</th>
                                         <th>Descripcion</th>
-                                        <th>Observaciones</th>
                                         <th>Valor unitario</th>
                                     </tr>
                                 </thead>
@@ -126,21 +145,38 @@
                                     <tr>
                                         <th>Area</th>
                                         <th>Descripcion</th>
-                                        <th>Observaciones</th>
                                         <th>Valor unitario</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
+                                    @php
+                                        $total = 0;
+                                    @endphp
                                     @foreach ($cotizacion['subCotizaciones'] as $sub_cotizacion)
                                         <tr>
                                             <td>{{$sub_cotizacion->area}}</td>
                                             <td>{{$sub_cotizacion->descripcion}}</td>
-                                            <td>Por definir</td>
-                                            <td>por definir...</td>
+                                            <td>
+                                                @php
+                                                    $sub_cotizacion_total = 0;
+                                                    foreach ($sub_cotizacion->productos as $key => $producto) {
+                                                        if($producto->productos->valores[0]->tipo == 'dolar'){
+                                                            $sub_cotizacion_total = $sub_cotizacion_total + (($producto->productos->valores[0]->valor * $producto->cantidad) * $cotizacion->dolar->valor);
+                                                        }else{
+                                                            $sub_cotizacion_total = $sub_cotizacion_total + $producto->productos->valores[0]->valor * $producto->cantidad;
+                                                        }
+                                                    }
+                                                    $total = $total + $sub_cotizacion_total;
+                                                @endphp
+                                                {{$sub_cotizacion_total}}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            Total: {{$total}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="abonos" role="tabpanel" aria-labelledby="abonos-tab">

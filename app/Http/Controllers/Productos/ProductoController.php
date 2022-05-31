@@ -30,6 +30,7 @@ class ProductoController extends Controller
         $valor = new ProductoValor([
             'producto_id' => $product->id,
             'valor' => $request->valor,
+            'sub_valor' => $request->sub_valor,
             'tipo' => $request->tipo
         ]);
 
@@ -45,19 +46,20 @@ class ProductoController extends Controller
         if(isset($request->foto)){
             $result = $request->foto->storeOnCloudinary('img_productos');
             $imageName = $result->getPublicId();
+            $producto->foto = $imageName;
         }
 
-        $producto->foto = $imageName;
         $producto->save();
 
         $valor = ProductoValor::where('producto_id', '=', $producto->id)->get();
 
-        if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo){
+        if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo || $valor[0]->sub_valor != $request->sub_valor){
             ProductoValor::where('producto_id', '=', $producto->id)->delete();
 
             $valor = new ProductoValor([
                 'producto_id' => $producto->id,
                 'valor' => $request->valor,
+                'sub_valor' => $request->sub_valor,
                 'tipo' => $request->tipo
             ]);
 

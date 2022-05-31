@@ -14,7 +14,7 @@ class AddColumnSubValorToProductoValores extends Migration
     public function up()
     {
         Schema::table('producto_valores', function (Blueprint $table) {
-            //
+            $table->integer('sub_valor')->after('valor')->default('0');
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnSubValorToProductoValores extends Migration
     public function down()
     {
         Schema::table('producto_valores', function (Blueprint $table) {
-            //
+            $table->dropColumn('sub_valor');
         });
     }
 }

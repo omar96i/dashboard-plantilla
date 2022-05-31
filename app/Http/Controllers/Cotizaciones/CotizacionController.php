@@ -8,6 +8,7 @@ use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Cotizaciones\CotizacionAbono;
 use App\Models\Cotizaciones\SubCotizacion;
 use App\Models\Cotizaciones\SubCotizacionProducto;
+use App\Models\Dolar\DolarValor;
 use App\Models\EmpresaDato;
 use App\Models\Productos\Producto;
 use Carbon\Carbon;
@@ -25,11 +26,15 @@ class CotizacionController extends Controller
     }
 
     public function show(Cotizacion $cotizacion){
-        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load('whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos', 'abonos', 'files')]);
+        return view('cotizaciones.show', ['cotizacion' => $cotizacion->load(['whoCreated.informacionPersonal', 'datosEmpresa', 'subCotizaciones.productos.productos.valores', 'abonos', 'files',
+        'dolar'=> function ($query) {
+            $query->withTrashed()->get();  // perhaps without the get.
+        },])]);
     }
 
     public function store(Request $request){
         $empresa_datos = EmpresaDato::count();
+        $dolar = DolarValor::get()->first();
         if($empresa_datos > 0){
             $empresa_datos = EmpresaDato::get()->first();
         }else{
@@ -38,6 +43,7 @@ class CotizacionController extends Controller
         $cotizacion = new Cotizacion($request->all());
         $cotizacion->user_id = Auth::id();
         $cotizacion->empresa_datos_id = $empresa_datos->id;
+        $cotizacion->dolar_id = $dolar->id;
         $cotizacion->fecha = Carbon::now();
         $cotizacion->estado = "activo";
         $cotizacion->save();
@@ -120,6 +126,10 @@ class CotizacionController extends Controller
 
     public function edit(Cotizacion $cotizacion){
         return view('cotizaciones.form', compact('cotizacion'));
+    }
+
+    public function getDolar($id){
+        return response()->json(['dolar' => DolarValor::withTrashed()->where('id', $id)->get()->first()]);
     }
 
     public function deleteProducto(SubCotizacionProducto $producto){

@@ -48,12 +48,20 @@ class Producto extends Model
         return $this->hasMany(ProyectoActividadProductoSolicitud::class, 'producto_id');
     }
 
+    public function reabastecimientos(){
+        return $this->hasMany(ProductoReabastecimiento::class, 'producto_id');
+    }
+
     public static function findByIdSubCotizacion($id)
 	{
 		return self::whereHas('subCotizaciones', function ($query) use ($id) {
 			$query->where(['sub_cotizacion_id' => $id, 'estado' => 'activo']);
 		})->with('valores', 'subCotizaciones')->get();
 	}
+
+    public static function validar($id, $cantidad){
+        return self::where('id', '=', $id)->where('cantidad', '<', $cantidad)->count();
+    }
 
     // Relaciones end
 

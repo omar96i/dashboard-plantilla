@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proyectos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\SubCotizacionProducto;
+use App\Models\Productos\Producto;
 use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadFile;
 use App\Models\Proyectos\ProyectoActividadProducto;
@@ -77,7 +78,17 @@ class ProyectoActividadController extends Controller
         if(SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
             return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
         }
+        if(SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
+            return response()->json(['status' => false, 'msg' => 'Actualmente no hay cantidad suficiente para satisfacer la cantidad requerida']);
+        }
+        $sub_cotizacion_producto = SubCotizacionProducto::find($producto->sub_cotizacion_producto_id);
+        if(($sub_cotizacion_producto->cantidad - $sub_cotizacion_producto->cantidad_usada) < $producto->cantidad){
+            return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+        }
         $producto->save();
+        $sub_cotizacion_producto->cantidad_usada = $sub_cotizacion_producto->cantidad_usada + $producto->cantidad;
+        $sub_cotizacion_producto->update();
+        $sub_cotizacion_producto->save();
         return response()->json(['status' => true, 'msg' => 'Producto agregado.']);
     }
 
@@ -107,7 +118,7 @@ class ProyectoActividadController extends Controller
     }
 
     public function getActividad(ProyectoActividad $actividad){
-        return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'pruebas', 'reportes.producto.productos.productos', 'solicitudes.producto', 'asistencias')]);
+        return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'pruebas', 'reportes.producto.productos.productos', 'solicitudes.producto', 'asistencias', 'reagendamientos')]);
     }
 
     public function finalizarActividad(ProyectoActividad $actividad, Request $request){

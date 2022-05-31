@@ -17,11 +17,11 @@
                         <div class="row p-4">
                             <div class="col-12 col-lg-6" style="border-left: 0.01cm solid;">
                                 <h5 class="font-size-tittle color-gray">Fecha Inicial</h5>
-                                <p class="text-muted mt-1">{{actividad.fecha_inicio}}</p>
+                                <p class="text-muted mt-1">{{(actividad.reagendamientos.length > 0)? actividad.reagendamientos[0].fecha_inicio:actividad.fecha_inicio}}</p>
                             </div>
                             <div class="col-12 col-lg-6" style="border-left: 0.01cm solid;">
                                 <h5 class="font-size-tittle color-gray">Fecha Final</h5>
-                                <p class="text-muted mt-1">{{actividad.fecha_final}}</p>
+                                <p class="text-muted mt-1">{{(actividad.reagendamientos.length > 0)? actividad.reagendamientos[0].fecha_final:actividad.fecha_final}}</p>
                             </div>
                             <div class="col-12 col-lg-6" style="border-left: 0.01cm solid;">
                                 <h5 class="font-size-tittle color-gray">Proyecto</h5>

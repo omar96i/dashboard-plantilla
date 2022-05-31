@@ -3,7 +3,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <img src="img/icons/icon.png" width="100">
+            <img src="{{asset('img/icons/icon.png')}}" width="100">
         </div>
     </a>
 
@@ -190,6 +190,32 @@
                     <h6 class="collapse-header">Administrar</h6>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.tecnico.index') }}">Actividades</a>
                     <a class="collapse-item" href="{{ route('proyectos.actividades.calendario') }}">Calendario</a>
+                </div>
+            </div>
+        </li>
+    @endrole
+
+    @role('administracion.ventas|admin')
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Administracion de ventas
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-a-v-one"
+                aria-expanded="true" aria-controls="collapse-a-v-one">
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <div id="collapse-a-v-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Administrar</h6>
+                    <a class="collapse-item" href="{{ route('productos.index') }}">Productos</a>
+                    <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes de productos</a>
+                    <a class="collapse-item" href="{{ route('productos.reabastecimientos.index') }}">Reabastecimientos</a>
                 </div>
             </div>
         </li>

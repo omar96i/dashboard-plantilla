@@ -18,6 +18,7 @@ class SubCotizacionProducto extends Model
         'producto_id',
         'sub_cotizacion_id',
         'cantidad',
+        'cantidad_usada',
         'estado'
     ];
 
@@ -45,5 +46,11 @@ class SubCotizacionProducto extends Model
 
     public static function validar($id, $cantidad){
         return self::where('id', '=', $id)->where('cantidad', '<', $cantidad)->count();
+    }
+
+    public static function validarCantidad($id, $cantidad){
+        return self::whereHas('productos', function ($query) use($cantidad) {
+            $query->where('cantidad', '<', $cantidad);
+       })->where('id', $id)->count();
     }
 }

@@ -365,8 +365,8 @@
         },
         methods:{
             getDolar(){
-                axios.get('/TRM/get').then(res=>{
-                    this.dolar = res.data.trm
+                axios.get(`/Cotizaciones/Dolar/get/${this.cotizacion.dolar_id}`).then(res=>{
+                    this.dolar = res.data.dolar
                     this.getValorGeneral()
                 })
             },

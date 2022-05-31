@@ -13,6 +13,7 @@ use App\Http\Controllers\DolarValorController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\Productos\CategoriaController;
+use App\Http\Controllers\Productos\ProductoReabastecimientoController;
 use App\Http\Controllers\Proyectos\ProyectoActividadAsistenciaController;
 use App\Http\Controllers\Proyectos\ProyectoActividadController;
 use App\Http\Controllers\Proyectos\ProyectoActividadProductoSolicitudController;
@@ -90,6 +91,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/get/{categoria}', [CategoriaController::class, 'getCategoria'])->name('productos.categorias.get-categoria');
             Route::get('/delete/{categoria}', [CategoriaController::class, 'delete'])->name('productos.categorias.delete');
         });
+        Route::group(['prefix' => 'Reabastecimientos'], function () {
+            Route::get('/', [ProductoReabastecimientoController::class, 'index'])->name('productos.reabastecimientos.index');
+            Route::get('/get', [ProductoReabastecimientoController::class, 'get'])->name('productos.reabastecimientos.get');
+            Route::post('/store', [ProductoReabastecimientoController::class, 'store'])->name('productos.reabastecimientos.store');
+            Route::get('/delete/{producto}', [ProductoReabastecimientoController::class, 'delete'])->name('productos.reabastecimientos.delete');
+        });
     });
 
 
@@ -107,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getValorGeneral/{cotizacion}', [CotizacionController::class, 'getValorGeneral'])->name('cotizaciones.get-valor-general');
         Route::get('/show/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
         Route::get('/get', [CotizacionController::class, 'get'])->name('cotizaciones.get');
+        Route::get('/Dolar/get/{dolar}', [CotizacionController::class, 'getDolar'])->name('cotizaciones.dolar.get');
         Route::get('/getAll', [CotizacionController::class, 'getAll'])->name('cotizaciones.get-all');
         Route::get('/getEnabled', [CotizacionController::class, 'getEnabled'])->name('cotizaciones.get-enabled');
         Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');

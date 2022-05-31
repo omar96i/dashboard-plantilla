@@ -3,8 +3,12 @@
         <div class="col-12">
             <div class="row">
                 <button class="btn btn-success btn-sm mb-3" @click="agregarProducto">
-                    <i class="fas fa-user-plus"></i>
+                    <i class="fa-solid fa-box"></i>
                     <samp class="pl-2">Crear Productos</samp>
+                </button>
+                <button class="btn btn-success btn-sm mb-3 ml-3" @click="reabastecerProductos">
+                    <i class="fa-solid fa-box"></i>
+                    <samp class="pl-2">Reabastecer productos</samp>
                 </button>
             </div>
         </div>
@@ -25,12 +29,14 @@
                         <th class="color-gray">Catidad</th>
                         <th class="color-gray">Tipo moneda</th>
                         <th class="color-gray">Valor</th>
+                        <th class="color-gray">Sub valor</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th><input type="text" class="form-control" disabled></th>
+                        <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
@@ -56,9 +62,10 @@
                         <td>{{producto.color}}</td>
                         <td>{{(producto.temperatura_calor == null)? "" : producto.temperatura_calor}}</td>
                         <td>{{(producto.voltaje == null)? "" : producto.voltaje}}</td>
-                        <td>{{producto.cantidad}}</td>
+                        <td><b-alert :variant="getColor(producto.cantidad)" show>{{producto.cantidad}}</b-alert></td>
                         <td>{{(producto.valores[0].tipo == 'peso_colombiano')? "Peso colombiano" : "Dolar"}}</td>
                         <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor)}}</td>
+                        <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].sub_valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].sub_valor)}}</td>
                         <td class="text-center">
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,16 +86,21 @@
         <div v-if="load_modal">
             <product-modal :product="producto" :tipo="tipo"></product-modal>
         </div>
+        <div v-if="second_load_modal">
+            <modal-reabastecer :productos_props="productos"></modal-reabastecer>
+        </div>
     </div>
 </template>
 
 <script>
     import ProductModal from './Modal.vue'
+    import ModalReabastecer from './ModalReabastecer'
     import url from '../../mixins/cloudinary'
 
     export default {
         components: {
-			ProductModal
+			ProductModal,
+            ModalReabastecer
 		},
         mixins: [url],
         data(){
@@ -97,13 +109,23 @@
                 load: false,
                 load_modal: false,
                 producto:null,
-                dolar: {}
+                dolar: {},
+                second_load_modal: false
             }
         },
         created(){
             this.getDolar()
         },
         methods:{
+            getColor(cantidad){
+                if(cantidad < 30 && cantidad > 10){
+                    return 'warning'
+                }else if(cantidad <= 10){
+                    return 'danger'
+                }else{
+                    return 'success'
+                }
+            },
             agregarProducto(){
                 this.load_modal = false
                 setTimeout(() => {
@@ -179,6 +201,9 @@
                     }
                 });
             },
+            reabastecerProductos(){
+                this.openModalSecond()
+            },
             openModal() {
 				this.load_modal = true
 				setTimeout(() => {
@@ -189,6 +214,19 @@
 				$('#modalProductos').modal('hide')
 				setTimeout(() => {
 					this.load_modal = false
+				}, 200)
+			},
+
+            openModalSecond() {
+				this.second_load_modal = true
+				setTimeout(() => {
+					$('#modalReabastecimiento').modal('show')
+				}, 200)
+			},
+			closeModalSecond() {
+				$('#modalReabastecimiento').modal('hide')
+				setTimeout(() => {
+					this.second_load_modal = false
 				}, 200)
 			},
         }

@@ -15,7 +15,7 @@
                 <a href="#" v-for="(actividad, index) in actividades" :key="index" @click="setDatos(actividad.id)">
                     <b-alert show :variant="getColorAlert(actividad.estado)">
                     <p >{{actividad.descripcion}}</p>
-                    <p class="small">{{actividad.fecha_inicio+" - "+actividad.fecha_final}}</p>
+                    <p class="small">{{(actividad.reagendamientos.length > 0)?actividad.reagendamientos[0].fecha_inicio+' - '+actividad.reagendamientos[0].fecha_final  : actividad.fecha_inicio+" - "+actividad.fecha_final}}</p>
                     </b-alert>
                 </a>
 
