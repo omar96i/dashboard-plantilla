@@ -242,6 +242,18 @@
                 </div>
             </div>
         </b-tab>
+        <b-tab title="Dolar">
+            <div class="col-12 mt-3">
+                <form action="post" enctype="multipart/form-data" @submit.prevent="storeImage">
+                    <div class="col-12 text-center my-2">
+                        <h5>Cambiar dolar</h5>
+                    </div>
+                    En desarrollo
+
+                </form>
+            </div>
+
+        </b-tab>
     </b-tabs>
 
     <div v-if="load_first_modal">

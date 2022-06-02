@@ -87,6 +87,8 @@
                                                 <option value="lider.electrico">lider.electrico</option>
                                                 <option value="lider.ingenieria">lider.ingenieria</option>
                                                 <option value="sub.admin">sub.admin</option>
+                                                <option value="comercial">comercial</option>
+                                                <option value="sadministracion.compras">administracion.compras</option>
                                                 <option value="tecnico">tecnico</option>
 
                                             </select>
