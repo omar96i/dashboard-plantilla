@@ -15,7 +15,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Solicitudes de productos</h6>
                 </div>
                 <div class="card-body" id="app">
-                    <proyectos-actividades-solicitud></proyectos-actividades-solicitud>
+                    <proyectos-actividades-solicitud role="{{Auth::user()->role_user[0]}}"></proyectos-actividades-solicitud>
                 </div>
             </div>
         </div>

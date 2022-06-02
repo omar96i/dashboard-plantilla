@@ -2,7 +2,7 @@
     <div>
         <div class="col-12">
             <div class="row">
-                <button class="btn btn-success btn-sm mb-3" @click="agregarProducto">
+                <button class="btn btn-success btn-sm mb-3" @click="agregarProducto" v-if="role == 'admin' || role == 'sub.admin'">
                     <i class="fa-solid fa-box"></i>
                     <samp class="pl-2">Crear Productos</samp>
                 </button>
@@ -98,6 +98,7 @@
     import url from '../../mixins/cloudinary'
 
     export default {
+        props:['role'],
         components: {
 			ProductModal,
             ModalReabastecer

@@ -29,7 +29,7 @@
                     <td>{{solicitud.descripcion}}</td>
                     <td><b-alert show :variant="getColor(solicitud.estado)">{{solicitud.estado}}</b-alert></td>
                     <td class="text-center">
-                        <div class="dropdown no-arrow">
+                        <div class="dropdown no-arrow" v-if="validar(solicitud.estado)">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
                             </a>
@@ -66,6 +66,15 @@
                 if(estado == 'rechazado'){
                     return 'danger'
                 }
+            },
+            validar(estado){
+                if(estado == 'rechazado'){
+                    return false
+                }
+                if(estado == 'completada'){
+                    return false
+                }
+                return true
             },
             loadTable(){
                 setTimeout(() => {

@@ -26,8 +26,19 @@ class ProyectoActividadProductoSolicitudController extends Controller
     }
 
     public function updateEstado(ProyectoActividadProductoSolicitud $solicitud, $estado){
-        if(Auth::user()->role_user[0] == 'admin' || Auth::user()->role_user[0] == 'administracion.venta'){
+        if(Auth::user()->role_user[0] == 'admin' || Auth::user()->role_user[0] == 'comercial'){
             $estado = ($estado == 'aceptado')? 'aprobado' : 'rechazado';
+        }
+        if(Auth::user()->role_user[0] == 'lider.ingenieria'){
+            $estado = ($estado == 'aceptado')? 'aceptado' : 'rechazado';
+        }
+        if(Auth::user()->role_user[0] == 'administracion.compras'){
+            if($solicitud->estado == 'aprobado'){
+                $estado = ($estado == 'aceptado')? 'pedido' : 'rechazado';
+            }
+            if($solicitud->estado == 'pedido'){
+                $estado = ($estado == 'aceptado')? 'completada' : 'rechazado';
+            }
         }
         $solicitud->estado = $estado;
         $solicitud->update();

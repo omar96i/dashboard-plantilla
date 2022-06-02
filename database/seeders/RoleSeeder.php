@@ -39,7 +39,13 @@ class RoleSeeder extends Seeder
 			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
 		]);
         DB::table('roles')->insert([
-			'name' => 'administracion.venta',
+			'name' => 'comercial',
+			'guard_name' => 'web',
+			'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+		]);
+        DB::table('roles')->insert([
+			'name' => 'administracion.compras',
 			'guard_name' => 'web',
 			'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
 			'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),

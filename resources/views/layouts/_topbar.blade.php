@@ -73,9 +73,12 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-white-600 small">Omar Hincapie</span>
+                @php
+                    $informacion = auth()->user()->load('informacionPersonal');
+                @endphp
+                <span class="mr-2 d-none d-lg-inline text-white-600 small">{{$informacion->informacionPersonal->nombres.' '.$informacion->informacionPersonal->apellidos}}</span>
                 <img class="img-profile rounded-circle"
-                    src="img/undraw_profile.svg">
+                    src="{{($informacion->informacionPersonal->foto == 'default.jpg')? asset('img/img_usuarios/default.jpg'): 'https://res.cloudinary.com/dcj3tck83/image/upload/v1649869726/'.$informacion->informacionPersonal->foto}}">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

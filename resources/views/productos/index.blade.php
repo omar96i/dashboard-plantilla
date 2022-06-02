@@ -17,7 +17,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Productos</h6>
                 </div>
                 <div class="card-body" id="app">
-                    <productos-index></productos-index>
+                    <productos-index role="{{Auth::user()->role_user[0]}}"></productos-index>
                 </div>
             </div>
         </div>

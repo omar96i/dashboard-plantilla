@@ -79,6 +79,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Administrar</h6>
                 <a class="collapse-item" href="{{ route('productos.index') }}">Productos</a>
+                <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes de productos</a>
+                <a class="collapse-item" href="{{ route('productos.reabastecimientos.index') }}">Reabastecimientos</a>
                 <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
             </div>
         </div>
@@ -110,6 +112,48 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Administrar</h6>
                 <a class="collapse-item" href="{{ route('configuraciones.index') }}">Iva/Datos basicos</a>
+            </div>
+        </div>
+    </li>
+    @endrole
+    <hr class="sidebar-divider">
+    @role('comercial|admin')
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Comercial
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item @if(Route::is('cotizaciones.index') || Route::is('cotizaciones.form')) active @endif">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-c-one"
+            aria-expanded="true" aria-controls="collapse-c-one">
+            <i class="fa-solid fa-file-lines"></i>
+            <span>Cotizaciones</span>
+        </a>
+        <div id="collapse-c-one" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Administrar</h6>
+                <a class="collapse-item" href="{{ route('cotizaciones.index') }}">Cotizaciones</a>
+                <a class="collapse-item" href="{{ route('cotizaciones.form') }}">Crear</a>
+                <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item @if(Route::is('productos.index')) active @endif">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse-c-two"
+            aria-expanded="true" aria-controls="collapse-c-two">
+            <i class="fa-solid fa-box"></i>
+            <span>Productos</span>
+        </a>
+        <div id="collapse-c-two" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Administrar</h6>
+                <a class="collapse-item" href="{{ route('productos.index') }}">Productos</a>
+                <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes de productos</a>
+                <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
             </div>
         </div>
     </li>
@@ -195,13 +239,13 @@
         </li>
     @endrole
 
-    @role('administracion.ventas|admin')
+    @role('administracion.compras|admin')
         <!-- Divider -->
         <hr class="sidebar-divider">
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Administracion de ventas
+            Administracion de compras
         </div>
 
         <li class="nav-item">

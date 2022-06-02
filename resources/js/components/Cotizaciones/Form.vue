@@ -84,11 +84,6 @@
                             <input type="text" id="e-i" class="form-control" name="e-i" placeholder="Descripcion..." v-model="sub_cotizacion.descripcion">
                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                         </div>
-                        <div class="col-12 col-sm-12">
-                            <label class="col-form-label">Observacion:</label>
-                            <textarea class="form-control" placeholder="Observacion..." v-model="sub_cotizacion.observacion"></textarea>
-                            <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                        </div>
                         <div class="col-12 text-center mt-4" v-if="!spinner_two">
                             <button class="btn btn-success btn-sm" @click="updateSubCotizacion()">Guardar</button>
                             <button class="btn btn-danger btn-sm" v-if="sub_cotizacion.id != ''" @click="eliminarSubCotizacion">Eliminar</button>
@@ -148,7 +143,7 @@
                         <tbody>
 
                             <tr v-for="(producto, index) in productos" :key="index">
-                                <td>{{producto.productos.foto}}</td>
+                                <td><img v-bind:src="(producto.productos.foto == 'default.png')? '/img/img_productos/'+producto.productos.foto: 'https://res.cloudinary.com/dcj3tck83/image/upload/v1649869726/'+producto.productos.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                                 <td>{{producto.productos.nombre}}</td>
                                 <td>{{producto.productos.descripcion}}</td>
                                 <td>{{producto.productos.referencia}}</td>

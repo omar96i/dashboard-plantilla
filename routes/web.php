@@ -43,7 +43,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-    return Auth::user()->role_user[0];
+    return auth()->user()->load('informacionPersonal');
 });
 
 Route::redirect('/', '/login', 301);
