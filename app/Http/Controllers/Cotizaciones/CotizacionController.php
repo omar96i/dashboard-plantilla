@@ -65,7 +65,9 @@ class CotizacionController extends Controller
         if(SubCotizacionProducto::where(['producto_id' => $request->producto_id, 'sub_cotizacion_id' => $sub_cotizacion->id])->count() > 0){
             return response()->json(['saved' => false, 'msg' => 'El producto ya se encuenta registrado']);
         }
+        $producto = Producto::with('valores')->find($request->producto_id);
         $producto_sc = new SubCotizacionProducto($request->all());
+        $producto_sc->producto_valor_id = $producto->valores[0]->id;
         $producto_sc->sub_cotizacion_id = $sub_cotizacion->id;
         $producto_sc->estado = "activo";
         $producto_sc->save();
@@ -129,9 +131,15 @@ class CotizacionController extends Controller
     }
 
     public function getDolar($id){
-        return response()->json(['dolar' => DolarValor::withTrashed()->where('id', $id)->get()->first()]);
+        return response()->json(['dolar' => DolarValor::withTrashed()->where('id', $id)->get()->first(), 'dolars' => DolarValor::withTrashed()->orderBy('vigencia_desde', 'desc')->get()]);
     }
 
+    public function updateDolar(Cotizacion $cotizacion, Request $request){
+        $cotizacion->dolar_id = $request->id;
+        $cotizacion->update();
+        $cotizacion->save();
+        return response()->json(['status' => true, 'dolar' => DolarValor::withTrashed()->find($request->id)]);
+    }
     public function deleteProducto(SubCotizacionProducto $producto){
         $producto->delete();
         return response()->json(['deleted' => true]);

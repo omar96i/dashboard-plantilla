@@ -244,13 +244,17 @@
         </b-tab>
         <b-tab title="Dolar">
             <div class="col-12 mt-3">
-                <form action="post" enctype="multipart/form-data" @submit.prevent="storeImage">
-                    <div class="col-12 text-center my-2">
-                        <h5>Cambiar dolar</h5>
+                <div class="col-12 text-center my-2">
+                    <h5>Cambiar dolar</h5>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-10">
+                        <v-select :options="dolars" v-model="dolar_data.id" :reduce="(option) => option.id"></v-select>
                     </div>
-                    En desarrollo
-
-                </form>
+                    <div class="col-12 col-lg-2">
+                        <button class="btn btn-success btn-block" @click="actualizarDolar()">Actualizar</button>
+                    </div>
+                </div>
             </div>
 
         </b-tab>
@@ -356,7 +360,11 @@
                 loading_btn: false,
                 image: '',
                 files: {},
-                loading_files: false
+                loading_files: false,
+                dolars: [],
+                dolar_data:{
+                    id: ''
+                }
             }
         },
         created(){
@@ -371,9 +379,27 @@
             this.ruta = (this.tipo == "insert")? '/Cotizaciones/store' : `/Cotizaciones/update/${this.cotizacion.id}`
         },
         methods:{
+            actualizarDolar(){
+                if(this.dolar_data.id != ''){
+                    axios.post(`/Cotizaciones/Dolar/update/${this.cotizacion.id}`, this.dolar_data).then(res=>{
+                        if(res.data.status){
+                            this.alert('Dolar', 'Actualizado', 'success')
+                        }
+                        this.dolar = res.data.dolar
+                        this.getValorGeneral()
+                        if(this.sub_cotizacion.id != ''){
+                            this.updateAreaValores()
+                        }
+                    })
+                }
+            },
             getDolar(){
                 axios.get(`/Cotizaciones/Dolar/get/${this.cotizacion.dolar_id}`).then(res=>{
                     this.dolar = res.data.dolar
+                    this.dolar_data.id = res.data.dolar.id
+                    res.data.dolars.forEach(dolar => {
+                        this.dolars.push({ label: dolar.vigencia_hasta+' - '+dolar.valor, id : dolar.id })
+                    });
                     this.getValorGeneral()
                 })
             },
@@ -433,7 +459,6 @@
                     this.alert('Archivo', 'Sin seleccionar', 'error')
                 }
             },
-
             deleteFile(id){
                 this.$fire({
                     title: 'Archivo',

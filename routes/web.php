@@ -115,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
         Route::get('/get', [CotizacionController::class, 'get'])->name('cotizaciones.get');
         Route::get('/Dolar/get/{dolar}', [CotizacionController::class, 'getDolar'])->name('cotizaciones.dolar.get');
+        Route::post('/Dolar/update/{cotizacion}', [CotizacionController::class, 'updateDolar'])->name('cotizaciones.dolar.update');
         Route::get('/getAll', [CotizacionController::class, 'getAll'])->name('cotizaciones.get-all');
         Route::get('/getEnabled', [CotizacionController::class, 'getEnabled'])->name('cotizaciones.get-enabled');
         Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');

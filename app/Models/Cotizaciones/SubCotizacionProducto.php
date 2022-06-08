@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Cotizaciones\SubCotizacion;
 use App\Models\Productos\Producto;
+use App\Models\Productos\ProductoValor;
 use App\Models\Proyectos\ProyectoActividadProducto;
 
 class SubCotizacionProducto extends Model
@@ -16,6 +17,7 @@ class SubCotizacionProducto extends Model
 
     protected $fillable = [
         'producto_id',
+        'producto_valor_id',
         'sub_cotizacion_id',
         'cantidad',
         'cantidad_usada',
@@ -34,6 +36,10 @@ class SubCotizacionProducto extends Model
 
     public function actividad_inventario(){
         return $this->hasMany(ProyectoActividadProducto::class);
+    }
+
+    public function valor(){
+        return $this->belongsTo(ProductoValor::class, 'producto_valor_id');
     }
 
     // Relaciones end

@@ -31,6 +31,7 @@ class ProductoController extends Controller
             'producto_id' => $product->id,
             'valor' => $request->valor,
             'sub_valor' => $request->sub_valor,
+            'porcentaje' => $request->porcentaje,
             'tipo' => $request->tipo
         ]);
 
@@ -53,13 +54,14 @@ class ProductoController extends Controller
 
         $valor = ProductoValor::where('producto_id', '=', $producto->id)->get();
 
-        if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo || $valor[0]->sub_valor != $request->sub_valor){
+        if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo || $valor[0]->sub_valor != $request->sub_valor || $valor[0]->porcentaje != $request->porcentaje){
             ProductoValor::where('producto_id', '=', $producto->id)->delete();
 
             $valor = new ProductoValor([
                 'producto_id' => $producto->id,
                 'valor' => $request->valor,
                 'sub_valor' => $request->sub_valor,
+                'porcentaje' => $request->porcentaje,
                 'tipo' => $request->tipo
             ]);
 

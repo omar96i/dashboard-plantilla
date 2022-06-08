@@ -73,26 +73,35 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Valor:</label>
-                                    <input type="number" v-bind:class="[{ 'is-invalid': productoValidacion.valor}, 'form-control']" name="b-i" v-model="producto.valor" placeholder="Valor de producto a clientes..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                 <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Sub valor:</label>
-                                    <input type="number" v-bind:class="[{ 'is-invalid': productoValidacion.sub_valor}, 'form-control']" name="b-i" v-model="producto.sub_valor" placeholder="Valor de producto a empresa..." >
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12 col-sm-6">
                                     <label class="col-form-label">Tipo moneda:</label>
-                                    <select name="" id="" v-bind:class="[{ 'is-invalid': productoValidacion.tipo}, 'form-control']" v-model="producto.tipo">
+                                    <select name="" id="" v-bind:class="[{ 'is-invalid': productoValidacion.tipo}, 'form-control']" @change="setValor()" v-model="producto.tipo">
                                         <option value="dolar">Dolar</option>
                                         <option value="peso_colombiano">Peso Colombiano</option>
                                     </select>
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                                 <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Precio base:</label>
+                                    <input type="number" @change="setValor()" v-bind:class="[{ 'is-invalid': productoValidacion.sub_valor}, 'form-control']" name="b-i" v-model="producto.sub_valor" placeholder="Valor de producto a empresa..." >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Porcentaje de aumento:</label>
+                                    <input type="number" @change="setValor()" v-bind:class="[{ 'is-invalid': productoValidacion.porcentaje}, 'form-control']" name="b-i" v-model="producto.porcentaje" placeholder="% de aumento" >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Valor:</label>
+                                    <input type="number" disabled readonly v-bind:class="[{ 'is-invalid': productoValidacion.valor}, 'form-control']" name="b-i" v-model="producto.valor" placeholder="" >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-12">
                                     <label class="col-form-label">Categoria  <a href="#" @click="cambiarValorLoadCategoria()"><i class="fa-solid fa-gear"></i></a></label>
                                     <div v-if="!load_categoria">
                                         <b-form-select v-model="producto.categoria_id" :options="options_categoria" v-bind:class="[{ 'is-invalid': productoValidacion.categoria}]"></b-form-select>
@@ -109,7 +118,6 @@
                                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                         </b-input-group>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="text-center" v-if="!loading">
@@ -150,6 +158,7 @@
                     'voltaje' : '',
                     'cantidad' : '',
                     'tipo' : '',
+                    'porcentaje': '',
                     'valor': '',
                     'sub_valor': '',
                     'categoria_id' : ''
@@ -166,6 +175,7 @@
                     'tipo' : false,
                     'valor': false,
                     'sub_valor': false,
+                    'porcentaje': '',
                     'categoria_id' : false
                 },
                 image:'',
@@ -193,14 +203,23 @@
                     'categoria_id' : this.product.categoria_id,
                     'tipo' : this.product.valores[0].tipo,
                     'valor' : this.product.valores[0].valor,
+                    'porcentaje' : this.product.valores[0].porcentaje,
                     'sub_valor' : this.product.valores[0].sub_valor
                 }
+                this.setValor()
                 this.imagePreview = (this.product.foto == "default.png")? '/img/img_productos/default.png' : this.url+this.product.foto
             }
             this.ruta = (this.tipo == "edit") ? `/Productos/update/${this.product.id}` : '/Productos/store'
             this.getCategorias()
         },
         methods:{
+
+            setValor(){
+                if(this.producto.porcentaje != '' && this.producto.sub_valor != '' && this.producto.tipo != ''){
+                    var porcentaje = ((this.producto.sub_valor * this.producto.porcentaje)/100)
+                    this.producto.valor = parseInt(this.producto.sub_valor)+porcentaje
+                }
+            },
 
             onImageChange(e){
                 this.image = e.target.files[0]
@@ -254,6 +273,7 @@
                     data.append("cantidad", this.producto.cantidad)
                     data.append("valor", this.producto.valor)
                     data.append("sub_valor", this.producto.sub_valor)
+                    data.append("porcentaje", this.producto.porcentaje)
                     data.append("categoria_id", this.producto.categoria_id)
 
                     if(this.image != ''){
@@ -338,6 +358,11 @@
                     this.productoValidacion.sub_valor = true
                 }else{
                     this.productoValidacion.sub_valor = false
+                }
+                if(this.producto.porcentaje == ''){
+                    this.productoValidacion.porcentaje = true
+                }else{
+                    this.productoValidacion.porcentaje = false
                 }
                 if(this.producto.categoria_id == ''){
                     this.productoValidacion.categoria_id = true

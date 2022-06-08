@@ -54,10 +54,13 @@
                 })
             },
             storeTRM(){
-                console.log("entro aqui")
                 axios.post('/TRM/store', this.dolar).then(res=>{
-                    this.dolar = res.data.trm
-                    this.load = true
+                    if(res.data.status){
+                        this.dolar = res.data.trm
+                        this.load = true
+                    }else{
+                        this.getTRMDolar()
+                    }
                 })
             },
             getTRMDolar(){

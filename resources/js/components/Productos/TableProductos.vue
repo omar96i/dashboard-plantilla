@@ -28,14 +28,18 @@
                         <th class="color-gray">Voltaje</th>
                         <th class="color-gray">Catidad</th>
                         <th class="color-gray">Tipo moneda</th>
+                        <th class="color-gray">Porcentaje</th>
                         <th class="color-gray">Valor</th>
-                        <th class="color-gray">Sub valor</th>
+                        <th class="color-gray">Valor base</th>
+                        <th class="color-gray">Valor</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th><input type="text" class="form-control" disabled></th>
+                        <th><input type="text" class="form-control"></th>
+                        <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
@@ -64,8 +68,10 @@
                         <td>{{(producto.voltaje == null)? "" : producto.voltaje}}</td>
                         <td><b-alert :variant="getColor(producto.cantidad)" show>{{producto.cantidad}}</b-alert></td>
                         <td>{{(producto.valores[0].tipo == 'peso_colombiano')? "Peso colombiano" : "Dolar"}}</td>
-                        <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor)}}</td>
+                        <td>{{producto.valores[0].porcentaje}}%</td>
+                        <td><strong><small>USD</small> {{(producto.valores[0].tipo == 'dolar')? producto.valores[0].valor: '-'}}</strong></td>
                         <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].sub_valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].sub_valor)}}</td>
+                        <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor)}}</td>
                         <td class="text-center">
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

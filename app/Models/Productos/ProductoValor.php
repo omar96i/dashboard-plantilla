@@ -2,6 +2,7 @@
 
 namespace App\Models\Productos;
 
+use App\Models\Cotizaciones\SubCotizacionProducto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Productos\Producto;
@@ -18,10 +19,15 @@ class ProductoValor extends Model
         'producto_id',
         'valor',
         'sub_valor',
+        'porcentaje',
         'tipo'
     ];
 
     public function producto(){
         return $this->belongsTo(Producto::class);
+    }
+
+    public function sub_cotizacion_productos(){
+        return $this->hasMany(SubCotizacionProducto::class, 'producto_valor_id');
     }
 }
