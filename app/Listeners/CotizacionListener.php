@@ -30,7 +30,9 @@ class CotizacionListener
     public function handle($event)
     {
         User::all()->each(function(User $user) use($event){
-            Notification::send($user, new CotizacionNotification($event->cotizacion, $event->type, $event->old_cotizacion));
+            if($user->hasRole('admin')){
+                Notification::send($user, new CotizacionNotification($event->cotizacion, $event->type, $event->old_cotizacion));
+            }
         });
     }
 }

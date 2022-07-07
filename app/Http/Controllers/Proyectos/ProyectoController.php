@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Proyectos;
 
+use App\Events\ProyectoEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Cotizaciones\SubCotizacionProducto;
@@ -35,11 +36,14 @@ class ProyectoController extends Controller
         $cotizacion->update();
         $cotizacion->estado = "progreso";
         $cotizacion->save();
-
+        $tipo['accion'] = "insert";
+        $tipo['tabla'] = "proyectos";
+        event(new ProyectoEvent($proyecto, $tipo));
         return response()->json(['saved' => true, 'proyecto' => $proyecto, 'cotizacion' => $cotizacion]);
     }
 
     public function edit(Proyecto $proyecto, Request $request){
+        $old_proyecto = Proyecto::find($proyecto->id);
         $cotizacion = Cotizacion::where('id', $proyecto->cotizacion_id)->get()->first();
         $cotizacion->update();
         $cotizacion->estado = "activo";
@@ -50,6 +54,9 @@ class ProyectoController extends Controller
         $cotizacion->update();
         $cotizacion->estado = "progreso";
         $cotizacion->save();
+        $tipo['accion'] = "update";
+        $tipo['tabla'] = "proyectos";
+        event(new ProyectoEvent($proyecto, $tipo, $old_proyecto));
         return response()->json(['edited' => true, 'proyecto' => $proyecto, 'cotizacion' => $cotizacion]);
     }
 

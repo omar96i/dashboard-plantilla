@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\ActividadEvent;
 use App\Events\CotizacionEvent;
+use App\Events\ProyectoEvent;
 use App\Events\UserEvent;
+use App\Listeners\ActividadListener;
 use App\Listeners\CotizacionListener;
+use App\Listeners\ProyectoListener;
 use App\Listeners\UserListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         CotizacionEvent::class => [
             CotizacionListener::class,
+        ],
+        ActividadEvent::class => [
+            ActividadListener::class,
+        ],
+        ProyectoEvent::class => [
+            ProyectoListener::class,
         ]
     ];
 

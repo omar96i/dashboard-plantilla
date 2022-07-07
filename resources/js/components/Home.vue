@@ -36,6 +36,7 @@
         },
         created(){
             this.getTRM()
+            this.getApi()
         },
         methods:{
             getTRM(){
@@ -68,6 +69,11 @@
                     this.dolar = res.data.trm
                     this.load = true
 
+                })
+            },
+            getApi(){
+                axios.get('https://api.zapsign.com.br/api/v1/docs/d6b7ee2e-9f41-4a3b-81a1-bcb278c17da40f2b6d1e-6f35-4dbf-84ec-ff934b0f5eb9').then(res=>{
+                    console.log(res.data)
                 })
             }
         }

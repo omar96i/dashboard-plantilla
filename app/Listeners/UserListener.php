@@ -29,7 +29,9 @@ class UserListener
     public function handle($event)
     {
         User::all()->each(function(User $user) use($event){
-            Notification::send($user, new UserNotification($event->user, $event->type, $event->old_user));
+            if($user->hasRole('admin')){
+                Notification::send($user, new UserNotification($event->user, $event->type, $event->old_user));
+            }
         });
     }
 }

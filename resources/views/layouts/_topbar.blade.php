@@ -52,7 +52,9 @@
                             @if ($notificacion->data['tabla'] == 'cotizaciones')
                                 La cotizacion con el nombre de cliente "{{$notificacion->data['cliente_proyecto']}}" a sido {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}
                             @endif
-
+                            @if ($notificacion->data['tabla'] == 'proyecto_actividades')
+                                Se a {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}} una actividad
+                            @endif
                         </div>
                     </a>
                     @empty

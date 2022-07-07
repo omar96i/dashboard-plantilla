@@ -391,7 +391,10 @@
                             this.actividad = res.data.actividad
                             this.tipo = 'edit'
                         }
-                    })
+                    }).catch(function (error) {
+                        console.log(error.response)
+                        this.alert('Actividad', 'Error en el servidor contactese con el programador', 'error')
+                    });
                 }else{
                     this.validar()
                 }

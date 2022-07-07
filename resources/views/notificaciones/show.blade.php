@@ -89,6 +89,42 @@
                                                     <p class="text-muted mt-1">{{(!$notif->data['old_estado'])?'sin definir':$notif->data['old_estado']}}</p>
                                                 </div>
                                             @endif
+                                            @if ($notif->data['tabla'] == 'proyecto_actividades')
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Descripcion</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_descripcion'])?'sin definir':$notif->data['old_descripcion']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha inicio</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_fecha_inicio'])?'sin definir':$notif->data['old_fecha_inicio']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha final</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_fecha_final'])?'sin definir':$notif->data['old_fecha_final']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Estado</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_estado'])?'sin definir':$notif->data['old_estado']}}</p>
+                                                </div>
+                                            @endif
+                                            @if ($notif->data['tabla'] == 'proyectos')
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Nombre</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_nombre'])?'sin definir':$notif->data['old_nombre']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha inicio</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_fecha_inicio'])?'sin definir':$notif->data['old_fecha_inicio']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha final</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_fecha_final'])?'sin definir':$notif->data['old_fecha_final']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Estado</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['old_estado'])?'sin definir':$notif->data['old_estado']}}</p>
+                                                </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -170,6 +206,50 @@
                                                 <div class="col-4" style="border-left: 0.01cm solid;">
                                                     <h4 class="text-gray-500 font-size-tittle">Detalles</h4>
                                                     <p class="text-muted mt-1"><a href="{{route('cotizaciones.show', $notif->data['id'])}}">Ver mas...</a></p>
+                                                </div>
+                                            @endif
+                                            @if ($notif->data['tabla'] == 'proyecto_actividades')
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Descripcion</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['descripcion'])?'sin definir':$notif->data['descripcion']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha inicio</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['fecha_inicio'])?'sin definir':$notif->data['fecha_inicio']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha final</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['fecha_final'])?'sin definir':$notif->data['fecha_final']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Estado</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['estado'])?'sin definir':$notif->data['estado']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Detalles</h4>
+                                                    <p class="text-muted mt-1"><a href="{{route('proyectos.actividades.show', $notif->data['id'])}}">Ver mas...</a></p>
+                                                </div>
+                                            @endif
+                                            @if ($notif->data['tabla'] == 'proyectos')
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Nombre</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['nombre'])?'sin definir':$notif->data['nombre']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha inicio</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['fecha_inicio'])?'sin definir':$notif->data['fecha_inicio']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Fecha final</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['fecha_final'])?'sin definir':$notif->data['fecha_final']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Estado</h4>
+                                                    <p class="text-muted mt-1">{{(!$notif->data['estado'])?'sin definir':$notif->data['estado']}}</p>
+                                                </div>
+                                                <div class="col-4" style="border-left: 0.01cm solid;">
+                                                    <h4 class="text-gray-500 font-size-tittle">Detalles</h4>
+                                                    <p class="text-muted mt-1"><a href="{{route('proyectos.actividades.show', $notif->data['id'])}}">Ver mas...</a></p>
                                                 </div>
                                             @endif
                                         @endforeach

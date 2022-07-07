@@ -88,7 +88,7 @@
                                                 <option value="lider.ingenieria">lider.ingenieria</option>
                                                 <option value="sub.admin">sub.admin</option>
                                                 <option value="comercial">comercial</option>
-                                                <option value="sadministracion.compras">administracion.compras</option>
+                                                <option value="administracion.compras">administracion.compras</option>
                                                 <option value="tecnico">tecnico</option>
 
                                             </select>
@@ -234,7 +234,11 @@
                         this.loading = false
                         this.alert("Usuario", (this.tipo == "edit")? "Usuario Editado": "Usuario Creado", "success")
                         this.closeModal()
-                    })
+                    }).catch(function (error) {
+                        console.log(error.response)
+                        this.alert('Asistencia', 'Error en el servidor contactese con el programador', 'error')
+                        this.loading = false
+                    });
                 }
             },
 

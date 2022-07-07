@@ -26,6 +26,7 @@ use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadProducto;
 use App\Models\Proyectos\ProyectoActividadReporte;
 use App\Models\Proyectos\ProyectoPlano;
+use App\Models\Users\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
@@ -43,7 +44,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-    return auth()->user()->load('informacionPersonal');
+    return User::where('id', 1)->get();
 });
 
 Route::redirect('/', '/login', 301);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Proyectos;
 
+use App\Events\ActividadEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Productos\Producto;
@@ -35,11 +36,14 @@ class ProyectoActividadController extends Controller
         }else{
             return view('proyectos.actividades.form', ['actividad' => $actividad]);
         }
-
     }
 
     public function delete(ProyectoActividad $actividad){
         $actividad->delete();
+        $tipo['accion'] = "update";
+        $tipo['tabla'] = "proyecto_actividades";
+        $tipo['user_id'] = $actividad->empleado_id;
+        event(new ActividadEvent($actividad, $tipo));
         return response()->json(['deleted' => true]);
     }
 
@@ -47,12 +51,21 @@ class ProyectoActividadController extends Controller
         $actividad = new ProyectoActividad($request->all());
         $actividad->usuario_id = Auth::id();
         $actividad->save();
+        $tipo['accion'] = "insert";
+        $tipo['tabla'] = "proyecto_actividades";
+        $tipo['user_id'] = $actividad->empleado_id;
+        event(new ActividadEvent($actividad, $tipo));
         return response()->json(['actividad' => $actividad, 'insert' => true]);
     }
 
     public function update(ProyectoActividad $actividad, Request $request){
+        $old_actividad = ProyectoActividad::find($actividad->id);
         $actividad->update($request->all());
         $actividad->save();
+        $tipo['accion'] = "update";
+        $tipo['tabla'] = "proyecto_actividades";
+        $tipo['user_id'] = $actividad->empleado_id;
+        event(new ActividadEvent($actividad, $tipo, $old_actividad));
         return response()->json(['actividad' => $actividad, 'updated' => true]);
     }
 
