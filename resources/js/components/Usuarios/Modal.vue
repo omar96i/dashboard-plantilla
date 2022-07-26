@@ -90,7 +90,7 @@
                                                 <option value="comercial">comercial</option>
                                                 <option value="administracion.compras">administracion.compras</option>
                                                 <option value="tecnico">tecnico</option>
-
+                                                <option value="diseñador">diseñador</option>
                                             </select>
                                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                         </div>

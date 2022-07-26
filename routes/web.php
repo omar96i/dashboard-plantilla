@@ -20,6 +20,7 @@ use App\Http\Controllers\Proyectos\ProyectoActividadProductoSolicitudController;
 use App\Http\Controllers\Proyectos\ProyectoActividadReagendamientoController;
 use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
 use App\Http\Controllers\Proyectos\ProyectoController;
+use App\Http\Controllers\Proyectos\ProyectoInterventoriaController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
 use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\ProyectoActividad;
@@ -50,7 +51,7 @@ Route::get('/test', function () {
 Route::redirect('/', '/login', 301);
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/upload', [FileUploadController::class, 'showUploadForm']);
 Route::post('/upload', [FileUploadController::class, 'storeUploads']);
@@ -218,6 +219,17 @@ Route::middleware(['auth'])->group(function () {
 
                 Route::post('/store/{actividad}', [ProyectoActividadAsistenciaController::class, 'store'])->name('proyectos.actividades.asistencias.store');
             });
+        });
+
+        Route::group(['prefix' => 'Interventorias'], function () {
+            Route::get('/', [ProyectoInterventoriaController::class, 'index'])->name('proyectos.interventoria.index');
+            Route::get('/show/{interventoria}', [ProyectoInterventoriaController::class, 'show'])->name('proyectos.interventoria.show');
+            Route::get('/pdf/{interventoria}', [ProyectoInterventoriaController::class, 'pdf'])->name('proyectos.interventoria.pdf');
+            Route::get('/get', [ProyectoInterventoriaController::class, 'get'])->name('proyectos.interventoria.get');
+            Route::get('/get/{interventoria}', [ProyectoInterventoriaController::class, 'getOne'])->name('proyectos.interventoria.get.one');
+            Route::post('/store', [ProyectoInterventoriaController::class, 'store'])->name('proyectos.interventoria.store');
+            Route::post('/store/firma/{interventoria}', [ProyectoInterventoriaController::class, 'storeFirma'])->name('proyectos.interventoria.store.firma');
+            Route::post('/update/{interventoria}', [ProyectoInterventoriaController::class, 'update'])->name('proyectos.interventoria.update');
         });
     });
 

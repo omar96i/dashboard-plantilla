@@ -12,7 +12,9 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueSignaturePad from 'vue-signature-pad';
 
+Vue.use(VueSignaturePad);
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
@@ -42,12 +44,7 @@ Vue.component('proyectos-reportes', require('./components/Proyectos/Reportes/Ind
 Vue.component('proyectos-actividades-asistencia', require('./components/Proyectos/Actividades/Asistencias/Index.vue').default);
 Vue.component('proyectos-actividades-solicitud', require('./components/Proyectos/Actividades/Solicitudes/Index.vue').default);
 Vue.component('proyectos-actividades-reagendamientos', require('./components/Proyectos/Actividades/Reagendamientos/Index.vue').default);
-
-
-
-
-
-
+Vue.component('proyectos-interventoria', require('./components/Proyectos/Interventorias/Index.vue').default);
 
 const app = new Vue({
     el: '#app',

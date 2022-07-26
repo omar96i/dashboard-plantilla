@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Models\Cotizaciones\Cotizacion;
 use App\Models\Proyectos\Proyecto;
 use App\Models\Proyectos\ProyectoActividadAsistencia;
+use App\Models\Proyectos\ProyectoInterventoria;
 use App\Models\Proyectos\ProyectoPlano;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,6 +71,10 @@ class User extends Authenticatable
 	{
 		$this->attributes['password'] = bcrypt($value);
 	}
+
+    public function interventorias(){
+        return $this->hasMany(ProyectoInterventoria::class, 'usuario_id');
+    }
 
 
 }

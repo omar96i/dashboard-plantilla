@@ -43,4 +43,8 @@ class Proyecto extends Model
     public function actividades(){
         return $this->hasMany(ProyectoActividad::class);
     }
+
+    public function interventorias(){
+        return $this->hasMany(ProyectoInterventoria::class, 'proyecto_id');
+    }
 }

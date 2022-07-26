@@ -9,6 +9,7 @@ use App\Models\Users\User;
 use App\Models\Users\InformacionPersonal;
 use App\Notifications\UserNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UsuarioController extends Controller

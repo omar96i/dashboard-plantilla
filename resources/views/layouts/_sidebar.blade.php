@@ -62,8 +62,9 @@
                 <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Actividades</a>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.solicitudes.index') }}">Solicitudes</a>
                 <a class="collapse-item" href="{{ route('proyectos.actividades.reportes.index') }}">Reportes</a>
-
-                <!--<a class="collapse-item" href="cards.html">Reportes</a>-->
+                <h6 class="collapse-header">Documentos</h6>
+                <a class="collapse-item" href="{{ route('proyectos.actividades.index') }}">Documentos</a>
+                <a class="collapse-item" href="{{ route('proyectos.interventoria.index') }}">Interventoria</a>
             </div>
         </div>
     </li>
@@ -115,8 +116,9 @@
             </div>
         </div>
     </li>
-    @endrole
     <hr class="sidebar-divider">
+    @endrole
+
     @role('comercial|admin')
 
     <!-- Heading -->
@@ -158,13 +160,18 @@
         </div>
     </li>
     @endrole
-    @role('lider.electrico|admin')
+    @role('lider.electrico|admin|diseñador')
         <!-- Divider -->
         <hr class="sidebar-divider">
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Lider Electrico
+            @role('lider.electrico|admin')
+                Lider Electrico
+            @endrole
+            @role('diseñador')
+                Diseñador
+            @endrole
         </div>
 
         <li class="nav-item @if(Route::is('proyectos.index')||Route::is('proyectos.planos')) active @endif">
@@ -237,12 +244,10 @@
                 </div>
             </div>
         </li>
+        <hr class="sidebar-divider">
     @endrole
 
     @role('administracion.compras|admin')
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
         <!-- Heading -->
         <div class="sidebar-heading">
             Administracion de compras
