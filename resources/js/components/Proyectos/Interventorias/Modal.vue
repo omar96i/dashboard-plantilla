@@ -159,11 +159,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <label for="signature">Ingresa la firma</label>
-                                <vueSignature ref="signature" :sigOption="option" :disabled="disabled" :h="'100px'" class="border"></vueSignature>
-                                <button @click="save">Save</button>
-                                <button @click="clear">Clear</button>
-                                <button @click="handleDisabled">disabled</button> -->
                                 <div class="text-center col-12">
                                     <b-button variant="success btn-sm" @click="action()">{{(type == 'insert')? 'Crear': 'Actualizar'}}</b-button>
                                 </div>
@@ -178,6 +173,11 @@
                                     <firma-form :interventoria="interventoria" :type="'operario'"></firma-form>
                                 </div>
                             </b-tab>
+                            <b-tab title="Pruebas visuales" v-if="load_files_form_1">
+                                <div class="container-fluid">
+                                    <file-form :interventoria_id="interventoria.id"></file-form>
+                                </div>
+                            </b-tab>
                         </b-tabs>
 
                     </div>
@@ -189,15 +189,19 @@
 
 <script>
     import FirmaForm from './FirmaForm'
+    import FileForm from './FileForm'
+
     export default {
         props:['type', 'id'],
         components: {
-            FirmaForm
+            FirmaForm,
+            FileForm
         },
         data(){
             return{
                 load_firma_form_1: false,
                 load_firma_form_2: false,
+                load_files_form_1: false,
                 interventoria:{
                     'proyecto_id': '',
                     'usuario_id': '',
@@ -259,7 +263,7 @@
             if(this.type == 'update' || this.type == 'complete'){
                 this.getInterventoria()
                 if(this.type == 'complete'){
-                    this.load_second_form = true,
+                    this.load_second_form = true
                     this.interventoriaInputsDisabled.proyecto_id = true
                     this.interventoriaInputsDisabled.usuario_id = true
                     this.interventoriaInputsDisabled.fecha_inicio = true
@@ -293,6 +297,7 @@
             getInterventoria(){
                 axios.get(`/Proyectos/Interventorias/get/${this.id}`).then(res=>{
                     this.interventoria = res.data.interventoria
+                    this.load_files_form_1 = true
                 })
             },
 

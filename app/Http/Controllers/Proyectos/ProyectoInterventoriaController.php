@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Proyectos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Proyectos\ProyectoInterventoria;
+use App\Models\Proyectos\ProyectoInterventoriaFile;
 use Illuminate\Http\Request;
 class ProyectoInterventoriaController extends Controller
 {
@@ -18,11 +19,11 @@ class ProyectoInterventoriaController extends Controller
     }
 
     public function getOne(ProyectoInterventoria $interventoria){
-        return response()->json(['interventoria' => $interventoria]);
+        return response()->json(['interventoria' => $interventoria->load('proyecto', 'usuario.informacionPersonal', 'files')]);
     }
 
     public function get(){
-        return response()->json(['interventorias' => ProyectoInterventoria::with('proyecto', 'usuario.informacionPersonal')->get()]);
+        return response()->json(['interventorias' => ProyectoInterventoria::with('proyecto', 'usuario.informacionPersonal', 'files')->get()]);
     }
 
     public function update(ProyectoInterventoria $interventoria, Request $request){
@@ -59,5 +60,33 @@ class ProyectoInterventoriaController extends Controller
         }
         $interventoria->save();
         return response()->json(['status' => true, 'msg' => 'la firma a sido creada.', 'img' => $imageName]);
+    }
+
+    public function storeFiles(ProyectoInterventoria $interventoria, Request $request){
+        if($request->hasFile('files')){
+            $files = $request->file('files');
+            foreach ($files as $key => $file) {
+                $names[$key] = $file->storeOnCloudinary('interventoria_files')->getPublicId();
+            }
+            if($request->tipo == 'update'){
+                $interventoria_pruebas = ProyectoInterventoriaFile::where('interventoria_id', $interventoria->id)->first();
+                $delete = json_decode($interventoria_pruebas->files);
+                foreach ($delete as $key => $file) {
+                    cloudinary()->destroy($file);
+                }
+                $interventoria_pruebas->update();
+                $interventoria_pruebas->files = json_encode($names);
+                $interventoria_pruebas->save();
+            }else{
+                $interventoria_pruebas = new ProyectoInterventoriaFile([
+                    'interventoria_id' => $interventoria->id,
+                    'files' => json_encode($names)
+                ]);
+                $interventoria_pruebas->save();
+            }
+        }else{
+            return response()->json(['status' => false, 'msg' => 'No es han seleccionado imagenes']);
+        }
+        return response()->json(['status' => true, 'msg' => 'Pruebas subidas']);
     }
 }

@@ -50,7 +50,7 @@
                                 <button class="dropdown-item" @click="setDatos(interventoria.id, 'update')"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
                                 <button class="dropdown-item" @click="setDatos(interventoria.id, 'complete')"><i class="fa-solid fa-file-circle-check"></i> Completar</button>
                                 <a class="dropdown-item" :href="'/Proyectos/Interventorias/show/'+interventoria.id" target=”_blank”><i class="fa-solid fa-eye"></i> Ver</a>
-                                <a class="dropdown-item" :href="'/Proyectos/Interventorias/pdf/'+interventoria.id"><i class="fa-solid fa-file-pdf"></i> Generar PDF</a>
+                                <!--<a class="dropdown-item" :href="'/Proyectos/Interventorias/pdf/'+interventoria.id"><i class="fa-solid fa-file-pdf"></i> Generar PDF</a>-->
 
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item"><i class="fas fa-trash" ></i> Eliminar</button>

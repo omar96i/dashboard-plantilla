@@ -183,6 +183,8 @@
                                 <th>Fecha</th>
                                 <th>Valor del abono</th>
                                 <th>Observacion</th>
+                                <th>Estado</th>
+
                                 <th></th>
                             </tr>
                         </thead>
@@ -192,6 +194,7 @@
                                 <th>Fecha</th>
                                 <th>Valor del abono</th>
                                 <th>Observacion</th>
+                                <th>Estado</th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -201,7 +204,11 @@
                                 <td>{{abono.fecha}}</td>
                                 <td>{{abono.valor}}</td>
                                 <td>{{abono.observacion}}</td>
+                                <td>
+                                    <b-alert :variant="(abono.estado == 'incompleto')? 'danger': 'success'" show>{{abono.estado}}</b-alert>
+                                </td>
                                 <td class="text-center">
+                                    <button class="btn btn-success btn-circle btn-sm" @click="cambiarEstado(abono.id)"><i class="fa-solid fa-check"></i></button>
                                     <button class="btn btn-danger btn-circle btn-sm" @click="eliminarAbono(abono.id)"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
@@ -621,12 +628,37 @@
                     confirmButtonColor: '#FF0000',
                 }).then((result) => {
                     if(result.value){
-                        axios.get(`/Cotizaciones/Abono/delete/${id_abono}`).then(res => {
+                        axios.get(`/Cotizaciones/Abonos/delete/${id_abono}`).then(res => {
                             if(res.data.deleted){
                                 this.$fire({
                                     title: 'Abono',
                                     text: 'Eliminado',
                                     type: 'error',
+                                    timer: 3000
+                                })
+                                this.getAbonos()
+                            }
+                        })
+                    }
+                });
+            },
+
+            cambiarEstado(id_abono){
+                this.$fire({
+                    title: 'Abono',
+                    text: 'Estas cambiar el estado del dato seleccionado?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Actualizar',
+                    cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if(result.value){
+                        axios.get(`/Cotizaciones/Abonos/update/estado/${id_abono}`).then(res => {
+                            if(res.data.updated){
+                                this.$fire({
+                                    title: 'Abono',
+                                    text: 'Actualizado',
+                                    type: 'success',
                                     timer: 3000
                                 })
                                 this.getAbonos()

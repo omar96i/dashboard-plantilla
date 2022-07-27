@@ -137,6 +137,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/Abonos/get/{cotizacion}', [CotizacionController::class, 'getAbonos'])->name('cotizaciones.get.abonos');
         Route::post('/Abonos/store/{cotizacion}', [CotizacionController::class, 'storeAbonos'])->name('cotizaciones.store.abonos');
         Route::get('/Abonos/delete/{abono}', [CotizacionController::class, 'deleteAbono'])->name('cotizaciones.delete.abonos');
+        Route::get('/Abonos/update/estado/{abono}', [CotizacionController::class, 'updateAbono'])->name('cotizaciones.update.estado.abonos');
+
 
         Route::group(['prefix' => 'Templates'], function () {
             Route::get('/store/{cotizacion}', [CotizacionTemplateController::class, 'store'])->name('cotizaciones.store.template');
@@ -228,6 +230,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/get', [ProyectoInterventoriaController::class, 'get'])->name('proyectos.interventoria.get');
             Route::get('/get/{interventoria}', [ProyectoInterventoriaController::class, 'getOne'])->name('proyectos.interventoria.get.one');
             Route::post('/store', [ProyectoInterventoriaController::class, 'store'])->name('proyectos.interventoria.store');
+            Route::post('/store/files/{interventoria}', [ProyectoInterventoriaController::class, 'storeFiles'])->name('proyectos.interventoria.store.files');
             Route::post('/store/firma/{interventoria}', [ProyectoInterventoriaController::class, 'storeFirma'])->name('proyectos.interventoria.store.firma');
             Route::post('/update/{interventoria}', [ProyectoInterventoriaController::class, 'update'])->name('proyectos.interventoria.update');
         });

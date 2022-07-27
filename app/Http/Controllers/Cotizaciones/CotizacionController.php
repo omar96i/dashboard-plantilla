@@ -170,7 +170,15 @@ class CotizacionController extends Controller
     }
 
     public function deleteAbono(CotizacionAbono $abono){
+        $abono->delete();
+        return response()->json(['deleted' => true]);
+    }
 
+    public function updateAbono(CotizacionAbono $abono){
+        $abono->update();
+        $abono->estado = 'completo';
+        $abono->save();
+        return response()->json(['updated' => true]);
     }
 
     public function getValorGeneral(Cotizacion $cotizacion){

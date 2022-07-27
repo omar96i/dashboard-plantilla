@@ -35,4 +35,8 @@ class ProyectoInterventoria extends Model
     public function usuario(){
         return $this->belongsTo(User::class, 'usuario_id');
     }
+
+    public function files(){
+        return $this->hasOne(ProyectoInterventoriaFile::class ,'interventoria_id');
+    }
 }
