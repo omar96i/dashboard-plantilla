@@ -90,11 +90,6 @@
 
                 })
             },
-            getApi(){
-                axios.get('https://api.zapsign.com.br/api/v1/docs/d6b7ee2e-9f41-4a3b-81a1-bcb278c17da40f2b6d1e-6f35-4dbf-84ec-ff934b0f5eb9').then(res=>{
-                    console.log(res.data)
-                })
-            },
             verCalendario(){
                 window.open('https://calendar.google.com/calendar/u/0/embed?src=c_lra5iagliorc6qpfjt1opcjr0o@group.calendar.google.com&ctz=America/Bogota&pli=1', '_blank');
             }

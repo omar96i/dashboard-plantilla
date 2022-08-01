@@ -540,6 +540,8 @@
                         this.alert('Cotizacion', 'Actualizada', 'success')
                     }
                     this.spinner_one = false
+                }).catch(function (error) {
+                    console.log(error.response)
                 })
             },
             setDatos(template){
