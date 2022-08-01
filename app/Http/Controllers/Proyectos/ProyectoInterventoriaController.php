@@ -43,13 +43,13 @@ class ProyectoInterventoriaController extends Controller
     }
 
     public function storeFirma(ProyectoInterventoria $interventoria, Request $request){
-        if(!is_null($interventoria->firma_cliente) || !is_null($interventoria->firma_operario)){
-            if($request->type == 'cliente'){
-                cloudinary()->destroy($interventoria->firma_cliente);
-            }else{
-                cloudinary()->destroy($interventoria->firma_operario);
-            }
-        }
+        // if(!is_null($interventoria->firma_cliente) || !is_null($interventoria->firma_operario)){
+        //     if($request->type == 'cliente'){
+        //         cloudinary()->destroy($interventoria->firma_cliente);
+        //     }else{
+        //         cloudinary()->destroy($interventoria->firma_operario);
+        //     }
+        // }
         $result = $request->img->storeOnCloudinary('firmas');
         $imageName = $result->getPublicId();
         $interventoria->update();
@@ -71,9 +71,9 @@ class ProyectoInterventoriaController extends Controller
             if($request->tipo == 'update'){
                 $interventoria_pruebas = ProyectoInterventoriaFile::where('interventoria_id', $interventoria->id)->first();
                 $delete = json_decode($interventoria_pruebas->files);
-                foreach ($delete as $key => $file) {
-                    cloudinary()->destroy($file);
-                }
+                // foreach ($delete as $key => $file) {
+                //     cloudinary()->destroy($file);
+                // }
                 $interventoria_pruebas->update();
                 $interventoria_pruebas->files = json_encode($names);
                 $interventoria_pruebas->save();

@@ -45,4 +45,8 @@ class ProyectoActividadProductoSolicitudController extends Controller
         $solicitud->save();
         return response()->json(['status' => true, 'msg' => ($estado == 'aceptado')? 'La solicitud a sido aceptada': 'La solicitud a sido rechazada']);
     }
+
+    public function show(){
+        return view('proyectos.actividades.solicitudes.pdf');
+    }
 }

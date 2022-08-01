@@ -203,6 +203,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::group(['prefix' => 'Solicitudes'], function () {
                 Route::get('/', [ProyectoActividadProductoSolicitudController::class, 'index'])->name('proyectos.actividades.solicitudes.index');
+                Route::get('/show', [ProyectoActividadProductoSolicitudController::class, 'show'])->name('proyectos.actividades.solicitudes.show');
                 Route::get('/get', [ProyectoActividadProductoSolicitudController::class, 'get'])->name('proyectos.actividades.solicitudes.get');
                 Route::get('/update/{solicitud}/{estado}', [ProyectoActividadProductoSolicitudController::class, 'updateEstado'])->name('proyectos.actividades.solicitudes.update-estado');
 
