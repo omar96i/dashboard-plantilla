@@ -56,7 +56,6 @@
         },
         created(){
             this.getTRM()
-            this.getApi()
         },
         methods:{
             getTRM(){
