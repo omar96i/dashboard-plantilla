@@ -59,7 +59,7 @@
         },
         methods:{
             getTRM(){
-                axios.get(`https://www.datos.gov.co/resource/32sa-8pi3.json?vigenciadesde=2022-07-30T00:00:00.000`).then(res=>{
+                axios.get(`https://www.datos.gov.co/resource/32sa-8pi3.json?vigenciadesde=${this.date}T00:00:00.000`).then(res=>{
                     if(res.data.length > 0){
                         this.dolar={
                             'valor' : res.data[0].valor,
