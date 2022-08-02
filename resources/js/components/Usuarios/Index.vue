@@ -36,14 +36,21 @@
             </tfoot>
             <tbody>
                 <tr v-for="(usuario, index) in usuarios" :key="index">
-                    <td class="text-center"><img v-bind:src="usuario.informacion_personal.foto == 'default.jpg' || usuario.informacion_personal.foto == null? 'img/img_usuarios/'+usuario.informacion_personal.foto: url+usuario.informacion_personal.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
-                    <td>{{usuario.informacion_personal.documento}}</td>
-                    <td>{{usuario.informacion_personal.nombres}}</td>
-                    <td>{{usuario.informacion_personal.apellidos}}</td>
-                    <td>{{usuario.informacion_personal.telefono}}</td>
-                    <td>{{usuario.informacion_personal.sexo}}</td>
-                    <td>{{usuario.informacion_personal.fecha_nacimiento}}</td>
-                    <td>{{usuario.informacion_personal.ciudad}}</td>
+                    <td class="text-center" v-if="usuario.informacion_personal != null"><img v-bind:src="usuario.informacion_personal.foto == 'default.jpg'? 'img/img_usuarios/'+usuario.informacion_personal.foto: url+usuario.informacion_personal.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                    <td class="text-center" v-else><img src="img/img_usuarios/default.jpg" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.documento}}</td>
+                    <td v-else></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.nombres}}</td>
+                    <td v-else></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.apellidos}}</td>
+                    <td v-else></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.telefono}}</td>
+                    <td v-else></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.sexo}}</td>
+                    <td v-else></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.fecha_nacimiento}}</td>
+                    <td v-else></td>
+                    <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.ciudad}}</td>
                     <td>{{usuario.email}}</td>
                     <td class="text-center">
                         <button class="btn btn-info btn-circle btn-sm" @click="editUsuario(usuario.id)"><i class="fa-solid fa-user-pen"></i></button>
