@@ -36,15 +36,17 @@
 		.brand_logo_container {
 			position: absolute;
 			height: 170px;
-			width: 100%;
+			width: 170px;
 			top: -75px;
+            border-radius: 50%;
 			background: #ffffff;
 			padding: 10px;
 			text-align: center;
 		}
 		.brand_logo {
-			height: 100%;
-			width: 100%;
+			height: 150px;
+			width: 150px;
+			border-radius: 50%;
 			border: 2px solid white;
 		}
 		.form_container {
@@ -85,7 +87,7 @@
             <div class="user_card">
                 <div class="d-flex justify-content-center">
                     <div class="brand_logo_container">
-                        <img src="{{asset('img/icons/icono.jpeg')}}" class="brand_logo" alt="Logo">
+                        <img src="{{asset('img/icons/icon-2.jpeg')}}" class="brand_logo" alt="Logo">
                     </div>
                 </div>
                 <div class="d-flex justify-content-center form_container">
