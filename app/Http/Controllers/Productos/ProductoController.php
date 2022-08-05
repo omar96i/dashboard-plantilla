@@ -19,9 +19,8 @@ class ProductoController extends Controller
         if(isset($request->foto)){
             $result = $request->foto->storeOnCloudinary('img_productos');
             $imageName = $result->getPublicId();
+            $product->foto = $imageName;
         }
-
-        $product->foto = $imageName;
 
         $product->save();
 
