@@ -45,7 +45,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-    return User::where('id', 1)->get();
+    return view('usuarios.profile');
 });
 
 Route::redirect('/', '/login', 301);
@@ -104,10 +104,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'Usuarios'], function () {
         Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
+        Route::view('/profile', 'usuarios.profile')->name('usuarios.profile');
         Route::post('/store', [UsuarioController::class, 'store'])->name('usuarios.store');
         Route::post('/update/{user}', [UsuarioController::class, 'update'])->name('usuarios.update');
+        Route::post('/update/foto/{informacion_personal}', [UsuarioController::class, 'updateFoto'])->name('usuarios.update.foto');
+        Route::post('/update/password/{user}', [UsuarioController::class, 'updatePassword'])->name('usuarios.update.password');
+        Route::post('/update/informacionPersonal/{informacion_personal}', [UsuarioController::class, 'updateInformacionPersonal'])->name('usuarios.update.foto');
         Route::get('/delete/{user}', [UsuarioController::class, 'delete'])->name('usuarios.delete');
         Route::get('/get/{user}', [UsuarioController::class, 'get'])->name('usuarios.get');
+        Route::get('/getUser', [UsuarioController::class, 'getUser'])->name('usuarios.get.user');
         Route::get('/getAll', [UsuarioController::class, 'getAll'])->name('usuarios.get-all');
     });
 

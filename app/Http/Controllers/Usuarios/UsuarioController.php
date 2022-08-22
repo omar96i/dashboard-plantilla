@@ -99,6 +99,28 @@ class UsuarioController extends Controller
 
     }
 
+    public function updateFoto(InformacionPersonal $informacion_personal, Request $request){
+        if($request->hasFile('foto')){
+            // destroy img
+            cloudinary()->destroy($informacion_personal->foto);
+            // upload img
+            $foto = $request->file('foto');
+            $publicId = $foto->storeOnCloudinary('img_usuarios')->getPublicId();
+
+            $informacion_personal->foto = $publicId;
+            $informacion_personal->update();
+            $informacion_personal->save();
+        }else{
+            return response()->json(['status' => false, 'msg' => 'No es han seleccionado imagenes']);
+        }
+        return response()->json(['status' => true, 'msg' => 'Imagen actualizada', 'img' => $publicId]);
+    }
+
+    public function updateInformacionPersonal(InformacionPersonal $informacion_personal, Request $request){
+        $informacion_personal->update($request->all());
+        return response()->json(['status' => true, 'msg' => 'actualizacion completa', 'informacion_personal' => $informacion_personal]);
+    }
+
     public function delete(User $user){
         $old_user = $user->load('informacionPersonal');
         $user->delete();
@@ -110,6 +132,17 @@ class UsuarioController extends Controller
 
     public function get(User $user){
         return response()->json(['usuario' => $user->load('informacionPersonal')]);
+    }
+
+    public function updatePassword(User $user, Request $request){
+        $user->password = $request->new;
+        $user->update();
+        $user->save();
+        return response()->json(['status' => true]);
+    }
+
+    public function getUser(){
+        return response()->json(['user' => User::with('informacionPersonal')->find(auth()->user()->id)]);
     }
 
     public function getAll(){

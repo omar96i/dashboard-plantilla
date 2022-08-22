@@ -66,7 +66,7 @@
                                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label class="col-form-label">Cuidad:</label>
+                                            <label class="col-form-label">Ciudad:</label>
                                             <input type="text" v-bind:class="[{ 'is-invalid': usuarioValidacion.ciudad}, 'form-control']" name="b-i" v-model="usuario.ciudad" placeholder="Cuidad..." >
                                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                         </div>
