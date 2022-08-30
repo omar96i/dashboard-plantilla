@@ -11,16 +11,49 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" @submit.prevent="action()" enctype="multipart/form-data">
-                            <div class="form-group row text-center">
-                                <div class="col-12">
-                                    <img v-bind:src="imagePreview" alt="" style="width: 20em; border-radius: 12px;">
+                            <div class="form-group row">
+                                <div class="col" v-if="load_image">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card card-raised card-carousel" v-if="render_img">
+                                                <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                                                    <ol class="carousel-indicators">
+                                                        <li data-target="#carousel" v-for="(url, index) in urls" :key="index" :data-slide-to="index" v-bind:class="{ active: index == 0 }"></li>
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item"  v-for="(url, index) in urls" :key="index" v-bind:class="{ active: index == 0 }">
+                                                            <img class="d-block w-100" :src="url" style="height: 400px;">
+                                                            <div class="carousel-caption d-none d-md-block">
+                                                                <button class="btn btn-danger btn-circle btn-sm" @click="deleteIndex(index)">
+                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                </button>
+                                                                <a class="btn btn-info btn-circle btn-sm" :href="url" target="_blank">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                                                        <i class="fa-solid fa-circle-chevron-left" style="color: black;"></i>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                                                        <i class="fa-solid fa-circle-chevron-right" style="color: black;"></i>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col" v-else>
+                                    <img class="d-block w-100" src="/img/img_productos/default.png" style="height: 400px;">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-12">
-                                    <label for="foto" class="btn btn-success btn-sm btn-block">Selecciona una imagen</label>
-                                    <input type="file" class="form-control" style="display:none" id="foto" name="foto" v-on:change="onImageChange">
+                                    <label for="foto" class="btn btn-success btn-sm btn-block">Selecciona las imagenes</label>
+                                    <input type="file" class="form-control" style="display:none" id="foto" name="foto" multiple v-on:change="onChangeFiles">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -121,13 +154,13 @@
                                 </div>
                             </div>
                             <div class="text-center" v-if="!loading">
-                                <button type="submit" class="btn btn-success btn-sm">Agregar</button>
+                                <button type="submit" class="btn btn-success btn-sm" @click="action()">Agregar</button>
                                 <button type="button" class="btn btn-secondary btn-sm">Cerrar</button>
                             </div>
                             <div class="text-center" v-else>
                                 <spinner-view :loading="loading"></spinner-view>
+                                <small>Si el contenido contiene varias imagenes tiende a tardar el guardado del producto</small>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -180,13 +213,20 @@
                 },
                 image:'',
                 ruta: '',
+                files: [],
+                urls: [],
                 loading: false,
                 load_categoria: false,
                 categoria: {},
                 categoriaValidacion: {
                     'nombre' : false
                 },
-                options_categoria: []
+                options_categoria: [],
+                load_image: false,
+                render_img: true,
+                deleteImg:{
+                    'img' : ''
+                }
             }
         },
         created(){
@@ -207,13 +247,18 @@
                     'sub_valor' : this.product.valores[0].sub_valor
                 }
                 this.setValor()
-                this.imagePreview = (this.product.foto == "default.png")? '/img/img_productos/default.png' : this.url+this.product.foto
+                if(this.product.files != null){
+                    let aux = JSON.parse(this.product.files)
+                    for (let i = 0; i < aux.length; i++) {
+                        this.urls[i] = this.url+aux[i];
+                    }
+                    this.load_image = true
+                }
             }
             this.ruta = (this.tipo == "edit") ? `/Productos/update/${this.product.id}` : '/Productos/store'
             this.getCategorias()
         },
         methods:{
-
             setValor(){
                 if(this.producto.porcentaje != '' && this.producto.sub_valor != '' && this.producto.tipo != ''){
                     var porcentaje = ((this.producto.sub_valor * this.producto.porcentaje)/100)
@@ -237,12 +282,67 @@
                 }
             },
 
+            onChangeFiles(e){
+                let files = e.target.files
+                // Image Preview
+                for (let i = 0; i < files.length; i++) {
+                    if(this.urls.length>0){
+                        this.urls.push(URL.createObjectURL(files[i]))
+                    }else{
+                        this.urls[i] = URL.createObjectURL(files[i]);
+                    }
+                }
+                //
+                //Set variables
+                for (let i = 0; i < files.length; i++) {
+                    this.files.push(files[i])
+                }
+                this.load_image = false
+                setTimeout(() => {
+                    this.load_image = true
+                }, 200)
+            },
+
             getCategorias(){
                 axios.get('/Productos/Categorias/get').then(res=>{
                     res.data.categorias.forEach(categoria => {
                         this.options_categoria.push({ value : categoria.id, text : categoria.nombre})
                     });
                 })
+            },
+
+            deleteIndex(index){
+                this.render_img = false
+                if(this.tipo == 'edit'){
+
+                    let aux_img = JSON.parse(this.product.files)
+                    if(this.files.length > 0){
+
+                    }
+                    this.deleteImg.img = aux_img[index]
+                    axios.post(`/Productos/delete/img/${this.product.id}`, this.deleteImg).then(res=>{
+                        this.alert("Imagen", "Eliminada", "success")
+                        this.urls.splice(index,1)
+                        setTimeout(()=>{
+                            if(this.files.length == 0 && this.urls.length == 0){
+                                this.load_image = false
+                            }
+                            this.render_img = true
+                        }, 200)
+                    }).catch(res=>{
+                        console.log(res.response)
+                        this.alert("Imagen", "Error en el servidor", "error")
+                    })
+                }else{
+                    this.files.splice(index,1)
+                    this.urls.splice(index,1)
+                    setTimeout(()=>{
+                        if(this.files.length == 0 && this.urls.length == 0){
+                            this.load_image = false
+                        }
+                        this.render_img = true
+                    }, 200)
+                }
             },
 
             action(){
@@ -276,17 +376,22 @@
                     data.append("porcentaje", this.producto.porcentaje)
                     data.append("categoria_id", this.producto.categoria_id)
 
-                    if(this.image != ''){
-                        data.append("foto", this.image, this.image.name)
+                    if(this.files.length > 0){
+                        for (let i = 0; i < this.files.length; i++) {
+                            data.append('files[]', this.files[i], this.files[i].name)
+                        }
                     }
 
                     axios.post(this.ruta, data).then(res=>{
+                        console.log(res.data)
                         this.loading = false
                         this.alert("Producto", (this.tipo == "edit")? "Producto Editado": "Producto Creado", "success")
                         this.closeModal()
-                    }).catch(function (error) {
+                    }).catch(error=>{
                         console.log(error.response)
-                    });
+                        this.loading = false
+                        this.alert("Producto", "Error en el servidor", "error")
+                    })
 
                 }
             },

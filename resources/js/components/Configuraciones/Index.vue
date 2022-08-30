@@ -59,12 +59,12 @@
     </form>
 
     <hr>
-    <h5>Condiciones</h5>
+    <!-- <h5>Condiciones</h5>
 
     <button class="btn btn-success" @click="openModal()">agregar</button>
 
 
-    <modal-condiciones></modal-condiciones>
+    <modal-condiciones></modal-condiciones> -->
 
 </div>
 </template>

@@ -16,12 +16,12 @@ class ProductoController extends Controller
     public function store(Request $request){
         $product = new Producto($request->all());
 
-        if(isset($request->foto)){
-            $result = $request->foto->storeOnCloudinary('img_productos');
-            $imageName = $result->getPublicId();
-            $product->foto = $imageName;
-        }else{
-            $product->foto = 'default.png';
+        if($request->hasFile('files')){
+            $files = $request->file('files');
+            foreach ($files as $key => $file) {
+                $names[$key] = $file->storeOnCloudinary('img_productos')->getPublicId();
+            }
+            $product->files = json_encode($names);
         }
 
         $product->save();
@@ -42,17 +42,32 @@ class ProductoController extends Controller
     }
 
     public function update(Producto $producto, Request $request){
-
-        $producto->update($request->all());
-
-        if(isset($request->foto)){
-            $result = $request->foto->storeOnCloudinary('img_productos');
-            $imageName = $result->getPublicId();
-            $producto->foto = $imageName;
+        if($request->hasFile('files')){
+            $files = $request->file('files');
+            foreach ($files as $key => $file) {
+                $names[$key] = $file->storeOnCloudinary('img_productos')->getPublicId();
+            }
+            if($producto->files == null){
+                $producto->files = json_encode($names);
+            }else{
+                $aux = json_decode($producto->files);
+                foreach ($names as $key => $file) {
+                    array_push($aux, $file);
+                }
+                $producto->files = json_encode($aux);
+            }
         }
-
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->referencia = $request->referencia;
+        $producto->marca = $request->marca;
+        $producto->color = $request->color;
+        $producto->temperatura_calor = $request->temperatura_calor;
+        $producto->voltaje = $request->voltaje;
+        $producto->cantidad = $request->cantidad;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->update();
         $producto->save();
-
         $valor = ProductoValor::where('producto_id', '=', $producto->id)->get();
 
         if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo || $valor[0]->sub_valor != $request->sub_valor || $valor[0]->porcentaje != $request->porcentaje){
@@ -70,6 +85,32 @@ class ProductoController extends Controller
 
         }
         return response()->json(['saved' => true]);
+    }
+
+    public function deleteImg(Producto $producto, Request $request){
+        $delete_file = $request->img;
+        $files = json_decode($producto->files);
+        $aux = 0;
+        $names = [];
+        foreach ($files as $key => $file) {
+            if($delete_file != $file){
+                $names[$aux] = $file;
+                $aux = $aux + 1;
+            }else{
+                cloudinary()->destroy($file);
+            }
+
+        }
+        if(count($names) > 0){
+            $producto->files = json_encode($names);
+        }else{
+            $producto->files = null;
+        }
+
+        $producto->update();
+        $producto->save();
+
+        return response()->json(['status' => true, 'producto' => json_decode($producto->files)]);
     }
 
     public function getAll(){

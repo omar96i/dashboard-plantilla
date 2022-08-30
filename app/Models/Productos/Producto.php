@@ -27,7 +27,8 @@ class Producto extends Model
         'voltaje',
         'cantidad',
         'categoria_id',
-        'foto'
+        'foto',
+        'files'
     ];
 
     // Relaciones start

@@ -84,8 +84,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [ProductoController::class, 'store'])->name('productos.store');
         Route::get('/getAll', [ProductoController::class, 'getAll'])->name('productos.get-all');
         Route::get('/delete/{producto}', [ProductoController::class, 'delete'])->name('productos.delete');
+        Route::post('/delete/img/{producto}', [ProductoController::class, 'deleteImg'])->name('productos.delete.img');
         Route::get('/get/{producto}', [ProductoController::class, 'get'])->name('productos.get');
         Route::post('/update/{producto}', [ProductoController::class, 'update'])->name('productos.update');
+
         Route::group(['prefix' => 'Categorias'], function () {
             Route::post('/store', [CategoriaController::class, 'store'])->name('productos.categorias.store');
             Route::post('/update/{categoria}', [CategoriaController::class, 'update'])->name('productos.categorias.update');

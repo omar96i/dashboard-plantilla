@@ -57,7 +57,7 @@
                 </tfoot>
                 <tbody>
                     <tr v-for="(producto, index) in productos" :key="index">
-                        <td><img v-bind:src="producto.foto == 'default.png'? 'img/img_productos/'+producto.foto: url+producto.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                        <td><img v-bind:src="producto.files == null? 'img/img_productos/default.png': getUrl(producto.files)" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                         <td>{{producto.referencia}}</td>
                         <td>{{producto.nombre}}</td>
                         <td>{{producto.descripcion}}</td>
@@ -156,6 +156,10 @@
                 }).finally(() => {
                     this.getAllProduct()
                 })
+            },
+            getUrl(json){
+                let url = JSON.parse(json)
+                return this.url+url[0]
             },
             getAllProduct(){
                 this.load = false
