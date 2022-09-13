@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Productos;
 
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use Illuminate\Http\Request;
 use App\Models\Productos\Producto;
 use App\Models\Productos\ProductoValor;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
 {
@@ -41,6 +43,16 @@ class ProductoController extends Controller
         return response()->json(['saved' => true]);
     }
 
+    public function storeExcel(Request $request){
+        if($request->hasFile('file')){
+            Excel::import(new ProductImport, $request->file);
+
+            return response()->json(['status' => true, 'msg' => 'Importacion exitosa']);
+        }else{
+            return response()->json(['status' => false, 'msg' => 'Archivo no seleccionado']);
+        }
+    }
+
     public function update(Producto $producto, Request $request){
         if($request->hasFile('files')){
             $files = $request->file('files');
@@ -70,9 +82,20 @@ class ProductoController extends Controller
         $producto->save();
         $valor = ProductoValor::where('producto_id', '=', $producto->id)->get();
 
-        if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo || $valor[0]->sub_valor != $request->sub_valor || $valor[0]->porcentaje != $request->porcentaje){
-            ProductoValor::where('producto_id', '=', $producto->id)->delete();
+        if(count($valor) > 0){
+            if($valor[0]->valor != $request->valor || $valor[0]->tipo != $request->tipo || $valor[0]->sub_valor != $request->sub_valor || $valor[0]->porcentaje != $request->porcentaje){
+                ProductoValor::where('producto_id', '=', $producto->id)->delete();
+                $valor = new ProductoValor([
+                    'producto_id' => $producto->id,
+                    'valor' => $request->valor,
+                    'sub_valor' => $request->sub_valor,
+                    'porcentaje' => $request->porcentaje,
+                    'tipo' => $request->tipo
+                ]);
 
+                $valor->save();
+            }
+        }else{
             $valor = new ProductoValor([
                 'producto_id' => $producto->id,
                 'valor' => $request->valor,
@@ -82,8 +105,9 @@ class ProductoController extends Controller
             ]);
 
             $valor->save();
-
         }
+
+
         return response()->json(['saved' => true]);
     }
 

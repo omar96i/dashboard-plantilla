@@ -67,11 +67,11 @@
                         <td>{{(producto.temperatura_calor == null)? "" : producto.temperatura_calor}}</td>
                         <td>{{(producto.voltaje == null)? "" : producto.voltaje}}</td>
                         <td><b-alert :variant="getColor(producto.cantidad)" show>{{producto.cantidad}}</b-alert></td>
-                        <td>{{(producto.valores[0].tipo == 'peso_colombiano')? "Peso colombiano" : "Dolar"}}</td>
-                        <td>{{producto.valores[0].porcentaje}}%</td>
-                        <td><strong><small>USD</small> {{(producto.valores[0].tipo == 'dolar')? producto.valores[0].valor: '-'}}</strong></td>
-                        <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].sub_valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].sub_valor)}}</td>
-                        <td>{{(producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor)}}</td>
+                        <td>{{(producto.valores.length > 0 ) ? (producto.valores[0].tipo == 'peso_colombiano')? "Peso colombiano" : "Dolar" : ""}}</td>
+                        <td>{{(producto.valores.length > 0) ? producto.valores[0].porcentaje : ""}}%</td>
+                        <td><strong><small>USD</small> {{(producto.valores.length > 0) ? (producto.valores[0].tipo == 'dolar')? producto.valores[0].valor: '-' : "-"}}</strong></td>
+                        <td>{{(producto.valores.length > 0) ? (producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].sub_valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].sub_valor) : ''}}</td>
+                        <td>{{(producto.valores.length > 0) ? (producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor) : ''}}</td>
                         <td class="text-center">
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

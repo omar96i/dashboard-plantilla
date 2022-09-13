@@ -36,6 +36,27 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
+                            <div class="form-group row" >
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">A credito? <span style="color:red;">*</span></label>
+                                    <select v-bind:class="[{ 'is-invalid': validacionAbono.credito}, 'form-control']" v-model="abono.credito">
+                                        <option value="" selected>Sin seleccionar...</option>
+                                        <option value="SI">SI</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Dias</label>
+                                    <select v-bind:class="[{ 'is-invalid': validacionAbono.dias}, 'form-control']" v-model="abono.dias">
+                                        <option value="" selected>Sin seleccionar...</option>
+                                        <option value="30">30</option>
+                                        <option value="60">60</option>
+                                        <option value="90">90</option>
+                                    </select>
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="col-12 text-center mb-4" v-if="!load">
@@ -66,11 +87,15 @@
                     'valor' : '',
                     'fecha' : '',
                     'observacion' : '',
+                    'credito' : '',
+                    'dias' : ''
                 },
                 validacionAbono:{
                     'nombre' : false,
                     'valor' : false,
                     'observacion' : false,
+                    'credito' : false,
+                    'dias' : false
                 },
                 ruta: '',
                 load: false
@@ -100,11 +125,13 @@
                 if(
                     this.abono.nombre == '' ||
                     this.abono.valor == '' ||
-                    this.abono.observacion == ''
+                    this.abono.observacion == '' ||
+                    this.abono.credito == ''
                 ){
                     this.validacionAbono.nombre = (this.abono.nombre == '')? true : false
                     this.validacionAbono.valor = (this.abono.valor == '')? true : false
                     this.validacionAbono.observacion = (this.abono.observacion == '')? true : false
+                    this.validacionAbono.credito = (this.abono.credito == '')? true : false
                     return true
                 }
                 this.validacionAbono.nombre = (this.abono.nombre == '')? true : false

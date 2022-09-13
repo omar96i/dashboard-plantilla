@@ -29,6 +29,7 @@ use App\Models\Proyectos\ProyectoActividadReporte;
 use App\Models\Proyectos\ProyectoPlano;
 use App\Models\Users\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -45,7 +46,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/test', function () {
-    return view('usuarios.profile');
 });
 
 Route::redirect('/', '/login', 301);
@@ -82,6 +82,7 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'Productos'], function () {
         Route::get('/', [ProductoController::class, 'index'])->name('productos.index');
         Route::post('/store', [ProductoController::class, 'store'])->name('productos.store');
+        Route::post('/store/import', [ProductoController::class, 'storeExcel'])->name('productos.store.import');
         Route::get('/getAll', [ProductoController::class, 'getAll'])->name('productos.get-all');
         Route::get('/delete/{producto}', [ProductoController::class, 'delete'])->name('productos.delete');
         Route::post('/delete/img/{producto}', [ProductoController::class, 'deleteImg'])->name('productos.delete.img');

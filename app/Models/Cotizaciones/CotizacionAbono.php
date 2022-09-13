@@ -17,7 +17,9 @@ class CotizacionAbono extends Model
         'nombre',
         'fecha',
         'valor',
-        'observacion'
+        'observacion',
+        'credito',
+        'dias'
     ];
 
     // Relaciones start

@@ -34,7 +34,7 @@
         <div class="form-group row">
             <div class="col-12 col-sm-4">
                 <label for="" class="col-form-label">Direccion:</label>
-                <input type="text" id="" class="form-control" name="" v-model="cotizacion.direccion" placeholder="Nombre cliente...">
+                <input type="text" id="" class="form-control" name="" v-model="cotizacion.direccion" placeholder="Direccion...">
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">

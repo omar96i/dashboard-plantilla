@@ -87,8 +87,8 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Temperatura de calor:</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.temperatura_calor}, 'form-control']" name="b-i"  v-model="producto.temperatura_calor" placeholder="Temperatura de calor..." >
+                                    <label class="col-form-label">Temperatura de color:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.temperatura_calor}, 'form-control']" name="b-i"  v-model="producto.temperatura_calor" placeholder="Temperatura de color..." >
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
@@ -241,10 +241,10 @@
                     'temperatura_calor' : this.product.temperatura_calor,
                     'cantidad' : this.product.cantidad,
                     'categoria_id' : this.product.categoria_id,
-                    'tipo' : this.product.valores[0].tipo,
-                    'valor' : this.product.valores[0].valor,
-                    'porcentaje' : this.product.valores[0].porcentaje,
-                    'sub_valor' : this.product.valores[0].sub_valor
+                    'tipo' : (this.product.valores.length > 0) ? this.product.valores[0].tipo : '',
+                    'valor' : (this.product.valores.length > 0) ? this.product.valores[0].valor : '',
+                    'porcentaje' : (this.product.valores.length > 0) ? this.product.valores[0].porcentaje : '',
+                    'sub_valor' : (this.product.valores.length > 0) ? this.product.valores[0].sub_valor : '',
                 }
                 this.setValor()
                 if(this.product.files != null){
@@ -314,25 +314,42 @@
             deleteIndex(index){
                 this.render_img = false
                 if(this.tipo == 'edit'){
+                    if(this.urls[index].includes('https://res.cloudinary.com')){
+                        let aux_img = JSON.parse(this.product.files)
+                        this.deleteImg.img = aux_img[index]
 
-                    let aux_img = JSON.parse(this.product.files)
-                    if(this.files.length > 0){
-
-                    }
-                    this.deleteImg.img = aux_img[index]
-                    axios.post(`/Productos/delete/img/${this.product.id}`, this.deleteImg).then(res=>{
-                        this.alert("Imagen", "Eliminada", "success")
-                        this.urls.splice(index,1)
-                        setTimeout(()=>{
-                            if(this.files.length == 0 && this.urls.length == 0){
-                                this.load_image = false
+                        axios.post(`/Productos/delete/img/${this.product.id}`, this.deleteImg).then(res=>{
+                            this.alert("Imagen", "Eliminada", "success")
+                            this.urls.splice(index,1)
+                            setTimeout(()=>{
+                                if(this.files.length == 0 && this.urls.length == 0){
+                                    this.load_image = false
+                                }
+                                this.render_img = true
+                            }, 200)
+                        }).catch(res=>{
+                            console.log(res.response)
+                            this.alert("Imagen", "Error en el servidor", "error")
+                        })
+                    }else{
+                        let aux = 0;
+                        for (let i = 0; i < this.urls.length; i++) {
+                            if(!this.urls[i].includes('https://res.cloudinary.com')){
+                                if(this.urls[i] == this.urls[index]){
+                                    break;
+                                }else{
+                                    aux++
+                                }
                             }
+                        }
+                        this.urls.splice(index,1)
+                        this.files.splice(aux,1)
+                        setTimeout(()=>{
                             this.render_img = true
-                        }, 200)
-                    }).catch(res=>{
-                        console.log(res.response)
-                        this.alert("Imagen", "Error en el servidor", "error")
-                    })
+                        },100)
+                    }
+
+
                 }else{
                     this.files.splice(index,1)
                     this.urls.splice(index,1)
