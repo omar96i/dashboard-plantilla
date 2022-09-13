@@ -18,14 +18,13 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="small mb-0 text-gray-800">@yield('page-title')</h1>
                     </div>
-
                     @yield('content')
-
                 </div>
             </div>
             @include('layouts._footer')
         </div>
     </div>
+    @include('layouts._scripts_primary')
     @include('layouts._scripts')
 
     @yield('scripts')
