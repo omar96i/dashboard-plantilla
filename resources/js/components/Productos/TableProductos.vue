@@ -18,15 +18,15 @@
                 <thead>
                     <tr>
                         <th class="color-gray">Foto</th>
+                        <th class="color-gray">Referencia</th>
                         <th class="color-gray">Nombre</th>
                         <th class="color-gray">Descripcion</th>
-                        <th class="color-gray">Referencia</th>
                         <th class="color-gray">Marca</th>
                         <th class="color-gray">Categoria</th>
                         <th class="color-gray">Color</th>
                         <th class="color-gray">Temperatura de calor</th>
                         <th class="color-gray">Voltaje</th>
-                        <th class="color-gray">Catidad</th>
+                        <th class="color-gray">Cantidad</th>
                         <th class="color-gray">Tipo moneda</th>
                         <th class="color-gray">Porcentaje</th>
                         <th class="color-gray">Valor</th>
