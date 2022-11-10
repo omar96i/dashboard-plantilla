@@ -10,6 +10,8 @@ use App\Http\Controllers\Configuraciones\ConfiguracionController;
 use App\Http\Controllers\Cotizaciones\CotizacionFileController;
 use App\Http\Controllers\Cotizaciones\CotizacionTemplateController;
 use App\Http\Controllers\DolarValorController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\Productos\CategoriaController;
@@ -117,6 +119,25 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get/{user}', [UsuarioController::class, 'get'])->name('usuarios.get');
         Route::get('/getUser', [UsuarioController::class, 'getUser'])->name('usuarios.get.user');
         Route::get('/getAll', [UsuarioController::class, 'getAll'])->name('usuarios.get-all');
+    });
+
+    Route::group(['prefix' => 'Roles'], function () {
+        Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
+        Route::post('/store', [RoleController::class, 'store'])->name('roles.store');
+        Route::get('/destroy/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+        Route::get('/get/{role}', [RoleController::class, 'get'])->name('roles.get');
+        Route::get('/getRole', [RoleController::class, 'getRole'])->name('roles.get.role');
+        Route::get('/edit/{role}', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::get('/show/{role}', [RoleController::class, 'show'])->name('roles.show');
+        Route::post('/update/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::get('/getAll', [RoleController::class, 'getAll'])->name('roles.get-all');
+    });
+
+    Route::group(['prefix' => 'Permissions'], function () {
+        Route::get('/{role}', [PermissionController::class, 'index'])->name('permissions.index');
+        Route::get('/show/{permission}', [PermissionController::class, 'show'])->name('permissions.show');
+       
     });
 
     Route::group(['prefix' => 'Cotizaciones'], function () {
