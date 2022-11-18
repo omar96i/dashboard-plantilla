@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/readAll', [NotificacionController::class, 'readAll'])->name('notificaciones.read.all');
         Route::get('/read/{id}', [NotificacionController::class, 'read'])->name('notificaciones.read');
         Route::get('/show/{id}', [NotificacionController::class, 'show'])->name('notificaciones.show');
+
+    });
+
+
+    Route::group(['prefix' => 'Roles'], function () {
 
     });
 
