@@ -143,7 +143,7 @@
                         <tbody>
 
                             <tr v-for="(producto, index) in productos" :key="index">
-                                <td><img v-bind:src="(producto.productos.foto == 'default.png')? '/img/img_productos/'+producto.productos.foto: 'https://res.cloudinary.com/dcj3tck83/image/upload/v1649869726/'+producto.productos.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                                <td><img v-bind:src="producto.files == null? 'img/img_productos/default.png': getUrl(producto.files)" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                                 <td>{{producto.productos.nombre}}</td>
                                 <td>{{producto.productos.descripcion}}</td>
                                 <td>{{producto.productos.referencia}}</td>
@@ -163,7 +163,7 @@
                 </div>
             </div>
         </b-tab>
-        <b-tab title="Abonos">
+        <b-tab title="Formas de pago">
             <div v-if="load_second_form">
                 <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 text-primary">Abonos</h6>
@@ -259,7 +259,7 @@
                         <v-select :options="dolars" v-model="dolar_data.id" :reduce="(option) => option.id"></v-select>
                     </div>
                     <div class="col-12 col-lg-2">
-                        <button class="btn btn-success btn-block" @click="actualizarDolar()">Actualizar</button>
+                        <button class="btn btn-success" @click="actualizarDolar()">Actualizar</button>
                     </div>
                 </div>
             </div>
@@ -315,6 +315,8 @@
     import ProductosModal from './ModalProduct.vue'
     import AbonosModal from './ModalAbonos.vue'
     import TemplatesModal from './ModalTemplates.vue'
+    import url from '../../mixins/cloudinary'
+
     export default {
         props:['cotizacion_props'],
         components: {
@@ -332,7 +334,7 @@
                 load_second_modal: false,
                 load_three_modal: false,
                 load_four_modal: false,
-                cotizacion:{},
+                cotizacion:{'id': ''},
                 cotizacion_valor_general: {
                     'sub_valor' : 0,
                     'iva' : 0,
@@ -387,14 +389,16 @@
         },
         methods:{
             actualizarDolar(){
-                if(this.dolar_data.id != ''){
+                
+                if(this.dolar_data.id == ''){
                     axios.post(`/Cotizaciones/Dolar/update/${this.cotizacion.id}`, this.dolar_data).then(res=>{
                         if(res.data.status){
                             this.alert('Dolar', 'Actualizado', 'success')
                         }
                         this.dolar = res.data.dolar
                         this.getValorGeneral()
-                        if(this.sub_cotizacion.id != ''){
+                        if(this.sub_cotizacion.id != '')
+                        {
                             this.updateAreaValores()
                         }
                     })
@@ -409,6 +413,10 @@
                     });
                     this.getValorGeneral()
                 })
+            },
+            getUrl(json){
+                let url = JSON.parse(json)
+                return this.url+url[0]
             },
             abrirModal(){
                 $("#modalCotizacion").modal('show')
