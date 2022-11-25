@@ -201,7 +201,7 @@
             setAsistencia(){
                 this.$fire({
                     title: 'Asistencia',
-                    text: 'Una vez realizada no se podra cambiar.',
+                    text: 'Solo puedes realizar el registro de la asistencia 2 veces al dia. Una vez registrada no se podra modificar.',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Confirmar',

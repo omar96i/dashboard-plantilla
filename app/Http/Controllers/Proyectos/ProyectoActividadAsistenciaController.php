@@ -16,7 +16,7 @@ class ProyectoActividadAsistenciaController extends Controller
     }
 
     public function store(ProyectoActividad $actividad, Request $request){
-        if(ProyectoActividadAsistencia::verificar($actividad->id, Carbon::now()->format('Y-m-d')) == 0){
+        if(ProyectoActividadAsistencia::verificar($actividad->id, Carbon::now()->format('Y-m-d')) < 2){
             $asistencia = new ProyectoActividadAsistencia($request->all());
             $asistencia->fecha = Carbon::now()->format('Y-m-d');
             $asistencia->time = Carbon::now()->format('H:i:s');

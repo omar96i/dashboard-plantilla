@@ -124,10 +124,11 @@
                                 }
                                 this.$refs['file-input'].reset()
                                 this.loading = false
-                            }).catch(function (error) {
+                            }).catch(error=>{
+                                console.log(error.response)
                                 this.alert('Actividad', 'Error del servidor contactarse con el programador', 'error')
                                 this.loading = false
-                            });
+                            })
                         }
                     });
                 }else{
