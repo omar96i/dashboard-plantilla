@@ -24,6 +24,7 @@
                 <tr>
                     <th>Nombre a Facturar</th>
                     <th>Cliente del proyecto</th>
+                    <th>Creado por</th>
                     <th>Documento</th>
                     <th>Direccion</th>
                     <th>Fecha</th>
@@ -41,6 +42,7 @@
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
+                    <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"></th>
                 </tr>
             </tfoot>
@@ -48,6 +50,7 @@
                 <tr v-for="(cotizacion, index) in cotizaciones" :key="index">
                     <td>{{cotizacion.nombre_facturar}}</td>
                     <td>{{cotizacion.cliente_proyecto}}</td>
+                    <td>{{cotizacion.who_created.informacion_personal.nombres}}</td>
                     <td>{{cotizacion.documento}}</td>
                     <td>{{cotizacion.direccion}}</td>
                     <td>{{cotizacion.fecha}}</td>

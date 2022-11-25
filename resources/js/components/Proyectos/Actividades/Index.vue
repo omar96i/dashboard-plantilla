@@ -26,7 +26,7 @@
             </tfoot>
             <tbody>
                 <tr v-for="(actividad, index) in actividades" :key="index">
-                    <td>{{actividad.proyecto.nombre}}</td>
+                    <td>{{(actividad.proyecto_id == null) ? 'Sin asignar' : actividad.proyecto.nombre}}</td>
                     <td>{{actividad.empleado.informacion_personal.nombres}}</td>
                     <td>{{actividad.descripcion}}</td>
                     <td>{{(actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_inicio : actividad.fecha_inicio}}</td>

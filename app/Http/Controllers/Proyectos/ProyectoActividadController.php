@@ -82,30 +82,48 @@ class ProyectoActividadController extends Controller
     }
 
     public function storeInventario(ProyectoActividad $actividad, Request $request){
-        $producto = new ProyectoActividadProducto($request->all());
-        $producto->proyecto_actividad_id = $actividad->id;
-        $producto->estado = "asignado";
-        if(ProyectoActividadProducto::validarProducto($producto->sub_cotizacion_producto_id, $producto->proyecto_actividad_id) > 0){
-            return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
+        if(is_null($actividad->proyecto_id)){
+            $producto = new ProyectoActividadProducto();
+            $producto->producto_id = $request->sub_cotizacion_producto_id;
+            $producto->cantidad = $request->cantidad;
+            $producto->proyecto_actividad_id = $actividad->id;
+            $producto->estado = "asignado";
+            if(ProyectoActividadProducto::validarProductoSecundario($producto->producto_id, $producto->proyecto_actividad_id) > 0){
+                return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
+            }
+            if(Producto::validar($producto->producto_id, $producto->cantidad) > 0){
+                return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+            }
+            $producto->save();
+        }else{
+            $producto = new ProyectoActividadProducto($request->all());
+            $producto->proyecto_actividad_id = $actividad->id;
+            $producto->estado = "asignado";
+            if(ProyectoActividadProducto::validarProducto($producto->sub_cotizacion_producto_id, $producto->proyecto_actividad_id) > 0){
+                return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
+            }
+            if(SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
+                return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+            }
+            if(SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
+                return response()->json(['status' => false, 'msg' => 'Actualmente no hay cantidad suficiente para satisfacer la cantidad requerida']);
+            }
+            $sub_cotizacion_producto = SubCotizacionProducto::find($producto->sub_cotizacion_producto_id);
+            if(($sub_cotizacion_producto->cantidad - $sub_cotizacion_producto->cantidad_usada) < $producto->cantidad){
+                return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+            }
+            $producto->save();
+            $sub_cotizacion_producto->cantidad_usada = $sub_cotizacion_producto->cantidad_usada + $producto->cantidad;
+            $sub_cotizacion_producto->update();
+            $sub_cotizacion_producto->save();
         }
-        if(SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
-            return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
-        }
-        if(SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
-            return response()->json(['status' => false, 'msg' => 'Actualmente no hay cantidad suficiente para satisfacer la cantidad requerida']);
-        }
-        $sub_cotizacion_producto = SubCotizacionProducto::find($producto->sub_cotizacion_producto_id);
-        if(($sub_cotizacion_producto->cantidad - $sub_cotizacion_producto->cantidad_usada) < $producto->cantidad){
-            return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
-        }
-        $producto->save();
-        $sub_cotizacion_producto->cantidad_usada = $sub_cotizacion_producto->cantidad_usada + $producto->cantidad;
-        $sub_cotizacion_producto->update();
-        $sub_cotizacion_producto->save();
         return response()->json(['status' => true, 'msg' => 'Producto agregado.']);
     }
 
     public function getInventario(ProyectoActividad $actividad){
+        if(is_null($actividad->proyecto_id)){
+            return response()->json(['inventario'=> ProyectoActividadProducto::getInventarioSecundario($actividad->id)]);
+        }
         return response()->json(['inventario' => ProyectoActividadProducto::getInventario($actividad->id)]);
     }
 
@@ -131,7 +149,7 @@ class ProyectoActividadController extends Controller
     }
 
     public function getActividad(ProyectoActividad $actividad){
-        return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'pruebas', 'reportes.producto.productos.productos', 'solicitudes.producto', 'asistencias', 'reagendamientos')]);
+        return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'inventario.productos_secundarios', 'pruebas', 'reportes.producto.productos.productos', 'solicitudes.producto', 'asistencias', 'reagendamientos')]);
     }
 
     public function finalizarActividad(ProyectoActividad $actividad, Request $request){

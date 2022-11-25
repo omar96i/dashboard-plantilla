@@ -27,6 +27,10 @@ class ProyectoController extends Controller
         return view('proyectos.form', ['proyecto' => $proyecto->load('cotizacion')]);
     }
 
+    public function formAux(Cotizacion $cotizacion){
+        return view('proyectos.form', ['cotizacion' => $cotizacion]);
+    }
+
     public function store(Request $request){
         $proyecto = new Proyecto($request->all());
         $proyecto->usuario_id = Auth::id();

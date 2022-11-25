@@ -6,6 +6,7 @@ use App\Models\Cotizaciones\SubCotizacionProducto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Productos\ProductoValor;
+use App\Models\Proyectos\ProyectoActividadProducto;
 use App\Models\Proyectos\ProyectoActividadProductoSolicitud;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,7 +29,9 @@ class Producto extends Model
         'cantidad',
         'categoria_id',
         'foto',
-        'files'
+        'files',
+        'numero',
+        'codigo_letra'
     ];
 
     // Relaciones start
@@ -51,6 +54,10 @@ class Producto extends Model
 
     public function reabastecimientos(){
         return $this->hasMany(ProductoReabastecimiento::class, 'producto_id');
+    }
+
+    public function actividades(){
+        return $this->hasMany(ProyectoActividadProducto::class, 'producto_id');
     }
 
     public static function findByIdSubCotizacion($id)

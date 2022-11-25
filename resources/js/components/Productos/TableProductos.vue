@@ -63,7 +63,7 @@
                         <td>{{producto.descripcion}}</td>
                         <td>{{(producto.marca == null)? "" : producto.marca}}</td>
                         <td>{{(producto.categoria_id == null)? "" : producto.categoria.nombre}}</td>
-                        <td>{{producto.color}}</td>
+                        <td>{{(producto.color == null)? "" : producto.color}}</td>
                         <td>{{(producto.temperatura_calor == null)? "" : producto.temperatura_calor}}</td>
                         <td>{{(producto.voltaje == null)? "" : producto.voltaje}}</td>
                         <td><b-alert :variant="getColor(producto.cantidad)" show>{{producto.cantidad}}</b-alert></td>

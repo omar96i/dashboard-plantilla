@@ -94,6 +94,18 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Numero:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.numero}, 'form-control']" v-model="producto.numero" name="b-i" placeholder="Numero..." >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Codigo letras:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.codigo_letra}, 'form-control']" name="b-i"  v-model="producto.codigo_letra" placeholder="Codigo letras.." >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-6">
                                     <label class="col-form-label">Voltaje:</label>
                                     <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.voltaje}, 'form-control']" v-model="producto.voltaje" name="b-i" placeholder="Voltaje...">
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
@@ -194,6 +206,8 @@
                     'porcentaje': '',
                     'valor': '',
                     'sub_valor': '',
+                    'numero' : '',
+                    'codigo_letra' : '',
                     'categoria_id' : ''
                 },
                 productoValidacion:{
@@ -209,6 +223,8 @@
                     'valor': false,
                     'sub_valor': false,
                     'porcentaje': '',
+                    'codigo_letra' : false,
+                    'numero' : false,
                     'categoria_id' : false
                 },
                 image:'',
@@ -240,6 +256,8 @@
                     'voltaje' : this.product.voltaje,
                     'temperatura_calor' : this.product.temperatura_calor,
                     'cantidad' : this.product.cantidad,
+                    'numero' : this.product.numero,
+                    'codigo_letra' : this.product.codigo_letra,
                     'categoria_id' : this.product.categoria_id,
                     'tipo' : (this.product.valores.length > 0) ? this.product.valores[0].tipo : '',
                     'valor' : (this.product.valores.length > 0) ? this.product.valores[0].valor : '',
@@ -367,7 +385,6 @@
                     this.producto.nombre == '' ||
                     this.producto.descripcion == '' ||
                     this.producto.referencia == '' ||
-                    this.producto.color == '' ||
                     this.producto.cantidad == '' ||
                     this.producto.categoria_id == '' ||
                     this.producto.valor == '' ||
@@ -391,6 +408,8 @@
                     data.append("valor", this.producto.valor)
                     data.append("sub_valor", this.producto.sub_valor)
                     data.append("porcentaje", this.producto.porcentaje)
+                    data.append("numero", this.producto.numero)
+                    data.append("codigo_letra", this.producto.codigo_letra)
                     data.append("categoria_id", this.producto.categoria_id)
 
                     if(this.files.length > 0){
@@ -460,11 +479,6 @@
                     this.productoValidacion.referencia = true
                 }else{
                     this.productoValidacion.referencia = false
-                }
-                if(this.producto.color == ''){
-                    this.productoValidacion.color = true
-                }else{
-                    this.productoValidacion.color = false
                 }
                 if(this.producto.cantidad == ''){
                     this.productoValidacion.cantidad = true

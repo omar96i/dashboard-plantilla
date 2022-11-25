@@ -52,7 +52,7 @@
 
 <script>
 export default {
-    props: ['proyecto_props'],
+    props: ['proyecto_props', 'cotizacion_props'],
     data() {
         return {
             options: [],
@@ -73,6 +73,9 @@ export default {
         }
     },
     created(){
+        if(this.cotizacion_props != undefined){
+            this.proyecto.cotizacion_id = this.cotizacion_props.id
+        }
         if(this.proyecto_props != undefined){
             this.tipo = 'edit'
             this.getCotizaciones(this.proyecto_props.cotizacion)

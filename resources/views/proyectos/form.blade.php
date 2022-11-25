@@ -16,9 +16,14 @@
                     <h6 class="m-0 text-primary">Proyectos</h6>
                 </div>
                 <div class="card-body" id="app">
-                    <proyectos-form @isset($proyecto)
+                    <proyectos-form
+                    @isset($proyecto)
                         :proyecto_props="{{$proyecto}}"
-                    @endisset></proyectos-form>
+                    @endisset
+                    @isset($cotizacion)
+                        :cotizacion_props="{{$cotizacion}}"
+                    @endisset
+                    ></proyectos-form>
                 </div>
             </div>
         </div>

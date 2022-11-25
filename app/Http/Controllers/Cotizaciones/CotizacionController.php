@@ -119,7 +119,7 @@ class CotizacionController extends Controller
     }
 
     public function getAll(){
-        return response()->json(['cotizaciones' => Cotizacion::get()]);
+        return response()->json(['cotizaciones' => Cotizacion::with('whoCreated.informacionPersonal')->get()]);
     }
 
     public function getEnabled(){

@@ -2,19 +2,13 @@
     <div>
         <div class="col-12">
             <div class="row">
-                <b-row class="col-6">
+                <b-row class="col-12 col-sm-6">
                     <b-col sm="12">
                         <label>Proyecto</label>
-                        <b-form-select :state="actividadValidador.proyecto_id" v-model="actividad.proyecto_id" :options="proyectos"></b-form-select>
-                        <b-form-invalid-feedback :state="actividadValidador.proyecto_id">
-                            Debe seleccionar un proyecto
-                        </b-form-invalid-feedback>
-                        <b-form-valid-feedback :state="actividadValidador.proyecto_id">
-                            Esta bien!
-                        </b-form-valid-feedback>
+                        <b-form-select v-model="actividad.proyecto_id" :options="proyectos"></b-form-select>
                     </b-col>
                 </b-row>
-                <b-row class="col-6">
+                <b-row class="col-12 col-sm-6">
                     <b-col sm="12">
                         <label>Usuarios</label>
                         <b-form-select :state="actividadValidador.empleado_id" v-model="actividad.empleado_id" :options="usuarios"></b-form-select>
@@ -28,7 +22,7 @@
                 </b-row>
             </div>
             <div class="row mt-2">
-                <b-row class="col-6">
+                <b-row class="col-12 col-sm-6">
                     <b-col sm="12">
                         <label for="fecha_inicial">Fecha Inicial</label>
                         <b-form-datepicker id="fecha_inicial" :state="actividadValidador.fecha_inicio" v-model="actividad.fecha_inicio"></b-form-datepicker>
@@ -40,7 +34,7 @@
                         </b-form-valid-feedback>
                     </b-col>
                 </b-row>
-                <b-row class="col-6">
+                <b-row class="col-12 col-sm-6">
                     <b-col sm="12">
                         <label for="fecha_final">Fecha Final</label>
                         <b-form-datepicker id="fecha_final" :state="actividadValidador.fecha_final" v-model="actividad.fecha_final"></b-form-datepicker>
@@ -54,7 +48,7 @@
                 </b-row>
             </div>
             <div class="row mt-2">
-                <b-row class="col-6">
+                <b-row class="col-12 col-sm-6">
                     <b-col sm="12">
                         <label>Descripcion de la actividad</label>
                         <b-form-textarea
@@ -88,10 +82,10 @@
                                 <h5>Subir archivos</h5>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-10 text-center">
+                                <div class="col-12 col-sm-10 text-center">
                                     <input type="file" class="form-control" accept=" video/*, image/*"  id="foto" name="foto" v-on:change="onImageChange">
                                 </div>
-                                <div class="text-center col-2">
+                                <div class="text-center col-12 col-sm-2 mt-2 mt-sm-0">
                                     <b-button block variant="success" type="submit" v-bind:disabled="loading_btn"><b-spinner small type="grow" v-if="loading_btn"></b-spinner> Agregar</b-button>
                                 </div>
                             </div>
@@ -120,7 +114,7 @@
                 <b-tab title="Añadir inventario">
                     <div class="col-12">
                         <div class="row">
-                            <b-row class="col-6">
+                            <b-row class="col-12 col-sm-6">
                                 <b-col sm="12">
                                     <label>Productos</label>
                                     <b-form-select :state="inventarioValidador.sub_cotizacion_producto_id" v-model="inventario.sub_cotizacion_producto_id" :options="productos"></b-form-select>
@@ -132,7 +126,7 @@
                                     </b-form-valid-feedback>
                                 </b-col>
                             </b-row>
-                            <b-row class="col-6">
+                            <b-row class="col-12 col-sm-6">
                                 <b-col sm="12">
                                     <label>Cantidad</label>
                                     <b-form-input type="number" :state="inventarioValidador.cantidad" v-model="inventario.cantidad" placeholder="Cantidad"></b-form-input>
@@ -145,7 +139,7 @@
                                 </b-col>
                             </b-row>
                         </div>
-                        <div class="text-center mt-3">
+                        <div class="my-3">
                             <b-button variant="success" v-bind:disabled="loading_btn_2" @click="storeProducto()"><b-spinner small type="grow" v-if="loading_btn_2"></b-spinner> Agregar</b-button>
                         </div>
                     </div>
@@ -183,7 +177,7 @@
                                     <th class="color-gray"></th>
                                 </tr>
                             </tfoot>
-                            <tbody>
+                            <tbody v-if="actividad.proyecto_id != null">
                                 <tr v-for="(producto, index) in inventario_actividad" :key="index">
                                     <td><img v-bind:src="producto.productos.productos.foto == 'default.png'? '/img/img_productos/'+producto.productos.productos.foto: url+producto.productos.productos.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                                     <td>{{producto.productos.productos.nombre}}</td>
@@ -196,6 +190,32 @@
                                     <td>{{producto.productos.productos.voltaje}}</td>
                                     <td>{{producto.cantidad}}</td>
                                     <td>{{producto.productos.ubicacion}}</td>
+                                    <td class="text-center">
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
+                                                <div class="dropdown-header">Acciones:</div>
+                                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody v-else>
+                                <tr v-for="(producto, index) in inventario_actividad" :key="index">
+                                    <td><img v-bind:src="producto.productos_secundarios.foto == 'default.png'? '/img/img_productos/'+producto.productos_secundarios.foto: url+producto.productos_secundarios.foto" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                                    <td>{{producto.productos_secundarios.nombre}}</td>
+                                    <td>{{producto.productos_secundarios.descripcion}}</td>
+                                    <td>{{producto.productos_secundarios.referencia}}</td>
+                                    <td>{{producto.productos_secundarios.marca}}</td>
+                                    <td>{{(producto.productos_secundarios.categoria_id == null)? 'Sin definir' : producto.productos_secundarios.categoria.nombre}}</td>
+                                    <td>{{producto.productos_secundarios.color}}</td>
+                                    <td>{{producto.productos_secundarios.temperatura_calor}}</td>
+                                    <td>{{producto.productos_secundarios.voltaje}}</td>
+                                    <td>{{producto.cantidad}}</td>
+                                    <td>{{producto.productos_secundarios.ubicacion}}</td>
                                     <td class="text-center">
                                         <div class="dropdown no-arrow">
                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -280,10 +300,18 @@
         methods:{
 
             getInventario(){
-                axios.get(`/Proyectos/Inventario/get/${this.actividad.proyecto_id}`).then(res=>{
-                    res.data.inventario.forEach(producto => {
-                        this.productos.push({ value : producto.id, text : producto.productos.nombre+' - Disponibilidad: '+(producto.cantidad-producto.cantidad_usada)})
-                    });
+                this.productos = []
+                var route = (this.actividad.proyecto_id != null) ? `/Proyectos/Inventario/get/${this.actividad.proyecto_id}` : '/Productos/getAll'
+                axios.get(route).then(res=>{
+                    if(this.actividad.proyecto_id != null){
+                        res.data.inventario.forEach(producto => {
+                            this.productos.push({ value : producto.id, text : producto.productos.nombre+' - Disponibilidad: '+(producto.cantidad-producto.cantidad_usada)})
+                        });
+                    }else{
+                        res.data.productos.forEach(producto => {
+                            this.productos.push({ value : producto.id, text : producto.nombre+' - Disponibilidad: '+(producto.cantidad)})
+                        });
+                    }
                 })
             },
 
@@ -375,7 +403,7 @@
             },
 
             store(){
-                if(this.actividad.proyecto_id != '' && this.actividad.empleado_id != '' && this.actividad.fecha_inicio != '' && this.actividad.fecha_final != '' && this.actividad.descripcion != ''){
+                if(this.actividad.empleado_id != '' && this.actividad.fecha_inicio != '' && this.actividad.fecha_final != '' && this.actividad.descripcion != ''){
                     this.ruta = (this.tipo == 'insert')? '/Proyectos/Actividades/store' : `/Proyectos/Actividades/update/${this.actividad.id}`
                     axios.post(this.ruta, this.actividad).then(res=>{
                         if(res.data.insert){
@@ -390,11 +418,13 @@
                             this.alert('Actividad', 'Actualizada', 'success')
                             this.actividad = res.data.actividad
                             this.tipo = 'edit'
+                            this.getInventario()
+                            this.getInventarioActividad()
                         }
-                    }).catch(function (error) {
+                    }).catch(error=>{
                         console.log(error.response)
                         this.alert('Actividad', 'Error en el servidor contactese con el programador', 'error')
-                    });
+                    })
                 }else{
                     this.validar()
                 }
@@ -402,7 +432,6 @@
             },
 
             validar(){
-                this.actividadValidador.proyecto_id = (this.actividad.proyecto_id == '')? false : true
                 this.actividadValidador.empleado_id = (this.actividad.empleado_id == '')? false : true
                 this.actividadValidador.fecha_inicio = (this.actividad.fecha_inicio == '')? false : true
                 this.actividadValidador.fecha_final = (this.actividad.fecha_final == '')? false : true

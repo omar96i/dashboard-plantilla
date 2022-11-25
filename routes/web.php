@@ -23,6 +23,7 @@ use App\Http\Controllers\Proyectos\ProyectoController;
 use App\Http\Controllers\Proyectos\ProyectoInterventoriaController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
 use App\Models\Cotizaciones\SubCotizacionProducto;
+use App\Models\Proyectos\Proyecto;
 use App\Models\Proyectos\ProyectoActividad;
 use App\Models\Proyectos\ProyectoActividadProducto;
 use App\Models\Proyectos\ProyectoActividadReporte;
@@ -47,6 +48,7 @@ use Spatie\Permission\Models\Permission;
 
 
 Route::get('/test', function () {
+    return Proyecto::with('planos', 'cotizacion.files')->get();
 });
 
 Route::redirect('/', '/login', 301);
@@ -172,6 +174,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store', [ProyectoController::class, 'store'])->name('proyectos.store');
         Route::post('/edit/{proyecto}', [ProyectoController::class, 'edit'])->name('proyectos.edit');
         Route::get('/form/{proyecto?}', [ProyectoController::class, 'form'])->name('proyectos.form');
+        Route::get('/form/aux/{cotizacion}', [ProyectoController::class, 'formAux'])->name('proyectos.form.aux');
         Route::get('/Inventario/get/{proyecto}', [ProyectoController::class, 'getInventario'])->name('proyectos.inventario.get');
         Route::get('/planos', [ProyectoPlanoController::class, 'index'])->name('proyectos.planos');
 

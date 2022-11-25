@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-12 col-lg-6" style="border-left: 0.01cm solid;">
                                 <h5 class="font-size-tittle color-gray">Proyecto</h5>
-                                <p class="text-muted mt-1">{{actividad.proyecto.nombre}}</p>
+                                <p class="text-muted mt-1">{{(actividad.proyecto_id == null) ? 'Sin asignar' :actividad.proyecto.nombre}}</p>
 
                             </div>
                             <div class="col-12 col-lg-6" style="border-left: 0.01cm solid;">

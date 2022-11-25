@@ -10,6 +10,9 @@
             </span>
             <span class="text">Cargar template</span>
         </button>
+        <b-button size="sm" variant="success" v-if="tipo == 'edit'" @click="abrirProyecto()">
+            Abrir proyecto
+        </b-button>
     </div>
 
     <form @submit.prevent="storeCotizacion()">
@@ -386,6 +389,9 @@
             this.ruta = (this.tipo == "insert")? '/Cotizaciones/store' : `/Cotizaciones/update/${this.cotizacion.id}`
         },
         methods:{
+            abrirProyecto(){
+                window.location.href = `/Proyectos/form/aux/${this.cotizacion.id}`
+            },
             actualizarDolar(){
                 if(this.dolar_data.id != ''){
                     axios.post(`/Cotizaciones/Dolar/update/${this.cotizacion.id}`, this.dolar_data).then(res=>{

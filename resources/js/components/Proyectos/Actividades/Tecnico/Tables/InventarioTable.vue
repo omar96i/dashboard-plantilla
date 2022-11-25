@@ -31,16 +31,16 @@
             </tfoot>
             <tbody>
                 <tr v-for="(producto, index) in inventario" :key="index">
-                    <td><img :src="(producto.productos.productos.foto == 'default.png')? '/img/img_productos/default.png' : `https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/${producto.productos.productos.foto}`" style="width: 70px; border-radius: 50%; height: 60px;"></td>
-                    <td>{{producto.productos.productos.nombre}}</td>
-                    <td>{{producto.productos.productos.descripcion}}</td>
-                    <td>{{producto.productos.productos.referencia}}</td>
-                    <td>{{producto.productos.productos.marca}}</td>
-                    <td>{{producto.productos.productos.color}}</td>
-                    <td>{{producto.productos.productos.temperatura_calor}}</td>
-                    <td>{{producto.productos.productos.voltaje}}</td>
-                    <td>{{producto.cantidad}}</td>
-                    <td>{{producto.productos.ubicacion}}</td>
+                    <td><img :src="(producto.productos != null) ? (producto.productos.productos.foto == 'default.png')? '/img/img_productos/default.png' : `https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/${producto.productos.productos.foto}` : (producto.productos_secundarios.foto == 'default.png')? '/img/img_productos/default.png' : `https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/${producto.productos_secundarios.foto}`" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                    <td>{{(producto.productos != null) ? producto.productos.productos.nombre : producto.productos_secundarios.nombre}}</td>
+                    <td>{{(producto.productos != null) ? producto.productos.productos.descripcion : producto.productos_secundarios.descripcion}}</td>
+                    <td>{{(producto.productos != null) ?producto.productos.productos.referencia : producto.productos_secundarios.referencia}}</td>
+                    <td>{{(producto.productos != null) ?producto.productos.productos.marca : producto.productos_secundarios.marca}}</td>
+                    <td>{{(producto.productos != null) ?producto.productos.productos.color : producto.productos_secundarios.color}}</td>
+                    <td>{{(producto.productos != null) ?producto.productos.productos.temperatura_calor : producto.productos_secundarios.temperatura_calor}}</td>
+                    <td>{{(producto.productos != null) ?producto.productos.productos.voltaje : producto.productos_secundarios.voltaje}}</td>
+                    <td>{{(producto.productos != null) ?producto.cantidad : producto.cantidad}}</td>
+                    <td>{{(producto.productos != null) ?producto.productos.ubicacion : 'sin definir'}}</td>
                 </tr>
             </tbody>
         </table>
