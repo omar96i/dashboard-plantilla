@@ -1,10 +1,17 @@
 <template>
 <div>
-    <div class="col-12 text-center" v-if="role == 'admin' || role == 'sub.admin'">
-        <button v-bind:class="[{ 'active': !load}, 'btn', 'btn-primary']" @click="tableProduct()">Productos</button>
-        <button class="btn btn-primary" @click="openModal()">Importar Productos</button>
-        <button v-bind:class="[{ 'active': load}, 'btn', 'btn-primary']" @click="tableCategorias()">Categorias</button>
+    <div class="row mb-3" v-if="role == 'admin' || role == 'sub.admin'">
+        <div class="col-12 col-sm-4 mt-2">
+            <button v-bind:class="[{ 'active': !load}, 'btn', 'btn-primary', 'btn-block']" @click="tableProduct()">Productos</button>
+        </div>
+        <div class="col-12 col-sm-4 mt-2">
+            <button class="btn btn-primary btn-block" @click="openModal()">Importar Productos</button>
+        </div>
+        <div class="col-12 col-sm-4 mt-2">
+            <button v-bind:class="[{ 'active': load}, 'btn', 'btn-primary', 'btn-block']" @click="tableCategorias()">Categorias</button>
+        </div>
     </div>
+    <hr>
 
     <productos-modal-import v-if="load_modal"></productos-modal-import>
     <table-productos :role="role" v-if="!load"></table-productos>

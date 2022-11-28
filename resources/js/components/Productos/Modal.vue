@@ -149,7 +149,7 @@
                                 <div class="col-12 col-sm-12">
                                     <label class="col-form-label">Categoria  <a href="#" @click="cambiarValorLoadCategoria()"><i class="fa-solid fa-gear"></i></a></label>
                                     <div v-if="!load_categoria">
-                                        <b-form-select v-model="producto.categoria_id" :options="options_categoria" v-bind:class="[{ 'is-invalid': productoValidacion.categoria}]"></b-form-select>
+                                        <v-select multiple v-model="producto.categoria_id" :options="options_categoria" :reduce="(options_categoria) => options_categoria.id"  v-bind:class="[{ 'is-invalid': productoValidacion.categoria}]"/>
                                         <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                     </div>
                                     <div v-else>
@@ -258,11 +258,14 @@
                     'cantidad' : this.product.cantidad,
                     'numero' : this.product.numero,
                     'codigo_letra' : this.product.codigo_letra,
-                    'categoria_id' : this.product.categoria_id,
+                    'categoria_id' : [],
                     'tipo' : (this.product.valores.length > 0) ? this.product.valores[0].tipo : '',
                     'valor' : (this.product.valores.length > 0) ? this.product.valores[0].valor : '',
                     'porcentaje' : (this.product.valores.length > 0) ? this.product.valores[0].porcentaje : '',
                     'sub_valor' : (this.product.valores.length > 0) ? this.product.valores[0].sub_valor : '',
+                }
+                for (let index = 0; index < this.product.categorias.length; index++) {
+                    this.producto.categoria_id.push(this.product.categorias[index].categoria_id)
                 }
                 this.setValor()
                 if(this.product.files != null){
@@ -272,6 +275,7 @@
                     }
                     this.load_image = true
                 }
+
             }
             this.ruta = (this.tipo == "edit") ? `/Productos/update/${this.product.id}` : '/Productos/store'
             this.getCategorias()
@@ -324,7 +328,7 @@
             getCategorias(){
                 axios.get('/Productos/Categorias/get').then(res=>{
                     res.data.categorias.forEach(categoria => {
-                        this.options_categoria.push({ value : categoria.id, text : categoria.nombre})
+                        this.options_categoria.push({ id : categoria.id, label : categoria.nombre})
                     });
                 })
             },
@@ -410,7 +414,10 @@
                     data.append("porcentaje", this.producto.porcentaje)
                     data.append("numero", this.producto.numero)
                     data.append("codigo_letra", this.producto.codigo_letra)
-                    data.append("categoria_id", this.producto.categoria_id)
+
+                     for (let i = 0; i < this.producto.categoria_id.length; i++) {
+                        data.append("categorias[]", this.producto.categoria_id[i])
+                    }
 
                     if(this.files.length > 0){
                         for (let i = 0; i < this.files.length; i++) {
@@ -419,7 +426,6 @@
                     }
 
                     axios.post(this.ruta, data).then(res=>{
-                        console.log(res.data)
                         this.loading = false
                         this.alert("Producto", (this.tipo == "edit")? "Producto Editado": "Producto Creado", "success")
                         this.closeModal()
@@ -444,7 +450,7 @@
                         if(res.data.saved){
                            this.alert('Categoria', 'Creada', 'success')
                            this.categoria = {}
-                           this.options_categoria.push({ value : res.data.categoria.id, text : res.data.categoria.nombre})
+                           this.options_categoria.push({ id : res.data.categoria.id, label : res.data.categoria.nombre})
                            this.cambiarValorLoadCategoria()
                         }
                     })

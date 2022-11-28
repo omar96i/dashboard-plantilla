@@ -48,6 +48,10 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
+    public function categorias(){
+        return $this->hasMany(ProductoCategoria::class, 'producto_id');
+    }
+
     public function solicitudes(){
         return $this->hasMany(ProyectoActividadProductoSolicitud::class, 'producto_id');
     }

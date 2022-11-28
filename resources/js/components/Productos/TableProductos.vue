@@ -1,17 +1,21 @@
 <template>
     <div>
-        <div class="col-12">
-            <div class="row">
-                <button class="btn btn-success btn-sm mb-3" @click="agregarProducto" v-if="role == 'admin' || role == 'sub.admin'">
+        <div class="row mb-4">
+            <div class="col-12 col-sm-6 mt-2">
+                <button class="btn btn-success btn-sm btn-block" @click="agregarProducto" v-if="role == 'admin' || role == 'sub.admin'">
                     <i class="fa-solid fa-box"></i>
                     <samp class="pl-2">Crear Productos</samp>
                 </button>
-                <button class="btn btn-success btn-sm mb-3 ml-3" @click="reabastecerProductos">
+            </div>
+            <div class="col-12 col-sm-6 mt-2">
+                <button class="btn btn-success btn-sm btn-block" @click="reabastecerProductos">
                     <i class="fa-solid fa-box"></i>
                     <samp class="pl-2">Reabastecer productos</samp>
                 </button>
             </div>
         </div>
+
+        <hr>
 
         <div class="table-responsive mt-2" v-if="load">
             <table class="table table-bordered" id="tablaProductos" width="100%" cellspacing="0" >
@@ -22,7 +26,7 @@
                         <th class="color-gray">Nombre</th>
                         <th class="color-gray">Descripcion</th>
                         <th class="color-gray">Marca</th>
-                        <th class="color-gray">Categoria</th>
+                        <th class="color-gray">Categorias</th>
                         <th class="color-gray">Color</th>
                         <th class="color-gray">Temperatura de calor</th>
                         <th class="color-gray">Voltaje</th>
@@ -61,11 +65,11 @@
                         <td>{{producto.referencia}}</td>
                         <td>{{producto.nombre}}</td>
                         <td>{{producto.descripcion}}</td>
-                        <td>{{(producto.marca == null)? "" : producto.marca}}</td>
-                        <td>{{(producto.categoria_id == null)? "" : producto.categoria.nombre}}</td>
-                        <td>{{(producto.color == null)? "" : producto.color}}</td>
-                        <td>{{(producto.temperatura_calor == null)? "" : producto.temperatura_calor}}</td>
-                        <td>{{(producto.voltaje == null)? "" : producto.voltaje}}</td>
+                        <td>{{(producto.marca == null || producto.marca == "null")? "sin definir" : producto.marca}}</td>
+                        <td><span v-for="(categoria, index) in producto.categorias" :key="index">{{categoria.categoria.nombre}} -</span></td>
+                        <td>{{(producto.color == null || producto.marca == "null")? "sin definir" : producto.color}}</td>
+                        <td>{{(producto.temperatura_calor == null || producto.temperatura_calor == "null")? "sin definir" : producto.temperatura_calor}}</td>
+                        <td>{{(producto.voltaje == null || producto.voltaje == "null")? "sin definir" : producto.voltaje}}</td>
                         <td><b-alert :variant="getColor(producto.cantidad)" show>{{producto.cantidad}}</b-alert></td>
                         <td>{{(producto.valores.length > 0 ) ? (producto.valores[0].tipo == 'peso_colombiano')? "Peso colombiano" : "Dolar" : ""}}</td>
                         <td>{{(producto.valores.length > 0) ? producto.valores[0].porcentaje : ""}}%</td>
@@ -145,7 +149,6 @@
                 this.load_modal = false
                 this.tipo = "edit"
                 axios.get(`Productos/get/${id}`).then(res=>{
-                    console.log(res.data)
                     this.producto = res.data.producto
                     this.openModal()
                 })

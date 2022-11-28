@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use Illuminate\Http\Request;
 use App\Models\Productos\Producto;
+use App\Models\Productos\ProductoCategoria;
 use App\Models\Productos\ProductoValor;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,6 +29,14 @@ class ProductoController extends Controller
 
         $product->save();
 
+        foreach($request->categorias as $categoria){
+            $save_categoria = new ProductoCategoria([
+                'producto_id' => $product->id,
+                'categoria_id' => $categoria
+            ]);
+            $save_categoria->save();
+        }
+
         ProductoValor::where('producto_id', '=', $product->id)->delete();
 
         $valor = new ProductoValor([
@@ -40,7 +49,7 @@ class ProductoController extends Controller
 
         $valor->save();
 
-        return response()->json(['saved' => true]);
+        return response()->json(['saved' => true, 'data' => $product->load('categorias.categoria')]);
     }
 
     public function storeExcel(Request $request){
@@ -77,9 +86,20 @@ class ProductoController extends Controller
         $producto->temperatura_calor = $request->temperatura_calor;
         $producto->voltaje = $request->voltaje;
         $producto->cantidad = $request->cantidad;
-        $producto->categoria_id = $request->categoria_id;
+
         $producto->update();
         $producto->save();
+
+        ProductoCategoria::where('producto_id', $producto->id)->delete();
+
+        foreach($request->categorias as $categoria){
+            $save_categoria = new ProductoCategoria([
+                'producto_id' => $producto->id,
+                'categoria_id' => $categoria
+            ]);
+            $save_categoria->save();
+        }
+
         $valor = ProductoValor::where('producto_id', '=', $producto->id)->get();
 
         if(count($valor) > 0){
@@ -138,7 +158,7 @@ class ProductoController extends Controller
     }
 
     public function getAll(){
-        return response()->json(['productos' => Producto::with('valores', 'categoria')->get()]);
+        return response()->json(['productos' => Producto::with('valores', 'categoria', 'categorias.categoria')->get()]);
     }
 
     public function delete(Producto $producto){
@@ -147,6 +167,6 @@ class ProductoController extends Controller
     }
 
     public function get(Producto $producto){
-        return response()->json(['producto' => $producto->load('valores')]);
+        return response()->json(['producto' => $producto->load('valores', 'categorias.categoria')]);
     }
 }
