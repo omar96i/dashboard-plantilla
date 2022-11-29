@@ -4,6 +4,7 @@ use App\Exports\UsersExport;
 use App\Http\Controllers\Cotizaciones\CotizacionController;
 use App\Http\Controllers\Productos\ProductoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
@@ -84,7 +85,13 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::group(['prefix' => 'Roles'], function () {
-
+        Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
+        Route::post('/destroy/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+        Route::get('/show/{role}', [RoleController::class, 'show'])->name('roles.show');
+        Route::get('/edit/{role}', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::post('/store', [RoleController::class, 'store'])->name('roles.store');
+        Route::patch('/update/{role}', [RoleController::class, 'update'])->name('roles.update');
     });
 
     Route::group(['prefix' => 'Productos'], function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Productos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Productos\ProductoReabastecimiento;
+use App\Models\Productos\Producto;
 use Illuminate\Http\Request;
 
 class ProductoReabastecimientoController extends Controller
@@ -15,7 +16,7 @@ class ProductoReabastecimientoController extends Controller
     public function store(Request $request){
         $producto = new ProductoReabastecimiento($request->all());
         $producto->save();
-        // Falta agregar al inventario
+        Producto::where('id', '=', $producto->id)->update(['cantidad' => $producto->cantidad]);
         return response()->json(['status' => true]);
     }
 
