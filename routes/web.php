@@ -4,7 +4,6 @@ use App\Exports\UsersExport;
 use App\Http\Controllers\Cotizaciones\CotizacionController;
 use App\Http\Controllers\Productos\ProductoController;
 use App\Http\Controllers\Usuarios\UsuarioController;
-use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Configuraciones\ConfiguracionController;
@@ -23,6 +22,7 @@ use App\Http\Controllers\Proyectos\ProyectoActividadReporteController;
 use App\Http\Controllers\Proyectos\ProyectoController;
 use App\Http\Controllers\Proyectos\ProyectoInterventoriaController;
 use App\Http\Controllers\Proyectos\ProyectoPlanoController;
+use App\Http\Controllers\Role\RoleController;
 use App\Models\Cotizaciones\SubCotizacionProducto;
 use App\Models\Proyectos\Proyecto;
 use App\Models\Proyectos\ProyectoActividad;
@@ -49,6 +49,8 @@ use Spatie\Permission\Models\Permission;
 
 
 Route::get('/test', function () {
+    $role = Role::find(1);
+    return $role->permissions->pluck('name');
     return Proyecto::with('planos', 'cotizacion.files')->get();
 });
 
@@ -86,12 +88,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'Roles'], function () {
         Route::get('/', [RoleController::class, 'index'])->name('roles.index');
-        Route::get('/create', [RoleController::class, 'create'])->name('roles.create');
-        Route::post('/destroy/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
-        Route::get('/show/{role}', [RoleController::class, 'show'])->name('roles.show');
-        Route::get('/edit/{role}', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::get('/get', [RoleController::class, 'get'])->name('roles.get');
+        Route::get('/get/permisos/{role}', [RoleController::class, 'getRolePermisos'])->name('roles.get.permisos.role');
         Route::post('/store', [RoleController::class, 'store'])->name('roles.store');
-        Route::patch('/update/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::get('/delete/{role}', [RoleController::class, 'delete'])->name('roles.delete');
+        Route::post('/store/permisos/{role}', [RoleController::class, 'storeRolePermisos'])->name('roles.store.permisos');
+        Route::group(['prefix' => 'Permisos'], function () {
+            Route::get('/delete/{permiso}', [RoleController::class, 'deletePermiso'])->name('roles.permisos.delete');
+            Route::post('/store', [RoleController::class, 'storePermiso'])->name('roles.permisos.store');
+            Route::get('/get', [RoleController::class, 'getPermisos'])->name('roles.permisos.get');
+        });
     });
 
     Route::group(['prefix' => 'Productos'], function () {

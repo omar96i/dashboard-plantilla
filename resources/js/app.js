@@ -24,8 +24,8 @@ Vue.use(VueSimpleAlert , { reverseButtons: true });
 Vue.component('v-select', vSelect)
 // Compoenents
 Vue.component('prueba-index', require('./components/Prueba.vue').default);
-
 Vue.component('usuarios-index', require('./components/Usuarios/Index.vue').default);
+Vue.component('roles-index', require('./components/Roles/Index.vue').default);
 Vue.component('usuarios-profile', require('./components/Usuarios/Profile.vue').default);
 Vue.component('productos-index', require('./components/Productos/Index.vue').default);
 Vue.component('productos-modal-import', require('./components/Productos/ModalImport.vue').default);
