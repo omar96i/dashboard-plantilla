@@ -2,7 +2,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Roles</h6>
-            <button class="btn btn-info btn-sm" @click="openModal()">Agregar Role</button>
+            <button class="btn btn-info btn-sm" @click="openModal()" v-if="permisos[0]">Agregar Role</button>
         </div>
         <div class="card-body">
             <div class="table-responsive" v-if="load">
@@ -29,9 +29,9 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                         <div class="dropdown-header">Acciones:</div>
-                                        <button class="dropdown-item" @click="openModalPermisos(role)"><i class="fa-solid fa-plus"></i> Asignar permisos</button>
+                                        <button class="dropdown-item" @click="openModalPermisos(role)" v-if="permisos[2]"><i class="fa-solid fa-plus"></i> Asignar permisos</button>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item" @click="deleteRole(role)"><i class="fas fa-trash" ></i> Eliminar</button>
+                                        <button class="dropdown-item" @click="deleteRole(role)" v-if="permisos[1]"><i class="fas fa-trash" ></i> Eliminar</button>
                                     </div>
                                 </div>
                             </td>
@@ -58,13 +58,30 @@ export default {
             load:false,
             load_modal:false,
             load_modal_2:false,
-            selected_role:''
+            selected_role:'',
+            data_permisos:{
+                permisos: ['roles.permisos.crear', 'roles.permisos.eliminar', 'roles.permisos.asignar']
+            },
+            permisos:[
+                false,
+                false,
+                false,
+            ]
         }
     },
     created(){
-        this.getRoles()
+        this.getPermisos()
     },
     methods:{
+        getPermisos(){
+            axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                this.permisos = res.data.permisos
+            }).catch(error=>{
+                console.log(error.response)
+            }).finally(res=>{
+                this.getRoles()
+            })
+        },
         getRoles(){
             this.load = false
             axios.get('/Roles/get').then(res=>{

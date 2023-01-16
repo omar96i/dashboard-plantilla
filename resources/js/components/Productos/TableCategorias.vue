@@ -2,7 +2,7 @@
     <div>
         <div class="col-12">
             <div class="row">
-                <button class="btn btn-success btn-sm mb-3" @click="openModal()">
+                <button class="btn btn-success btn-sm mb-3" @click="openModal()" v-if="permisos[0]">
                     <i class="fas fa-user-plus"></i>
                     <samp class="pl-2">Crear Categoria</samp>
                 </button>
@@ -33,9 +33,9 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                     <div class="dropdown-header">Acciones:</div>
-                                    <button class="dropdown-item" @click="editCategoria(categoria.id)"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                                    <button class="dropdown-item" @click="editCategoria(categoria.id)" v-if="permisos[1]"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
                                     <div class="dropdown-divider"></div>
-                                    <button class="dropdown-item" @click="eliminarCategoria(categoria.id)"><i class="fas fa-trash" ></i> Eliminar</button>
+                                    <button class="dropdown-item" @click="eliminarCategoria(categoria.id)" v-if="permisos[2]"><i class="fas fa-trash" ></i> Eliminar</button>
                                 </div>
                             </div>
                         </td>
@@ -62,13 +62,31 @@
                 load: false,
                 load_modal : false,
                 category: {},
-                tipo: 'insert'
+                tipo: 'insert',
+                data_permisos:{
+                    permisos: ['productos.categorias.crear', 'productos.categorias.editar', 'productos.categorias.eliminar', 'productos.reabastecimientos']
+                },
+                permisos:[
+                    false,
+                    false,
+                    false,
+                    false
+                ]
             }
         },
         created(){
-            this.get()
+            this.getPermisos()
         },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                }).finally(res=>{
+                    this.get()
+                })
+            },
             get(){
                 this.load = false
                 axios.get('/Productos/Categorias/get').then(res=>{

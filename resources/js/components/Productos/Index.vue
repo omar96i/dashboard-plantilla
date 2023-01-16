@@ -4,7 +4,7 @@
         <div class="col-12 col-sm-4 mt-2">
             <button v-bind:class="[{ 'active': !load}, 'btn', 'btn-primary', 'btn-block']" @click="tableProduct()">Productos</button>
         </div>
-        <div class="col-12 col-sm-4 mt-2">
+        <div class="col-12 col-sm-4 mt-2" v-if="permisos[0]">
             <button class="btn btn-primary btn-block" @click="openModal()">Importar Productos</button>
         </div>
         <div class="col-12 col-sm-4 mt-2">
@@ -33,9 +33,28 @@
             return{
                 load: false,
                 load_modal: false,
+                data_permisos:{
+                    permisos: ['productos.crear', 'productos.editar', 'productos.eliminar', 'productos.reabastecimientos']
+                },
+                permisos:[
+                    false,
+                    false,
+                    false,
+                    false
+                ]
             }
         },
+        created(){
+            this.getPermisos()
+        },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                })
+            },
             tableProduct(){
                 this.load = false
             },

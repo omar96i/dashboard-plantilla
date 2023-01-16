@@ -49,9 +49,8 @@ use Spatie\Permission\Models\Permission;
 
 
 Route::get('/test', function () {
-    $role = Role::find(1);
-    return $role->permissions->pluck('name');
-    return Proyecto::with('planos', 'cotizacion.files')->get();
+    $user = User::find(1);
+    return $user->hasPermissionTo('usuario.view');
 });
 
 Route::redirect('/', '/login', 301);
@@ -128,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'Usuarios'], function () {
         Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
+        Route::post('/get/permisos', [UsuarioController::class, 'getPermisos'])->name('usuarios.get.permisos');
         Route::view('/profile', 'usuarios.profile')->name('usuarios.profile');
         Route::post('/store', [UsuarioController::class, 'store'])->name('usuarios.store');
         Route::post('/update/{user}', [UsuarioController::class, 'update'])->name('usuarios.update');

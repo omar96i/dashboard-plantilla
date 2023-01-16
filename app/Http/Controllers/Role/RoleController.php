@@ -18,7 +18,7 @@ class RoleController extends Controller
     }
 
     public function getPermisos(){
-        return response()->json(['status' => true, 'permisos' => Permission::get()]);
+        return response()->json(['status' => true, 'permisos' => Permission::orderBy('name', 'desc')->get()]);
     }
 
     public function store(Request $request){
@@ -42,7 +42,7 @@ class RoleController extends Controller
     }
 
     public function getRolePermisos(Role $role){
-        return response()->json(['status' => true, 'permisos' => Permission::get(), 'active' => $role->permissions->pluck('name')]);
+        return response()->json(['status' => true, 'permisos' => Permission::orderBy('name', 'desc')->get(), 'active' => $role->permissions->pluck('name')]);
     }
 
     public function deletePermiso(Permission $permiso){

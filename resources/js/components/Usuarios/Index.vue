@@ -1,6 +1,6 @@
 <template>
 <div>
-    <button class="btn btn-success btn-sm" @click="agregarUsuario">
+    <button class="btn btn-success btn-sm" @click="agregarUsuario" v-if="permisos[0]">
         <i class="fas fa-user-plus"></i>
         <samp class="pl-2">Crear Usuario</samp>
     </button>
@@ -53,8 +53,8 @@
                     <td v-if="usuario.informacion_personal != null">{{usuario.informacion_personal.ciudad}}</td>
                     <td>{{usuario.email}}</td>
                     <td class="text-center">
-                        <button class="btn btn-info btn-circle btn-sm" @click="editUsuario(usuario.id)"><i class="fa-solid fa-user-pen"></i></button>
-                        <button class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash" @click="eliminarUsuario(usuario.id)"></i></button>
+                        <button class="btn btn-info btn-circle btn-sm" @click="editUsuario(usuario.id)" v-if="permisos[1]"><i class="fa-solid fa-user-pen"></i></button>
+                        <button class="btn btn-danger btn-circle btn-sm"  @click="eliminarUsuario(usuario.id)" v-if="permisos[2]"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
             </tbody>
@@ -82,14 +82,30 @@
                 tipo: '',
                 usuario: null,
                 load_modal: false,
-                load: false
+                load: false,
+                data_permisos:{
+                    permisos: ['usuario.crear', 'usuario.editar', 'usuario.eliminar']
+                },
+                permisos:[
+                    false,
+                    false,
+                    false,
+                ]
             }
         },
         created(){
-            this.getAllUser()
-
+            this.getPermisos()
         },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                }).finally(res=>{
+                    this.getAllUser()
+                })
+            },
             eliminarUsuario(usuario_id){
                 this.$fire({
                     title: 'Usuario',

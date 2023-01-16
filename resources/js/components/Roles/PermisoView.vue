@@ -2,7 +2,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Permisos</h6>
-            <button class="btn btn-info btn-sm" @click="openModal()">Agregar Permiso</button>
+            <button class="btn btn-info btn-sm" @click="openModal()" v-if="permisos[0]">Agregar Permiso</button>
         </div>
         <div class="card-body">
             <div class="table-responsive" v-if="load">
@@ -30,7 +30,7 @@
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                         <div class="dropdown-header">Acciones:</div>
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item" @click="deletePermiso(permiso)"><i class="fas fa-trash" ></i> Eliminar</button>
+                                        <button class="dropdown-item" @click="deletePermiso(permiso)" v-if="permisos[1]"><i class="fas fa-trash" ></i> Eliminar</button>
                                     </div>
                                 </div>
                             </td>
@@ -52,13 +52,30 @@ export default {
         return{
             permisos:[],
             load:false,
-            load_modal:false
+            load_modal:false,
+            data_permisos:{
+                permisos: ['roles.permisos.crear', 'roles.permisos.eliminar', 'roles.permisos.asignar']
+            },
+            permisos:[
+                false,
+                false,
+                false,
+            ]
         }
     },
     created(){
-        this.getPermisos()
+        this.getPermisosActive()
     },
     methods:{
+        getPermisosActive(){
+            axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                this.permisos = res.data.permisos
+            }).catch(error=>{
+                console.log(error.response)
+            }).finally(res=>{
+                this.getPermisos()
+            })
+        },
         getPermisos(){
             this.load = false
             axios.get('/Roles/Permisos/get').then(res=>{

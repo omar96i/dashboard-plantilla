@@ -1,6 +1,6 @@
 <template>
 <div>
-    <a class="btn btn-success btn-sm" href="/Cotizaciones/form">
+    <a class="btn btn-success btn-sm" href="/Cotizaciones/form" v-if="permisos[0]">
         <i class="fa-solid fa-plus"></i>
         <samp class="pl-2">Cotizacion</samp>
     </a>
@@ -63,10 +63,10 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                 <div class="dropdown-header">Acciones:</div>
-                                <a class="dropdown-item" :href="'/Cotizaciones/show/'+cotizacion.id"><i class="fa-solid fa-eye"></i> Ver</a>
-                                <a class="dropdown-item" :href="'/Cotizaciones/edit/'+cotizacion.id"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                <a class="dropdown-item" :href="'/Cotizaciones/show/'+cotizacion.id" v-if="permisos[2]"><i class="fa-solid fa-eye"></i> Ver</a>
+                                <a class="dropdown-item" :href="'/Cotizaciones/edit/'+cotizacion.id" v-if="permisos[1]"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" href="#" @click="eliminarCotizacion(cotizacion.id)"><i class="fas fa-trash" ></i> Eliminar</button>
+                                <button class="dropdown-item" href="#" @click="eliminarCotizacion(cotizacion.id)" v-if="permisos[3]"><i class="fas fa-trash" ></i> Eliminar</button>
                             </div>
                         </div>
                     </td>
@@ -89,13 +89,31 @@
         data(){
             return{
                 cotizaciones:{},
-                load: false
+                load: false,
+                data_permisos:{
+                    permisos: ['cotizaciones.crear', 'cotizaciones.editar', 'cotizaciones.ver', 'cotizaciones.eliminar']
+                },
+                permisos:[
+                    false,
+                    false,
+                    false,
+                    false
+                ]
             }
         },
         created(){
-            this.getCotizaciones()
+            this.getPermisos()
         },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                }).finally(res=>{
+                    this.getCotizaciones()
+                })
+            },
             abrirModal(){
                 $("#modalCotizacion").modal('show')
             },

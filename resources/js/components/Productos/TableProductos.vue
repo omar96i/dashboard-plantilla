@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="row mb-4">
-            <div class="col-12 col-sm-6 mt-2">
+            <div class="col-12 col-sm-6 mt-2" v-if="permisos[0]">
                 <button class="btn btn-success btn-sm btn-block" @click="agregarProducto" v-if="role == 'admin' || role == 'sub.admin'">
                     <i class="fa-solid fa-box"></i>
                     <samp class="pl-2">Crear Productos</samp>
                 </button>
             </div>
-            <div class="col-12 col-sm-6 mt-2">
+            <div class="col-12 col-sm-6 mt-2" v-if="permisos[3]">
                 <button class="btn btn-success btn-sm btn-block" @click="reabastecerProductos">
                     <i class="fa-solid fa-box"></i>
                     <samp class="pl-2">Reabastecer productos</samp>
@@ -83,9 +83,9 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                     <div class="dropdown-header">Acciones:</div>
-                                    <button class="dropdown-item" @click="editProducto(producto.id)"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                                    <button class="dropdown-item" @click="editProducto(producto.id)" v-if="permisos[1]"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
                                     <div class="dropdown-divider"></div>
-                                    <button class="dropdown-item" @click="eliminarProducto(producto.id)"><i class="fas fa-trash" ></i> Eliminar</button>
+                                    <button class="dropdown-item" @click="eliminarProducto(producto.id)" v-if="permisos[2]"><i class="fas fa-trash" ></i> Eliminar</button>
                                 </div>
                             </div>
                         </td>
@@ -121,13 +121,31 @@
                 load_modal: false,
                 producto:null,
                 dolar: {},
-                second_load_modal: false
+                second_load_modal: false,
+                data_permisos:{
+                    permisos: ['productos.crear', 'productos.editar', 'productos.eliminar', 'productos.reabastecimientos']
+                },
+                permisos:[
+                    false,
+                    false,
+                    false,
+                    false
+                ]
             }
         },
         created(){
-            this.getDolar()
+            this.getPermisos()
         },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                }).finally(res=>{
+                    this.getDolar()
+                })
+            },
             getColor(cantidad){
                 if(cantidad < 30 && cantidad > 10){
                     return 'warning'

@@ -30,10 +30,10 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                 <div class="dropdown-header">Acciones:</div>
-                                <a class="dropdown-item" :href="'/Proyectos/show/'+proyecto.id"><i class="fa-solid fa-eye"></i> Ver</a>
-                                <a class="dropdown-item" :href="'/Proyectos/form/'+proyecto.id"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                <a class="dropdown-item" :href="'/Proyectos/show/'+proyecto.id" v-if="permisos[3]"><i class="fa-solid fa-eye"></i> Ver</a>
+                                <a class="dropdown-item" :href="'/Proyectos/form/'+proyecto.id" v-if="permisos[1]"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
+                                <button class="dropdown-item" href="#" v-if="permisos[2]"><i class="fas fa-trash" ></i> Eliminar</button>
                             </div>
                         </div>
                     </td>
@@ -50,12 +50,30 @@
             return{
                 proyectos:{},
                 load: false,
+                data_permisos:{
+                    permisos: ['proyectos.crear', 'proyectos.editar', 'proyectos.eliminar', 'proyectos.ver']
+                },
+                permisos:[
+                    false,
+                    false,
+                    false,
+                    false
+                ]
             }
         },
         created(){
-            this.getProyectos()
+            this.getPermisos()
         },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                }).finally(res=>{
+                    this.getProyectos()
+                })
+            },
             getProyectos(){
                 axios.get('/Proyectos/get').then(res=>{
                     this.proyectos = res.data.proyectos

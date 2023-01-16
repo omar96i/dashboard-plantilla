@@ -15,10 +15,12 @@
                     <h6 class="m-0 font-weight-bold text-primary">Actividades</h6>
                 </div>
                 <div class="card-body" id="app">
-                    <a class="btn btn-success btn-sm mb-3" href="{{route('proyectos.actividades.form')}}">
-                        <i class="fas fa-user-plus"></i>
-                        <samp class="pl-2">Crear Actividad</samp>
-                    </a>
+                    @can('proyectos.actividades.crear')
+                        <a class="btn btn-success btn-sm mb-3" href="{{route('proyectos.actividades.form')}}">
+                            <i class="fas fa-user-plus"></i>
+                            <samp class="pl-2">Crear Actividad</samp>
+                        </a>
+                    @endcan
                     <proyectos-actividades></proyectos-actividades>
                 </div>
             </div>

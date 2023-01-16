@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="col-12 text-center" v-if="!spinner_one">
-            <button class="btn btn-success btn-sm" type="submit">Guardar</button>
+            <button class="btn btn-success btn-sm" type="submit" v-if="permisos[0]">Guardar</button>
         </div>
         <div class="col-12 text-center" v-else>
             <spinner-view :loading="spinner_one"></spinner-view>
@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="col-12 text-center" v-if="!spinner_two">
-            <button class="btn btn-success btn-sm" type="submit">Guardar</button>
+            <button class="btn btn-success btn-sm" type="submit" v-if="permisos[0]">Guardar</button>
         </div>
         <div class="col-12 text-center" v-else>
             <spinner-view :loading="spinner_two"></spinner-view>
@@ -83,13 +83,28 @@
                 datos_basicos:{},
                 spinner_one: false,
                 spinner_two: false,
+                data_permisos:{
+                    permisos: ['configuraciones.crear']
+                },
+                permisos:[
+                    false,
+                ]
             }
         },
         created(){
-            this.getIva()
-            this.getDatosBasicos()
+            this.getPermisos()
         },
         methods:{
+            getPermisos(){
+                axios.post('./Usuarios/get/permisos', this.data_permisos).then(res=>{
+                    this.permisos = res.data.permisos
+                }).catch(error=>{
+                    console.log(error.response)
+                }).finally(res=>{
+                    this.getIva()
+                    this.getDatosBasicos()
+                })
+            },
             openModal(){
                 $("#modalCondiciones").modal('show')
             },

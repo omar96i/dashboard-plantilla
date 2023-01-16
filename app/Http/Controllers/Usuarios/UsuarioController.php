@@ -24,6 +24,19 @@ class UsuarioController extends Controller
         return view('usuarios.index');
     }
 
+    public function getPermisos(Request $request){
+        $user = User::find(auth()->user()->id);
+        $permisos = [];
+        foreach ($request->permisos as $key => $permiso) {
+            if($user->hasPermissionTo($permiso)){
+                array_push($permisos, true);
+            }else{
+                array_push($permisos, false);
+            }
+        }
+        return response()->json(['status' => true, 'permisos' => $permisos]);
+    }
+
     public function store(Request $request){
 
         $user = new User([
