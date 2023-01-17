@@ -16,7 +16,10 @@ class ProductoReabastecimientoController extends Controller
     public function store(Request $request){
         $producto = new ProductoReabastecimiento($request->all());
         $producto->save();
-        Producto::where('id', '=', $producto->id)->update(['cantidad' => $producto->cantidad]);
+        $product = Producto::find($producto->producto_id);
+        $cantidad = $product->cantidad+$producto->cantidad;
+        $product->cantidad = $cantidad;
+        $product->update();
         return response()->json(['status' => true]);
     }
 

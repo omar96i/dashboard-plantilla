@@ -71,11 +71,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get', [DolarValorController::class, 'getTRM'])->name('trm.get');
     });
 
-    Route::group(['prefix' => 'Cotizaciones'], function () {
-        Route::get('/', [CotizacionController::class, 'index'])->name('cotizaciones.index');
-        Route::get('/form', [CotizacionController::class, 'form'])->name('cotizaciones.form');
-    });
-
     Route::group(['prefix' => 'Notificaciones'], function () {
         Route::get('/index/{tipo?}', [NotificacionController::class, 'index'])->name('notificaciones.index');
         Route::get('/readAll', [NotificacionController::class, 'readAll'])->name('notificaciones.read.all');
@@ -209,7 +204,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/tecnico', [ProyectoActividadController::class, 'indexTecnico'])->name('proyectos.actividades.tecnico.index');
             Route::get('/show/{actividad}', [ProyectoActividadController::class, 'show'])->name('proyectos.actividades.show');
             Route::get('/get', [ProyectoActividadController::class, 'get'])->name('proyectos.actividades.get');
-            Route::post('/Finalizar/{actividad}', [ProyectoActividadController::class, 'finalizarActividad'])->name('proyectos.actividades.finalizar');
+            Route::post('/store/pruebas/{actividad}', [ProyectoActividadController::class, 'uploadPruebas'])->name('proyectos.actividades.upload.pruebas');
+            Route::get('/Finalizar/{actividad}', [ProyectoActividadController::class, 'finalizarActividad'])->name('proyectos.actividades.finalizar');
             Route::get('/get/{actividad}', [ProyectoActividadController::class, 'getActividad'])->name('proyectos.actividades.get.actividad');
             Route::get('/calendario', [ProyectoActividadController::class, 'calendario'])->name('proyectos.actividades.calendario');
             Route::get('/getActividadesUsuario', [ProyectoActividadController::class, 'getActividadesUsuario'])->name('proyectos.actividades.get-actividades-usuario');

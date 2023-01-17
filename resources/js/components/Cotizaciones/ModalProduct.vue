@@ -87,6 +87,9 @@
                         this.alert("Producto", res.data.msg, "warning")
                         this.producto = {}
                     }
+                }).catch(error=>{
+                    console.log(error.response)
+                    this.alert('Producto', 'Error en el sistema', 'error')
                 })
             },
 

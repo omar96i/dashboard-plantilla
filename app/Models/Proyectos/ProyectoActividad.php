@@ -50,7 +50,7 @@ class ProyectoActividad extends Model
     }
 
     public function pruebas(){
-        return $this->hasOne(ProyectoActividadPrueba::class, 'actividad_id');
+        return $this->hasMany(ProyectoActividadPrueba::class, 'actividad_id');
     }
 
     public function solicitudes(){

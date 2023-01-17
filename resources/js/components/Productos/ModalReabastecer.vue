@@ -84,6 +84,7 @@
                             'producto_id' : '',
                             'cantidad' : ''
                         }
+                        this.$parent.getPermisos()
                     }
                 })
             }

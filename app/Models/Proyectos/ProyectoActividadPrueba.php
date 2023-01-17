@@ -15,6 +15,7 @@ class ProyectoActividadPrueba extends Model
         'actividad_id',
         'descripcion',
         'files',
+        'fecha',
     ];
 
     public function actividad(){

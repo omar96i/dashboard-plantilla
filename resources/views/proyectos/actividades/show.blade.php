@@ -30,7 +30,9 @@
                     </div>
                     <div class="col-4" style="border-left: 0.01cm solid;">
                         <h4>Proyecto</h4>
-                        <p class="text-muted mt-1">{{$actividad->proyecto->nombre}}</p>
+                        @isset($actividad->proyecto)
+                            <p class="text-muted mt-1">{{$actividad->proyecto->nombre}}</p>
+                        @endisset
                     </div>
                     <div class="col-4" style="border-left: 0.01cm solid;">
                         <h4>Fecha inicio</h4>
@@ -59,6 +61,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="reportes-tab" data-toggle="tab" href="#reportes" role="tab" aria-controls="home" aria-selected="true">Reportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pruebas-tab" data-toggle="tab" href="#pruebas" role="tab" aria-controls="home" aria-selected="true">Pruebas</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -167,6 +172,12 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pruebas" role="tabpanel" aria-labelledby="pruebas-tab">
+                        <div id="app">
+                            <proyecto-actividad-pruebas-table :pruebas="{{ $actividad->pruebas }}"></proyecto-actividad-pruebas-table>
                         </div>
                     </div>
                 </div>

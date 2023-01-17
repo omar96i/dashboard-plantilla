@@ -63,22 +63,28 @@
                             <b-tab title="Asistencias">
                                 <asistencia-table :asistencias="actividad.asistencias"></asistencia-table>
                             </b-tab>
+                            <b-tab title="Pruebas">
+                                <pruebas-table :pruebas="actividad.pruebas"></pruebas-table>
+                            </b-tab>
                             <b-tab title="Acciones">
                                 <div class="row container text-center">
-                                    <div class="col-12 col-sm-3 my-2 mt-sm-0">
-                                        <b-button variant="primary" @click="setForm('reportes')">Enviar Reporte</b-button>
+                                    <div class="col-12 col-sm-4 p-2">
+                                        <b-button block variant="primary" @click="setForm('reportes')">Enviar Reporte</b-button>
                                     </div>
-                                    <div class="col-12 col-sm-3 my-2 mt-sm-0">
-                                        <b-button variant="primary" @click="setForm('solicitud_productos')">Solicitar Producto</b-button>
+                                    <div class="col-12 col-sm-4 p-2">
+                                        <b-button block variant="primary" @click="setForm('solicitud_productos')">Solicitar Producto</b-button>
                                     </div>
-                                    <div class="col-12 col-sm-3 my-2 mt-sm-0">
-                                        <b-button variant="primary" @click="setForm('finalizar')">Finalizar actividad</b-button>
+                                    <div class="col-12 col-sm-4 p-2">
+                                        <b-button block variant="primary" @click="setForm('finalizar')">Subir Pruebas</b-button>
                                     </div>
-                                    <div class="col-12 col-sm-3 my-2 mt-sm-0" v-if="actividad.estado != 'completado'">
-                                        <b-button variant="primary" :disabled="loading" @click="ubicacion()">
+                                    <div class="col-12 col-sm-4 p-2" v-if="actividad.estado != 'completado'">
+                                        <b-button block variant="primary" :disabled="loading" @click="ubicacion()">
                                             <b-spinner small type="grow" v-if="loading"></b-spinner>
                                             Asistencia
                                         </b-button>
+                                    </div>
+                                    <div class="col-12 col-sm-4 p-2">
+                                        <b-button block variant="warning" @click="finalizarActividad()">Finalizar actividad</b-button>
                                     </div>
                                 </div>
                                 <div>
@@ -103,6 +109,7 @@
     import FormSolicitudProductos from './Forms/SolicitudProductos.vue'
     import FormReportes from './Forms/Reportes.vue'
     import FormFinalizar from './Forms/Finalizar.vue'
+    import PruebasTable from './Tables/PruebasTable.vue'
 
     export default {
         props: ['id'],
@@ -113,7 +120,8 @@
             ReportesTable,
             SolicitudesTable,
             InventarioTable,
-            AsistenciaTable
+            AsistenciaTable,
+            PruebasTable
         },
         data(){
             return{
@@ -197,6 +205,35 @@
                     type: tipo,
                     timer: 3000
                 })
+            },
+            finalizarActividad(){
+                this.$fire({
+                    title: 'Actividad',
+                    text: 'Una vez finalizada la actividad no podras modificar los datos.',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#1cc88a',
+                }).then((result) => {
+                    if(result.value){
+                        this.loading = true
+                        axios.get(`/Proyectos/Actividades/Finalizar/${this.actividad.id}`).then(res=>{
+                            if(res.data.status){
+                                this.alert('Asistencia', res.data.msg, 'success')
+                            }else{
+                                this.alert('Asistencia', res.data.msg, 'error')
+                            }
+                            this.loading = false
+                            setTimeout(()=>{
+                                location.reload()
+                            },2000)
+                        }).catch(function (error) {
+                            this.alert('Asistencia', 'Error en el servidor contactese con el programador', 'error')
+                            this.loading = false
+                        });
+                    }
+                });
             },
             setAsistencia(){
                 this.$fire({

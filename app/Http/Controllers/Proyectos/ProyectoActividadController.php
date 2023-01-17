@@ -27,7 +27,7 @@ class ProyectoActividadController extends Controller
 
     public function show(ProyectoActividad $actividad){
         $reportes = ProyectoActividadReporte::with('producto.productos.productos', 'usuario.informacionPersonal')->where('actividad_id', $actividad->id)->get();
-        return view('proyectos.actividades.show', ['actividad' => $actividad->load('whoCreated.informacionPersonal', 'proyecto', 'empleado.informacionPersonal', 'files', 'inventario.productos.productos'), 'reportes' => $reportes]);
+        return view('proyectos.actividades.show', ['actividad' => $actividad->load('whoCreated.informacionPersonal', 'pruebas', 'proyecto', 'empleado.informacionPersonal', 'files', 'inventario.productos.productos'), 'reportes' => $reportes]);
     }
 
     public function form(ProyectoActividad $actividad = null){
@@ -152,7 +152,7 @@ class ProyectoActividadController extends Controller
         return response()->json(['actividad' => $actividad->load('proyecto', 'files', 'inventario.productos.productos', 'inventario.productos_secundarios', 'pruebas', 'reportes.producto.productos.productos', 'solicitudes.producto', 'asistencias', 'reagendamientos')]);
     }
 
-    public function finalizarActividad(ProyectoActividad $actividad, Request $request){
+    public function uploadPruebas(ProyectoActividad $actividad, Request $request){
         if($request->hasFile('files')){
             $files = $request->file('files');
             foreach ($files as $key => $file) {
@@ -161,21 +161,28 @@ class ProyectoActividadController extends Controller
             $proyecto_pruebas = new ProyectoActividadPrueba([
                 'actividad_id' => $actividad->id,
                 'descripcion' => $request->descripcion,
+                'fecha' => $request->fecha,
                 'files' => json_encode($names)
             ]);
             $proyecto_pruebas->save();
-            $actividad->update(['estado' => 'completado']);
-            $actividad->save();
-            $tipo['accion'] = "finalizada";
-            $tipo['tabla'] = "proyecto_actividades";
-            $tipo['user_id'] = $actividad->empleado_id;
-            event(new ActividadEvent($actividad, $tipo));
+            //$actividad->update(['estado' => 'completado']);
+            //$actividad->save();
+            // $tipo['accion'] = "finalizada";
+            // $tipo['tabla'] = "proyecto_actividades";
+            // $tipo['user_id'] = $actividad->empleado_id;
+            // event(new ActividadEvent($actividad, $tipo));
         }else{
             return response()->json(['status' => false, 'msg' => 'No es han seleccionado imagenes']);
         }
-        return response()->json(['status' => true, 'msg' => 'Actividad Finalizada']);
+        return response()->json(['status' => true, 'msg' => 'Pruebas subidas']);
 
         /////////////////////////////////////// FALTA DESCONTAR PRODUCTOS ///////////////////////////////
+    }
+
+    public function finalizarActividad(ProyectoActividad $actividad){
+        $actividad->update(['estado' => 'completado']);
+        $actividad->save();
+        return response()->json(['status' => true, 'msg' => 'Actividad finalizada']);
     }
 
 

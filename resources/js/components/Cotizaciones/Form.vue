@@ -146,7 +146,7 @@
                         <tbody>
 
                             <tr v-for="(producto, index) in productos" :key="index">
-                                <td><img v-bind:src="producto.files == null? 'img/img_productos/default.png': getUrl(producto.files)" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                                <td><img v-bind:src="producto.files == null? '/img/img_productos/default.png': getUrl(producto.files)" style="width: 70px; border-radius: 50%; height: 60px;"></td>
                                 <td>{{producto.productos.nombre}}</td>
                                 <td>{{producto.productos.descripcion}}</td>
                                 <td>{{producto.productos.referencia}}</td>
@@ -158,7 +158,7 @@
                                 <td>{{(producto.productos.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format(Math.round((producto.productos.valores[0].valor * dolar.valor))) : new Intl.NumberFormat('en-US').format(Math.round(producto.productos.valores[0].valor))}}</td>
                                 <td>{{(producto.productos.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format(Math.round(((producto.productos.valores[0].valor * dolar.valor) * producto.cantidad))) : new Intl.NumberFormat('en-US').format(Math.round((producto.productos.valores[0].valor * producto.cantidad)))}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash" @click="eliminarProducto(producto.id)"></i></button>
+                                    <button class="btn btn-danger btn-circle btn-sm" @click="eliminarProducto(producto.id)"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -166,7 +166,7 @@
                 </div>
             </div>
         </b-tab>
-        <b-tab title="Formas de pago">
+        <b-tab title="Abonos">
             <div v-if="load_second_form">
                 <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 text-primary">Abonos</h6>
@@ -227,10 +227,10 @@
                         <h5>Subir archivos</h5>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-10 text-center">
+                        <div class="col-12 col-lg-10 text-center p-2">
                             <input type="file" class="form-control" accept=" video/*, image/*"  id="foto" name="foto" v-on:change="onImageChange">
                         </div>
-                        <div class="text-center col-2">
+                        <div class="text-center col-12 col-lg-2">
                             <b-button block variant="success" type="submit" v-bind:disabled="loading_btn"><b-spinner small type="grow" v-if="loading_btn"></b-spinner> Agregar</b-button>
                         </div>
                     </div>
@@ -258,11 +258,11 @@
                     <h5>Cambiar dolar</h5>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-lg-10">
+                    <div class="col-12 col-lg-10 p-2">
                         <v-select :options="dolars" v-model="dolar_data.id" :reduce="(option) => option.id"></v-select>
                     </div>
                     <div class="col-12 col-lg-2">
-                        <button class="btn btn-success" @click="actualizarDolar()">Actualizar</button>
+                        <button class="btn btn-success btn-block" @click="actualizarDolar()">Actualizar</button>
                     </div>
                 </div>
             </div>
@@ -395,7 +395,7 @@
                 window.location.href = `/Proyectos/form/aux/${this.cotizacion.id}`
             },
             actualizarDolar(){
-                
+
                 if(this.dolar_data.id == ''){
                     axios.post(`/Cotizaciones/Dolar/update/${this.cotizacion.id}`, this.dolar_data).then(res=>{
                         if(res.data.status){

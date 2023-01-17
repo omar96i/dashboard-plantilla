@@ -21,6 +21,7 @@ class SubCotizacionProducto extends Model
         'sub_cotizacion_id',
         'cantidad',
         'cantidad_usada',
+        'ubicacion',
         'estado'
     ];
 

@@ -56,7 +56,7 @@
                         </li>
                     @endforeach
                     <li class="nav-item">
-                        <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos" role="tab" aria-controls="home" aria-selected="true">Forma de pago</a>
+                        <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos" role="tab" aria-controls="home" aria-selected="true">Abonos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="consolidado-tab" data-toggle="tab" href="#consolidado" role="tab" aria-controls="home" aria-selected="true">Consolidado</a>

@@ -1,7 +1,7 @@
 <template>
     <div class="mt-2">
         <form method="post" @submit.prevent="store()" enctype="multipart/form-data">
-            <h5>Finalizar Actividad</h5>
+            <h5>Subir pruebas</h5>
             <div class="form-group row">
                 <div class="col-12">
                     <label>Descripcion de lo realizado</label>
@@ -24,6 +24,19 @@
             </div>
             <div class="form-group row">
                 <div class="col-12">
+                    <label for="fecha_inicial">Fecha</label>
+                    <b-form-datepicker id="fecha_inicial" :state="reporteValidacion.fecha" v-model="reporte.fecha" placeholder="Selecciona una fecha"></b-form-datepicker>
+                    <b-form-invalid-feedback :state="reporteValidacion.fecha">
+                        El campo no puede estar vacio
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="reporteValidacion.fecha">
+                        OK!.
+                    </b-form-valid-feedback>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-12">
                     <label>Pruebas visuales</label>
                     <b-form-file placeholder="Elije las imagenes a subir" accept="image/*" multiple v-on:change="onImageChange" ref="file-input" v-if="show"></b-form-file>
                 </div>
@@ -36,10 +49,13 @@
                 </div>
             </div>
             <div class="text-center" v-if="show">
-                <button type="submit" class="btn btn-success" v-if="!loading" >Finalizar actividad</button>
+                <button type="submit" class="btn btn-success" v-if="!loading" >Subir pruebas</button>
                 <spinner-view :loading="loading"></spinner-view>
             </div>
         </form>
+        <div v-if="!show" class="mt-4">
+            <b-alert show variant="success">Actualmente la actividad se encuentra completada, No se puede enviar pruebas</b-alert>
+        </div>
     </div>
 </template>
 
@@ -57,9 +73,11 @@
             return{
                 reporte:{
                     'descripcion': '',
+                    'fecha' : ''
                 },
                 reporteValidacion:{
                     'descripcion': null,
+                    'fecha':null
                 },
                 files: [],
                 urls: [],
@@ -69,9 +87,22 @@
             }
         },
         created(){
-            this.validarActividad()
+            // this.validarActividad()
         },
         methods:{
+            resetData(){
+                this.reporte = {
+                    'descripcion' : '',
+                    'fecha' : ''
+                }
+                this.reporteValidacion = {
+                    'descripcion' : null,
+                    'fecha' : null
+                }
+                this.files = []
+                this.urls = []
+                this.loadImage = false
+            },
             onImageChange(e){
                 let files = e.target.files
                 // Image Preview
@@ -86,22 +117,23 @@
                 //
                 this.loadImage = true
             },
-            validarActividad(){
-                if(!this.show){
-                    axios.get(`/Proyectos/Actividades/get/${this.actividad_id}`).then(res=>{
-                        if(JSON.parse(res.data.actividad.pruebas.files).length > 0){
-                            this.urls = JSON.parse(res.data.actividad.pruebas.files)
-                            this.reporte.descripcion = res.data.actividad.pruebas.descripcion
-                            this.loadImage = true
-                        }
-                    })
-                }
-            },
+            // validarActividad(){
+            //     if(!this.show){
+            //         axios.get(`/Proyectos/Actividades/get/${this.actividad_id}`).then(res=>{
+            //             console.log(res.data)
+            //             if(res.data.actividad.pruebas.files.length > 0){
+            //                 this.urls = res.data.actividad.pruebas.files
+            //                 this.reporte.descripcion = res.data.actividad.pruebas.descripcion
+            //                 this.loadImage = true
+            //             }
+            //         })
+            //     }
+            // },
             store(){
-                if(this.reporte.descripcion != ''){
+                if(this.reporte.descripcion != '' && this.reporte.fecha != ''){
                     this.$fire({
                         title: 'Actividad',
-                        text: 'Una vez finalizado no podras modificar lo realizado',
+                        text: 'Una vez enviada las pruebas no podras modificarlas',
                         type: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Confirmar',
@@ -112,21 +144,23 @@
                             this.loading = true
                             let data = new FormData();
                             data.append("descripcion", this.reporte.descripcion)
+                            data.append("fecha", this.reporte.fecha)
                             for (let i = 0; i < this.files.length; i++) {
                                 data.append('files[]', this.files[i], this.files[i].name)
                             }
                             const config = { 'header' : { 'Content-Type': 'multipart/form-data' }}
-                            axios.post(`/Proyectos/Actividades/Finalizar/${this.actividad_id}`, data, config).then(res=>{
+                            axios.post(`/Proyectos/Actividades/store/pruebas/${this.actividad_id}`, data, config).then(res=>{
                                 if(res.data.status){
                                     this.alert('Actividad', res.data.msg, 'success')
                                 }else{
                                     this.alert('Actividad', res.data.msg, 'error')
                                 }
                                 this.$refs['file-input'].reset()
+                                this.resetData()
                                 this.loading = false
                             }).catch(error=>{
                                 console.log(error.response)
-                                this.alert('Actividad', 'Error del servidor contactarse con el programador', 'error')
+                                this.alert('Actividad', 'Error del servidor', 'error')
                                 this.loading = false
                             })
                         }
@@ -138,6 +172,7 @@
 
             validar(){
                 this.reporteValidacion.descripcion = (this.reporte.descripcion == '')? false : true
+                this.reporteValidacion.fecha = (this.reporte.fecha == '')? false : true
             },
 
             alert(titulo, text, tipo){
