@@ -51,6 +51,9 @@
                         <a class="nav-link" id="planos-tab" data-toggle="tab" href="#planos" role="tab" aria-controls="home" aria-selected="true">Planos</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="planos-cotizacion-tab" data-toggle="tab" href="#planos-cotizacion" role="tab" aria-controls="home" aria-selected="true">Planos cotizacion</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="inventario-tab" data-toggle="tab" href="#inventario" role="tab" aria-controls="home" aria-selected="true">Inventario general</a>
                     </li>
                     <li class="nav-item">
@@ -98,6 +101,22 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="planos-cotizacion" role="tabpanel" aria-labelledby="planos-tab">
+                        <div class="row row-cols-1 row-cols-md-2 g-4 mt-4" v-if="loading_files">
+                            @foreach ($proyecto->cotizacion->files as $file)
+                            <div class="col">
+                                <div class="card">
+                                    <div style="z-index: 1; position: absolute;">
+                                        <a target="_blank" href="https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/{{$file->file}}" class="btn btn-info btn-circle">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                    </div>
+                                    <img src="https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/{{$file->file}}" alt="Image 1" style="height:300px;">
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="tab-pane fade" id="inventario" role="tabpanel" aria-labelledby="inventario-tab">
