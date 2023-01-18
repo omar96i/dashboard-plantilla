@@ -114,7 +114,6 @@
                                                 </div>
                                                 <div class="col-4" style="border-left: 0.01cm solid;">
                                                     <h4 class="text-gray-500 font-size-tittle">Fecha inicio</h4>
-                                                    <p class="text-muted mt-1">{{(!$notif->data['old_fecha_inicio'])?'sin definir':$notif->data['old_fecha_inicio']}}</p>
                                                 </div>
                                                 <div class="col-4" style="border-left: 0.01cm solid;">
                                                     <h4 class="text-gray-500 font-size-tittle">Fecha final</h4>
@@ -237,7 +236,6 @@
                                                 </div>
                                                 <div class="col-4" style="border-left: 0.01cm solid;">
                                                     <h4 class="text-gray-500 font-size-tittle">Fecha inicio</h4>
-                                                    <p class="text-muted mt-1">{{(!$notif->data['fecha_inicio'])?'sin definir':$notif->data['fecha_inicio']}}</p>
                                                 </div>
                                                 <div class="col-4" style="border-left: 0.01cm solid;">
                                                     <h4 class="text-gray-500 font-size-tittle">Fecha final</h4>
@@ -249,7 +247,7 @@
                                                 </div>
                                                 <div class="col-4" style="border-left: 0.01cm solid;">
                                                     <h4 class="text-gray-500 font-size-tittle">Detalles</h4>
-                                                    <p class="text-muted mt-1"><a href="{{route('proyectos.actividades.show', $notif->data['id'])}}">Ver mas...</a></p>
+                                                    <p class="text-muted mt-1"><a href="{{route('proyectos.show', $notif->data['id'])}}">Ver mas...</a></p>
                                                 </div>
                                             @endif
                                         @endforeach

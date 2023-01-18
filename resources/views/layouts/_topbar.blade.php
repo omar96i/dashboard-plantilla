@@ -40,7 +40,7 @@
                 @forelse (auth()->user()->unreadNotifications as $notificacion)
                     <a class="dropdown-item d-flex align-items-center" href="{{route('notificaciones.show', $notificacion->id)}}">
                         <div class="mr-3">
-                            <div class="icon-circle {{$notificacion->data['accion'] == 'insert'? 'bg-success' : ''}} {{$notificacion->data['accion'] == 'update'? 'bg-info' : ''}} {{$notificacion->data['accion'] == 'delete'? 'bg-danger' : ''}}">
+                            <div class="icon-circle {{$notificacion->data['accion'] == 'insert' || $notificacion->data['accion'] == 'finalizada' ? 'bg-success' : ''}} {{$notificacion->data['accion'] == 'update'? 'bg-info' : ''}} {{$notificacion->data['accion'] == 'delete'? 'bg-danger' : ''}}">
                                 <i class="fas fa-info-circle text-white"></i>
                             </div>
                         </div>
@@ -53,7 +53,10 @@
                                 La cotizacion con el nombre de cliente "{{$notificacion->data['cliente_proyecto']}}" a sido {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}
                             @endif
                             @if ($notificacion->data['tabla'] == 'proyecto_actividades')
-                                Se a {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}} una actividad
+                                Se a {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}{{($notificacion->data['accion'] == 'finalizada')? 'finalizado': ''}} una actividad
+                            @endif
+                            @if ($notificacion->data['tabla'] == 'proyectos')
+                                Se a {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}{{($notificacion->data['accion'] == 'finalizada')? 'finalizado': ''}} un proyecto
                             @endif
                         </div>
                     </a>

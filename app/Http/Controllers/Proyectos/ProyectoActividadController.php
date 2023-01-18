@@ -182,6 +182,10 @@ class ProyectoActividadController extends Controller
     public function finalizarActividad(ProyectoActividad $actividad){
         $actividad->update(['estado' => 'completado']);
         $actividad->save();
+        $tipo['accion'] = "finalizada";
+        $tipo['tabla'] = "proyecto_actividades";
+        $tipo['user_id'] = $actividad->empleado_id;
+        event(new ActividadEvent($actividad, $tipo));
         return response()->json(['status' => true, 'msg' => 'Actividad finalizada']);
     }
 
