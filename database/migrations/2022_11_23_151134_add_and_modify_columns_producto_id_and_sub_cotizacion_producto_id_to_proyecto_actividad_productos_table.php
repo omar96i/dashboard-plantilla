@@ -16,11 +16,6 @@ class AddAndModifyColumnsProductoIdAndSubCotizacionProductoIdToProyectoActividad
         Schema::table('proyecto_actividad_productos', function (Blueprint $table) {
             $table->unsignedBigInteger('sub_cotizacion_producto_id')->nullable()->change();
             $table->unsignedBigInteger('producto_id');
-            $table
-                ->foreign('producto_id')
-                ->references('id')
-                ->on('productos')
-                ->onDelete('cascade');
         });
     }
 
