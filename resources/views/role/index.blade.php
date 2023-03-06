@@ -17,5 +17,6 @@
 @endsection
 
 @section('scripts')
+<script src="{{ mix('js/role.js') }}"></script>
 @endsection
 
