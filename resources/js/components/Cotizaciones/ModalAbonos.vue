@@ -31,8 +31,8 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Observacion <span style="color:red;">*</span></label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': validacionAbono.observacion}, 'form-control']" placeholder="Observacion..." v-model="abono.observacion">
+                                    <label class="col-form-label">Observación <span style="color:red;">*</span></label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': validacionAbono.observacion}, 'form-control']" placeholder="Observación..." v-model="abono.observacion">
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Dias</label>
+                                    <label class="col-form-label">Días</label>
                                     <select v-bind:class="[{ 'is-invalid': validacionAbono.dias}, 'form-control']" v-model="abono.dias">
                                         <option value="" selected>Sin seleccionar...</option>
                                         <option value="30">30</option>

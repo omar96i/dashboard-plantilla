@@ -6,7 +6,7 @@
                     <th>Actividad</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Estado</th>
                     <th></th>
                 </tr>

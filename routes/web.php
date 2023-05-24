@@ -206,6 +206,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/get', [ProyectoActividadController::class, 'get'])->name('proyectos.actividades.get');
             Route::post('/store/pruebas/{actividad}', [ProyectoActividadController::class, 'uploadPruebas'])->name('proyectos.actividades.upload.pruebas');
             Route::get('/Finalizar/{actividad}', [ProyectoActividadController::class, 'finalizarActividad'])->name('proyectos.actividades.finalizar');
+            Route::put('/cambiarEstado/{actividad}', [ProyectoActividadController::class, 'cambiarEstado'])->name('proyectos.actividades.cambiar-estado');
             Route::get('/get/{actividad}', [ProyectoActividadController::class, 'getActividad'])->name('proyectos.actividades.get.actividad');
             Route::get('/calendario', [ProyectoActividadController::class, 'calendario'])->name('proyectos.actividades.calendario');
             Route::get('/getActividadesUsuario', [ProyectoActividadController::class, 'getActividadesUsuario'])->name('proyectos.actividades.get-actividades-usuario');

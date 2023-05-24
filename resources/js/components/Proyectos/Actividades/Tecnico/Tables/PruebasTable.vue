@@ -3,10 +3,10 @@
         <table class="table table-bordered table-pruebas" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Fecha</th>
                     <th>Files</th>
-                    <th></th>
+                    <!-- <th></th> -->
                 </tr>
             </thead>
             <tfoot>
@@ -14,7 +14,7 @@
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
-                    <th class="color-gray"><input type="text" class="form-control" disabled></th>
+                    <!-- <th class="color-gray"><input type="text" class="form-control" disabled></th> -->
                 </tr>
             </tfoot>
             <tbody>
@@ -24,7 +24,7 @@
                     <td>
                         <span v-for="(file, index) in prueba.files" :key="index"><a target="_blank" :href="`https://res.cloudinary.com/dcj3tck83/image/upload/v1649869726/${file}`">{{file}}</a> - </span>
                     </td>
-                    <td></td>
+                    <!-- <td></td> -->
                 </tr>
             </tbody>
         </table>
@@ -60,7 +60,7 @@
                             } );
                         }
                     })
-                }, 200)
+                }, 500)
             }
         }
     }

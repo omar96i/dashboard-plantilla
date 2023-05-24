@@ -1,5 +1,5 @@
 <script src="{{ mix('js/app.js') }}"></script>
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+{{-- <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
 
 <!-- Core plugin JavaScript-->
 <script src="{{ asset('plugins/jquery-easing/jquery.easing.min.js') }}"></script>

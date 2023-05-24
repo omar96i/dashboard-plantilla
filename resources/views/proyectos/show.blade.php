@@ -67,7 +67,7 @@
                                 <thead>
                                     <tr>
                                         <th>Creado por</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Estado</th>
                                         <th></th>
                                     </tr>
@@ -75,7 +75,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>Creado por</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Estado</th>
                                         <th></th>
                                     </tr>
@@ -126,16 +126,16 @@
                                     <tr>
                                         <th>Foto</th>
                                         <th>Nombre</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Referencia</th>
                                         <th>Marca</th>
                                         <th>Color</th>
                                         <th>Temperatura</th>
                                         <th>Voltaje</th>
                                         <th>Cantidad asignada</th>
-                                        <th>Ubicacion</th>
+                                        <th>Ubicación</th>
                                         <th>Categoria</th>
-                                        <th>Area</th>
+                                        <th>Área</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -143,16 +143,16 @@
                                     <tr>
                                         <th>Foto</th>
                                         <th>Nombre</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Referencia</th>
                                         <th>Marca</th>
                                         <th>Color</th>
                                         <th>Temperatura</th>
                                         <th>Voltaje</th>
                                         <th>Cantidad asignada</th>
-                                        <th>Ubicacion</th>
+                                        <th>Ubicación</th>
                                         <th>Categoria</th>
-                                        <th>Area</th>
+                                        <th>Área</th>
                                         <th></th>
                                     </tr>
                                 </tfoot>

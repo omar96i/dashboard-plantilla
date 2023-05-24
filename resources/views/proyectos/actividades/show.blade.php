@@ -47,14 +47,14 @@
                         <p class="text-muted mt-1">{{$actividad->estado}}</p>
                     </div>
                     <div class="col-12" style="border-left: 0.01cm solid;">
-                        <h4>Descripcion</h4>
+                        <h4>Descripción</h4>
                         <p class="text-muted mt-1">{{$actividad->descripcion}}</p>
                     </div>
                 </div>
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="home" aria-selected="true">Files</a>
+                        <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="home" aria-selected="true">Archivos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="inventario-tab" data-toggle="tab" href="#inventario" role="tab" aria-controls="home" aria-selected="true">Inventario</a>
@@ -92,28 +92,28 @@
                                     <tr>
                                         <th>Foto</th>
                                         <th>Nombre</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Referencia</th>
                                         <th>Marca</th>
                                         <th>Color</th>
                                         <th>Temperatura</th>
                                         <th>Voltaje</th>
                                         <th>Cantidad asignada</th>
-                                        <th>Ubicacion</th>
+                                        <th>Ubicación</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
                                         <th>Foto</th>
                                         <th>Nombre</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Referencia</th>
                                         <th>Marca</th>
                                         <th>Color</th>
                                         <th>Temperatura</th>
                                         <th>Voltaje</th>
                                         <th>Cantidad asignada</th>
-                                        <th>Ubicacion</th>
+                                        <th>Ubicación</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -144,7 +144,7 @@
                                         <th>Usuario</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Fecha</th>
                                         <th>Estado</th>
                                     </tr>
@@ -154,7 +154,7 @@
                                         <th>Usuario</th>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripción</th>
                                         <th>Fecha</th>
                                         <th>Estado</th>
                                     </tr>

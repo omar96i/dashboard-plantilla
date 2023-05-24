@@ -47,16 +47,16 @@
                         <div>
                             <div class="small text-gray-500">{{ $notificacion->created_at->diffForHumans() }}</div>
                             @if ($notificacion->data['tabla'] == 'users')
-                                El usuario {{$notificacion->data['email']}} a sido {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}
+                                El usuario {{$notificacion->data['email']}} ha sido {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}
                             @endif
                             @if ($notificacion->data['tabla'] == 'cotizaciones')
-                                La cotizacion con el nombre de cliente "{{$notificacion->data['cliente_proyecto']}}" a sido {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}
+                                La cotizacion con el nombre de cliente "{{$notificacion->data['cliente_proyecto']}}" ha sido {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}
                             @endif
                             @if ($notificacion->data['tabla'] == 'proyecto_actividades')
-                                Se a {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}{{($notificacion->data['accion'] == 'finalizada')? 'finalizado': ''}} una actividad
+                                Se ha {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}{{($notificacion->data['accion'] == 'finalizada')? 'finalizado': ''}} una actividad
                             @endif
                             @if ($notificacion->data['tabla'] == 'proyectos')
-                                Se a {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}{{($notificacion->data['accion'] == 'finalizada')? 'finalizado': ''}} un proyecto
+                                Se ha {{($notificacion->data['accion'] == 'insert')? 'creado': ''}}{{($notificacion->data['accion'] == 'update')? 'actualizado': ''}}{{($notificacion->data['accion'] == 'delete')? 'eliminado': ''}}{{($notificacion->data['accion'] == 'finalizada')? 'finalizado': ''}} un proyecto
                             @endif
                         </div>
                     </a>
@@ -68,7 +68,7 @@
                     </a>
                 @endforelse
                 <a class="dropdown-item text-center small text-gray-500" href="{{route('notificaciones.read.all')}}">Marcar como leidas</a>
-                <a class="dropdown-item text-center small text-gray-500" href="{{route('notificaciones.index')}}">Ver mas...</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{{route('notificaciones.index')}}">Ver más...</a>
             </div>
         </li>
 

@@ -1,10 +1,8 @@
 <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background: #313a46">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
-
-            <img src="{{asset('img/icons/icono.jpeg')}}" class="img-fluid">
-
+    <a class="sidebar-brand d-flex align-items-center justify-content-center m-3" href="{{route('home')}}">
+            <img src="{{asset('img/icons/icono.png')}}" class="img-fluid">
     </a>
 
     <!-- Divider -->

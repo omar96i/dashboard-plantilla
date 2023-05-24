@@ -52,6 +52,7 @@
                 dolar:{},
                 load: false,
                 show: true,
+                mutableDate: this.date
             }
         },
         created(){
@@ -59,7 +60,8 @@
         },
         methods:{
             getTRM(){
-                axios.get(`https://www.datos.gov.co/resource/32sa-8pi3.json?vigenciadesde=${this.date}T00:00:00.000`).then(res=>{
+                axios.get(`https://www.datos.gov.co/resource/32sa-8pi3.json?vigenciadesde=${this.mutableDate}T00:00:00.000`).then(res=>{
+                    // console.log(res);
                     if(res.data.length > 0){
                         this.dolar={
                             'valor' : res.data[0].valor,
@@ -69,7 +71,10 @@
                         }
                         this.storeTRM()
                     }else{
-                        this.getTRMDolar()
+                        const new_date = new Date(this.mutableDate + 'GMT-0500') // convertir a date js
+                        new_date.setDate(new_date.getDate() - 1) //restar un dia
+                        this.mutableDate = new_date.getFullYear() + '-' + (new_date.getMonth() + 1) + '-' + new_date.getDate()
+                        this.getTRM()
                     }
                 })
             },
@@ -87,7 +92,6 @@
                 axios.get('/TRM/get').then(res=>{
                     this.dolar = res.data.trm
                     this.load = true
-
                 })
             },
             verCalendario(){

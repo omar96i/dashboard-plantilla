@@ -13,7 +13,7 @@
         <div class="card shadow mb-4">
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Cotizacion</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Cotización</h6>
             </div>
             <div class="card-body">
                 <div class="text-center col-12">
@@ -33,7 +33,7 @@
                         <p class="text-muted mt-1">{{$cotizacion->documento}}</p>
                     </div>
                     <div class="col-4" style="border-left: 0.01cm solid;">
-                        <h4>Direccion</h4>
+                        <h4>Dirección</h4>
                         <p class="text-muted mt-1">{{$cotizacion->direccion}}</p>
                     </div>
                     <div class="col-4" style="border-left: 0.01cm solid;">
@@ -52,7 +52,7 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     @foreach ($cotizacion['subCotizaciones'] as $sub_cotizacion)
                         <li class="nav-item">
-                            <a class="nav-link" id="{{$sub_cotizacion->area}}-tab" data-toggle="tab" href="#{{$sub_cotizacion->area}}" role="tab" aria-controls="home" aria-selected="true">{{$sub_cotizacion->area}}</a>
+                            <a class="nav-link" id="{{$sub_cotizacion->area}}-tab" data-toggle="tab" href="#{{$sub_cotizacion->area}}" role="tab" aria-controls="home" aria-selected="true">{{ucfirst($sub_cotizacion->area)}}</a>
                         </li>
                     @endforeach
                     <li class="nav-item">
@@ -136,15 +136,15 @@
                             <table class="table table-bordered tables-productos" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>Area</th>
-                                        <th>Descripcion</th>
+                                        <th>Área</th>
+                                        <th>Descripción</th>
                                         <th>Valor unitario</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>Area</th>
-                                        <th>Descripcion</th>
+                                        <th>Área</th>
+                                        <th>Descripción</th>
                                         <th>Valor unitario</th>
                                     </tr>
                                 </tfoot>

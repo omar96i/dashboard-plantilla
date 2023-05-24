@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class DolarValorController extends Controller
 {
     public function storeTRM(Request $request){
-        if(DolarValor::where('vigencia_desde', $request->vigencia_desde)->count() > 0){
+        $dolar_valor = DolarValor::where([['vigencia_desde', '=', $request->vigencia_desde], ['vigencia_hasta', '=', $request->vigencia_hasta]])->count();
+        if($dolar_valor > 0){
             return response()->json(['status' => false]);
         }
         DolarValor::where('deleted_at', null)->delete();
@@ -22,7 +23,7 @@ class DolarValorController extends Controller
     }
 
     public function getTRM(){
-        $dolar = DolarValor::get()->first();
+        $dolar = DolarValor::first();
         $dolar->vigencia_desde = Carbon::parse($dolar->vigencia_desde)->format('Y-m-d');
         $dolar->vigencia_hasta = Carbon::parse($dolar->vigencia_hasta)->format('Y-m-d');
         return response()->json(['trm' => $dolar]);

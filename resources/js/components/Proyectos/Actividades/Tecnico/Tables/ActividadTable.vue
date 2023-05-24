@@ -4,7 +4,7 @@
             <table class="table table-bordered table-asistencia" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                         <th>Fecha inicio</th>
                         <th>Fecha final</th>
                         <th>Estado</th>

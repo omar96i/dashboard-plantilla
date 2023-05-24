@@ -33,12 +33,12 @@
                                 <b-alert class="text-muted mt-1" show :variant="getColorAlert(actividad.estado)">{{actividad.estado}}</b-alert>
                             </div>
                             <div class="col-12" style="border-left: 0.01cm solid;">
-                                <h5 class="font-size-tittle color-gray">Descripcion</h5>
+                                <h5 class="font-size-tittle color-gray">Descripción</h5>
                                 <p class="text-muted mt-1">{{actividad.descripcion}}</p>
                             </div>
                         </div>
                         <b-tabs content-class="mt-3">
-                            <b-tab title="Files" active>
+                            <b-tab title="Archivos" active>
                                 <div class="row row-cols-1 row-cols-md-2 g-4 mt-4">
                                     <div class="col" v-for="(file, index) in actividad.files" :key="index">
                                         <div class="card">

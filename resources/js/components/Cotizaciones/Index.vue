@@ -2,7 +2,7 @@
 <div>
     <a class="btn btn-success btn-sm" href="/Cotizaciones/form" v-if="permisos[0]">
         <i class="fa-solid fa-plus"></i>
-        <samp class="pl-2">Cotizacion</samp>
+        <samp class="pl-2">Cotización</samp>
     </a>
     <div class="container-fluid my-3">
         <div class="row">
@@ -26,7 +26,7 @@
                     <th>Cliente del proyecto</th>
                     <th>Creado por</th>
                     <th>Documento</th>
-                    <th>Direccion</th>
+                    <th>Dirección</th>
                     <th>Fecha</th>
                     <th>Email</th>
                     <th>Estado</th>

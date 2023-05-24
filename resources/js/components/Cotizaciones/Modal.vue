@@ -5,7 +5,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Agregar Sub cotizacion</h5>
+                        <h5 class="modal-title" id="modalLabel">Agregar Sub cotización</h5>
                         <button type="button" class="close" @click="$parent.closeModalSubCotizacion()">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -14,14 +14,14 @@
                         <form action="">
                             <div class="form-group row">
                                 <div class="col-12 col-sm-6">
-                                    <label for="a-i" class="col-form-label">Selecciona el area:</label>
+                                    <label for="a-i" class="col-form-label">Selecciona el área:</label>
                                     <select name="" id="" class="form-control" v-model="sub_cotizacion.area">
-                                        <option value="" selected>Selecciona el area</option>
+                                        <option value="" selected>Selecciona el área</option>
                                         <option value="electrica">Electrica</option>
-                                        <option value="iluminacion">Iluminacion</option>
+                                        <option value="iluminacion">Iluminación</option>
                                         <option value="control_iluminacion">Control Iluminacion</option>
                                         <option value="audio">Audio</option>
-                                        <option value="integracion">Integracion</option>
+                                        <option value="integracion">Integración</option>
                                         <option value="seguridad">Seguridad</option>
                                         <option value="mano_obra">Mano de Obra</option>
                                     </select>

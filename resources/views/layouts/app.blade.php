@@ -4,7 +4,6 @@
     <title>Plantilla - @yield('title')</title>
     @include('layouts._header')
     @yield('head')
-    @include('layouts._scripts_primary')
 </head>
 
 <body id="page-top">

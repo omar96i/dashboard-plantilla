@@ -6,7 +6,7 @@
                 <tr>
                     <th class="color-gray">Proyecto</th>
                     <th class="color-gray">Empleado</th>
-                    <th class="color-gray">Descripcion</th>
+                    <th class="color-gray">Descripción</th>
                     <th class="color-gray">Fecha inicio</th>
                     <th class="color-gray">Fecha Final</th>
                     <th class="color-gray">Estado</th>
@@ -31,7 +31,7 @@
                     <td>{{actividad.descripcion}}</td>
                     <td>{{(actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_inicio : actividad.fecha_inicio}}</td>
                     <td>{{(actividad.reagendamientos.length > 0 )? actividad.reagendamientos[0].fecha_final : actividad.fecha_final}}</td>
-                    <td>{{actividad.estado}}</td>
+                    <td><b-alert show :variant="getColor(actividad.estado)">{{actividad.estado}}</b-alert></td>
                     <td class="text-center">
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,6 +41,7 @@
                                 <div class="dropdown-header">Acciones:</div>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/show/'+actividad.id" v-if="permisos[3]"><i class="fa-solid fa-eye"></i> Ver</a>
                                 <a class="dropdown-item" :href="'/Proyectos/Actividades/form/'+actividad.id" v-if="permisos[1]"> <i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                <button class="dropdown-item" @click="cambiarEstado(actividad.id)" v-if="permisos[1]"><i class="fas fa-exchange-alt"></i> Cambiar estado</button>
                                 <a class="dropdown-item" href="#" @click="openModal(actividad.id)" v-if="permisos[4]"> <i class="fa-regular fa-calendar-days"></i> Acciones</a>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" @click="eliminarActividad(actividad.id)" v-if="permisos[2]"><i class="fas fa-trash"></i> Eliminar</button>
@@ -164,7 +165,63 @@
                         })
                     }
                 });
-            }
+            },
+            getColor(estado){
+                if(estado == 'pendiente'){
+                    return 'primary'
+                }
+                if(estado == 'completado'){
+                    return 'success'
+                }
+                if(estado == 'incompleto'){
+                    return 'danger'
+                }
+            },
+            cambiarEstado(id){
+                const inputOptions = new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                        'incompleto': 'Incompleto',
+                        'completado': 'Completado',
+                        'pendiente' : 'Pendiente'
+                        })
+                    }, 500)
+                })
+                this.$fire({
+                    title: 'Cambiar estado',
+                    input: 'radio',
+                    inputOptions: inputOptions,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Seleccione un estado!'
+                        }
+                    }
+                }).then((result) => {
+                    if(result){
+                        axios.put(`/Proyectos/Actividades/cambiarEstado/${id}`, result).then(res=>{
+                            console.log(res)
+                            if(res.data.status){
+                                this.alert('Asistencia', res.data.msg, 'success')
+                            }else{
+                                this.alert('Asistencia', res.data.msg, 'error')
+                            }
+                            setTimeout(()=>{
+                                location.reload()
+                            },2000)
+                        }).catch(function (error) {
+                            this.alert('Asistencia', 'Error en el servidor contactese con el programador', 'error')
+                        });
+                    }
+                });
+            },
+            alert(titulo, text, tipo){
+                this.$fire({
+                    title: titulo,
+                    text: text,
+                    type: tipo,
+                    timer: 3000
+                })
+            },
         }
 
     }

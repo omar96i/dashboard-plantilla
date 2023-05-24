@@ -28,7 +28,7 @@
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">
-                <label for="c-i" class="col-form-label">Nit ó Cédula:</label>
+                <label for="c-i" class="col-form-label">Nit o Cédula:</label>
                 <input type="text" name="c-i" id="c-i" class="form-control" v-model="cotizacion.documento" placeholder="Nit o Cedula...">
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
@@ -36,12 +36,12 @@
 
         <div class="form-group row">
             <div class="col-12 col-sm-4">
-                <label for="" class="col-form-label">Direccion:</label>
+                <label for="" class="col-form-label">Dirección:</label>
                 <input type="text" id="" class="form-control" name="" v-model="cotizacion.direccion" placeholder="Direccion...">
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">
-                <label for="" class="col-form-label">Telefono:</label>
+                <label for="" class="col-form-label">Teléfono:</label>
                 <input type="text" id="" class="form-control" name="" v-model="cotizacion.telefono" placeholder="Telefono...">
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
@@ -60,31 +60,31 @@
     </form>
 
     <b-tabs content-class="mt-3">
-        <b-tab title="Areas" active>
+        <b-tab title="Áreas" active>
             <div v-if="load_second_form">
                 <div class="py-3 my-2 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 text-primary">Area</h6>
+                    <h6 class="m-0 text-primary">Área</h6>
                     <button href="#" class="btn btn-success btn-sm" @click="openModalSubCotizacion()">
                         <span class="icon text-white-50">
                             <i class="fa-solid fa-plus"></i>
                         </span>
-                        <span class="text">Agregar area</span>
+                        <span class="text">Agregar área</span>
                     </button>
                 </div>
 
                 <div class="col-12 mb-5">
                     <div class="form-group row">
                         <div class="col-12 col-sm-6">
-                            <label for="a-i" class="col-form-label text-muted">Selecciona el area:</label>
+                            <label for="a-i" class="col-form-label text-muted">Selecciona el área:</label>
                             <select class="form-control" @change="changeValues()" v-model="sub_cotizacion.id">
                                 <option value="" selected>Sin seleccionar...</option>
-                                <option v-for="(sub_cotizacion, index) in sub_cotizaciones" :key="index" :value="sub_cotizacion.id">{{sub_cotizacion.area}}</option>
+                                <option v-for="(sub_cotizacion, index) in sub_cotizaciones" :key="index" :value="sub_cotizacion.id">{{capitalizeFirstLetter(sub_cotizacion.area)}}</option>
                             </select>
                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="e-i" class="col-form-label">Descripcion:</label>
-                            <input type="text" id="e-i" class="form-control" name="e-i" placeholder="Descripcion..." v-model="sub_cotizacion.descripcion">
+                            <label for="e-i" class="col-form-label">Descripción:</label>
+                            <input type="text" id="e-i" class="form-control" name="e-i" placeholder="Descripción..." v-model="sub_cotizacion.descripcion">
                             <div class="invalid-feedback">El campo no debe quedar vacío</div>
                         </div>
                         <div class="col-12 text-center mt-4" v-if="!spinner_two">
@@ -115,10 +115,10 @@
                             <tr>
                                 <th>Foto</th>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
+                                <th>Descripción</th>
                                 <th>Referencia</th>
                                 <th>Marca</th>
-                                <th>Ubicacion</th>
+                                <th>Ubicación</th>
                                 <th>Cant</th>
                                 <th>Valor unidad</th>
                                 <th>Valor Total</th>
@@ -131,10 +131,10 @@
                             <tr>
                                 <th>Foto</th>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
+                                <th>Descripción</th>
                                 <th>Referencia</th>
                                 <th>Marca</th>
-                                <th>Ubicacion</th>
+                                <th>Ubicación</th>
                                 <th>Cant</th>
                                 <th>Valor unidad</th>
                                 <th>Valor Total</th>
@@ -185,7 +185,7 @@
                                 <th>Abono #</th>
                                 <th>Fecha</th>
                                 <th>Valor del abono</th>
-                                <th>Observacion</th>
+                                <th>Observación</th>
                                 <th>Estado</th>
 
                                 <th></th>
@@ -196,7 +196,7 @@
                                 <th>Abono #</th>
                                 <th>Fecha</th>
                                 <th>Valor del abono</th>
-                                <th>Observacion</th>
+                                <th>Observación</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
@@ -252,10 +252,10 @@
                 </div>
             </div>
         </b-tab>
-        <b-tab title="Dolar">
+        <b-tab title="Dólar">
             <div class="col-12 mt-3">
                 <div class="col-12 text-center my-2">
-                    <h5>Cambiar dolar</h5>
+                    <h5>Cambiar dólar</h5>
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-10 p-2">
@@ -833,6 +833,9 @@
                     type: tipo,
                     timer: 3000
                 })
+            },
+            capitalizeFirstLetter(str) {
+                return str[0]?.toUpperCase() + str.slice(1);
             }
         }
     }

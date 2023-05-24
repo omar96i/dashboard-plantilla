@@ -50,7 +50,7 @@
             <div class="row mt-2">
                 <b-row class="col-12 col-sm-6">
                     <b-col sm="12">
-                        <label>Descripcion de la actividad</label>
+                        <label>Descripción de la actividad</label>
                         <b-form-textarea
                             id="textarea"
                             placeholder="Descripcion de la actividad a hacer..."
@@ -149,7 +149,7 @@
                                 <tr>
                                     <th class="color-gray">Foto</th>
                                     <th class="color-gray">Nombre</th>
-                                    <th class="color-gray">Descripcion</th>
+                                    <th class="color-gray">Descripción</th>
                                     <th class="color-gray">Referencia</th>
                                     <th class="color-gray">Marca</th>
                                     <th class="color-gray">Categoria</th>
@@ -157,7 +157,7 @@
                                     <th class="color-gray">Temperatura de calor</th>
                                     <th class="color-gray">Voltaje</th>
                                     <th class="color-gray">Cantidad</th>
-                                    <th class="color-gray">Ubicacion</th>
+                                    <th class="color-gray">Ubicación</th>
                                     <th class="color-gray"></th>
                                 </tr>
                             </thead>
@@ -245,7 +245,9 @@
 
         data(){
             return{
-                proyectos: [],
+                proyectos: [
+                    { value : '', text : 'Sin Proyecto'}
+                ],
                 usuarios: [],
                 actividad: {
                     'proyecto_id': '',
