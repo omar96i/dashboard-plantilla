@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Plantilla - @yield('title')</title>
+    <title>Utopía - @yield('title')</title>
     @include('layouts._header')
     @yield('head')
 </head>

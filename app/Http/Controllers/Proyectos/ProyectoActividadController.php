@@ -192,7 +192,7 @@ class ProyectoActividadController extends Controller
     public function cambiarEstado(ProyectoActividad $actividad, Request $request){
         $actividad->update(['estado' => $request->value]);
         $actividad->save();
-        $tipo['accion'] = $request->value;
+        $tipo['accion'] = 'update';
         $tipo['tabla'] = "proyecto_actividades";
         $tipo['user_id'] = $actividad->empleado_id;
         event(new ActividadEvent($actividad, $tipo));

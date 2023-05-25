@@ -10,6 +10,9 @@ import 'vue-select/dist/vue-select.css';
 import VueSimpleAlert from "vue-simple-alert";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
+import VueSignaturePad from 'vue-signature-pad';
+Vue.use(VueSignaturePad);
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 

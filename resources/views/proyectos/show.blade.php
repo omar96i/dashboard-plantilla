@@ -170,7 +170,7 @@
                                                 <td>{{$producto->productos->voltaje}}</td>
                                                 <td>{{$producto->cantidad}}</td>
                                                 <td>{{$producto->ubicacion}}</td>
-                                                <td>{{$producto->productos->categoria['nombre']}}</td>
+                                                <td>{{$producto->productos->categoria != null ? $producto->productos->categoria['nombre'] : ''}}</td>
                                                 <td>{{$sub_cotizacion->area}}</td>
                                                 <td></td>
                                             </tr>

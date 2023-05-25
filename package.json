@@ -36,6 +36,7 @@
         "trm-api": "^1.4.14",
         "vue-select": "^3.18.3",
         "vue-signature": "^2.5.6",
+        "vue-signature-pad": "^2.0.5",
         "vue-simple-alert": "^1.1.1",
         "vue-spinner": "^1.0.4",
         "vue-spinners": "^1.0.2"
