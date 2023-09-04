@@ -75,7 +75,7 @@
         </table>
     </div>
     <div>
-        <cotizaciones-form></cotizaciones-form>
+        <!-- <cotizaciones-form></cotizaciones-form> -->
     </div>
 </div>
 </template>

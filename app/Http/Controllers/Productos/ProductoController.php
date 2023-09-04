@@ -86,6 +86,11 @@ class ProductoController extends Controller
         $producto->temperatura_calor = $request->temperatura_calor;
         $producto->voltaje = $request->voltaje;
         $producto->cantidad = $request->cantidad;
+        $producto->codigo_utopia = $request->codigo_utopia;
+        $producto->ubicacion = $request->ubicacion;
+        $producto->provedor = $request->provedor;
+        $producto->barcode = $request->barcode;
+        $producto->observacion = $request->observacion;
 
         $producto->update();
         $producto->save();

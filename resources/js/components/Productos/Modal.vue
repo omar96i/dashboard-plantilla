@@ -99,8 +99,9 @@
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <label class="col-form-label">Codigo letras:</label>
-                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.codigo_letra}, 'form-control']" name="b-i"  v-model="producto.codigo_letra" placeholder="Codigo letras.." >
+                                    <!-- <label class="col-form-label">Codigo letras:</label> -->
+                                    <label class="col-form-label">Codigo:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.codigo_utopia}, 'form-control']" name="b-i"  v-model="producto.codigo_utopia" placeholder="Codigo letras.." >
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
@@ -130,8 +131,6 @@
                                     <input type="number" @change="setValor()" v-bind:class="[{ 'is-invalid': productoValidacion.sub_valor}, 'form-control']" name="b-i" v-model="producto.sub_valor" placeholder="Valor de producto a empresa..." >
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
-
-
                             </div>
                             <div class="form-group row">
                                 <div class="col-12 col-sm-6">
@@ -142,6 +141,42 @@
                                 <div class="col-12 col-sm-6">
                                     <label class="col-form-label">Valor:</label>
                                     <input type="number" disabled readonly v-bind:class="[{ 'is-invalid': productoValidacion.valor}, 'form-control']" name="b-i" v-model="producto.valor" placeholder="" >
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Ubicación:</label>
+                                    <select name="" id="" v-bind:class="[{ 'is-invalid': productoValidacion.ubicacion}, 'form-control']" v-model="producto.ubicacion">
+                                        <option value="" selected disabled>Seleccionar ubicación...</option>
+                                        <option value="Area perfil">Area perfil</option>
+                                        <option value="Caja Tapas">Caja Tapas</option>
+                                        <option value="Estanteria 1">Estanteria 1</option>
+                                        <option value="Estanteria 2">Estanteria 2</option>
+                                        <option value="Estanteria 3">Estanteria 3</option>
+                                        <option value="Estanteria 4">Estanteria 4</option>
+                                        <option value="Estanteria 5">Estanteria 5</option>
+                                        <option value="Estanteria 6">Estanteria 6</option>
+                                        <option value="Audio">Audio</option>
+                                        <option value="Bodega">Bodega</option>
+                                    </select>
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Provedor:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.provedor}, 'form-control']" v-model="producto.provedor" placeholder="Provedor...">
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Bardcode:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.barcode}, 'form-control']" v-model="producto.barcode" placeholder="Barcode...">
+                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label class="col-form-label">Observación:</label>
+                                    <input type="text" v-bind:class="[{ 'is-invalid': productoValidacion.observacion}, 'form-control']" v-model="producto.observacion"  placeholder="Observacion...">
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>
@@ -167,7 +202,7 @@
                             </div>
                             <div class="text-center" v-if="!loading">
                                 <button type="submit" class="btn btn-success btn-sm" @click="action()">Agregar</button>
-                                <button type="button" class="btn btn-secondary btn-sm">Cerrar</button>
+                                <button type="button" class="btn btn-secondary btn-sm" @click="closeModal()">Cerrar</button>
                             </div>
                             <div class="text-center" v-else>
                                 <spinner-view :loading="loading"></spinner-view>
@@ -207,8 +242,12 @@
                     'valor': '',
                     'sub_valor': '',
                     'numero' : '',
-                    'codigo_letra' : '',
-                    'categoria_id' : ''
+                    'codigo_utopia' : '',
+                    'categoria_id' : '',
+                    'ubicacion' : '',
+                    'provedor' : '',
+                    'barcode' : '',
+                    'observacion' : ''
                 },
                 productoValidacion:{
                     'nombre' : false,
@@ -223,9 +262,13 @@
                     'valor': false,
                     'sub_valor': false,
                     'porcentaje': '',
-                    'codigo_letra' : false,
+                    'codigo_utopia' : false,
                     'numero' : false,
-                    'categoria_id' : false
+                    'categoria_id' : false,
+                    'ubicacion' : '',
+                    'provedor' : '',
+                    'barcode' : '',
+                    'observacion' : ''
                 },
                 image:'',
                 ruta: '',
@@ -257,12 +300,16 @@
                     'temperatura_calor' : this.product.temperatura_calor,
                     'cantidad' : this.product.cantidad,
                     'numero' : this.product.numero,
-                    'codigo_letra' : this.product.codigo_letra,
+                    'codigo_utopia' : this.product.codigo_utopia,
                     'categoria_id' : [],
                     'tipo' : (this.product.valores.length > 0) ? this.product.valores[0].tipo : '',
                     'valor' : (this.product.valores.length > 0) ? this.product.valores[0].valor : '',
                     'porcentaje' : (this.product.valores.length > 0) ? this.product.valores[0].porcentaje : '',
                     'sub_valor' : (this.product.valores.length > 0) ? this.product.valores[0].sub_valor : '',
+                    'ubicacion' : this.product.ubicacion,
+                    'provedor' : this.product.provedor,
+                    'barcode' : this.product.barcode,
+                    'observacion' : this.product.observacion
                 }
                 for (let index = 0; index < this.product.categorias.length; index++) {
                     this.producto.categoria_id.push(this.product.categorias[index].categoria_id)
@@ -413,7 +460,11 @@
                     data.append("sub_valor", this.producto.sub_valor)
                     data.append("porcentaje", this.producto.porcentaje)
                     data.append("numero", this.producto.numero)
-                    data.append("codigo_letra", this.producto.codigo_letra)
+                    data.append("codigo_utopia", this.producto.codigo_utopia)
+                    data.append("ubicacion", this.producto.ubicacion)
+                    data.append("provedor", this.producto.provedor)
+                    data.append("barcode", this.producto.barcode)
+                    data.append("observacion", this.producto.observacion)
 
                      for (let i = 0; i < this.producto.categoria_id.length; i++) {
                         data.append("categorias[]", this.producto.categoria_id[i])

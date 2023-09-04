@@ -31,7 +31,11 @@ class Producto extends Model
         'foto',
         'files',
         'numero',
-        'codigo_letra'
+        'codigo_utopia',
+        'ubicacion',
+        'provedor',
+        'observacion',
+        'barcode',
     ];
 
     // Relaciones start

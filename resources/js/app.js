@@ -28,6 +28,7 @@ Vue.component('proyecto-actividad-pruebas-table', require('./components/Proyecto
 Vue.component('prueba-index', require('./components/Prueba.vue').default);
 Vue.component('usuarios-index', require('./components/Usuarios/Index.vue').default);
 Vue.component('usuarios-profile', require('./components/Usuarios/Profile.vue').default);
+Vue.component('roles-index', require('./components/Roles/Index.vue').default);
 Vue.component('productos-index', require('./components/Productos/Index.vue').default);
 Vue.component('productos-modal-import', require('./components/Productos/ModalImport.vue').default);
 Vue.component('productos-reabastecimientos-index', require('./components/Productos/Reabastecimientos/Index.vue').default);

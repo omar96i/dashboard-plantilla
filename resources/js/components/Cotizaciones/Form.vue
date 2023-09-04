@@ -19,17 +19,17 @@
         <div class="form-group row" >
             <div class="col-12 col-sm-4">
                 <label class="col-form-label">Nombre a Facturar:</label>
-                <input type="text" class="form-control" v-model="cotizacion.nombre_facturar" placeholder="Nombre cliente...">
+                <input type="text" class="form-control" v-model="cotizacion.nombre_facturar" placeholder="Nombre cliente..." required>
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">
                 <label for="" class="col-form-label">Cliente del proyecto:</label>
-                <input type="text" id="" class="form-control" v-model="cotizacion.cliente_proyecto" placeholder="Cliente del proyecto...">
+                <input type="text" id="" class="form-control" v-model="cotizacion.cliente_proyecto" placeholder="Cliente del proyecto..." required>
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">
                 <label for="c-i" class="col-form-label">Nit o Cédula:</label>
-                <input type="text" name="c-i" id="c-i" class="form-control" v-model="cotizacion.documento" placeholder="Nit o Cedula...">
+                <input type="text" name="c-i" id="c-i" class="form-control" v-model="cotizacion.documento" placeholder="Nit o Cedula..." required>
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
         </div>
@@ -37,17 +37,17 @@
         <div class="form-group row">
             <div class="col-12 col-sm-4">
                 <label for="" class="col-form-label">Dirección:</label>
-                <input type="text" id="" class="form-control" name="" v-model="cotizacion.direccion" placeholder="Direccion...">
+                <input type="text" id="" class="form-control" name="" v-model="cotizacion.direccion" placeholder="Direccion..." required>
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">
                 <label for="" class="col-form-label">Teléfono:</label>
-                <input type="text" id="" class="form-control" name="" v-model="cotizacion.telefono" placeholder="Telefono...">
+                <input type="text" id="" class="form-control" name="" v-model="cotizacion.telefono" placeholder="Telefono..." required>
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
             <div class="col-12 col-sm-4">
                 <label for="" class="col-form-label">Email:</label>
-                <input type="text" name="" id="" class="form-control" v-model="cotizacion.email" placeholder="Email...">
+                <input type="text" name="" id="" class="form-control" v-model="cotizacion.email" placeholder="Email..." required>
                 <div class="invalid-feedback">El campo no debe quedar vacío</div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                         <div class="col-12 col-sm-6">
                             <label for="a-i" class="col-form-label text-muted">Selecciona el área:</label>
                             <select class="form-control" @change="changeValues()" v-model="sub_cotizacion.id">
-                                <option value="" selected>Sin seleccionar...</option>
+                                <option value="" selected disabled>Sin seleccionar...</option>
                                 <option v-for="(sub_cotizacion, index) in sub_cotizaciones" :key="index" :value="sub_cotizacion.id">{{capitalizeFirstLetter(sub_cotizacion.area)}}</option>
                             </select>
                             <div class="invalid-feedback">El campo no debe quedar vacío</div>

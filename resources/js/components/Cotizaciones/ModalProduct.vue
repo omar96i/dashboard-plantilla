@@ -2,7 +2,7 @@
     <div>
         <!-- Modal Sub Cotizacion -->
         <div class="modal fade" id="modalProductos" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">Agregar Producto</h5>
@@ -13,22 +13,22 @@
                     <div class="modal-body">
                         <form action="" v-if="load">
                             <div class="form-group row" >
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12">
                                     <label for="a-i" class="col-form-label">Selecciona el producto:</label>
-                                    <select name="" id="" class="form-control" v-model="producto.producto_id">
-                                        <option value="" selected>Selecciona el producto</option>
+                                    <select name="" id="" class="form-control" v-model="producto.producto_id" required>
+                                        <option value="" selected disabled>Selecciona el producto</option>
                                         <option v-for="(producto, index) in productos" :key="index" :value="producto.id">{{producto.nombre}} - {{producto.cantidad}}</option>
                                     </select>
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12">
                                     <label for="" class="col-form-label">Cantidad:</label>
-                                    <input type="text" id="" class="form-control" name="" placeholder="Cantidad..." v-model="producto.cantidad">
+                                    <input type="number" id="" class="form-control" name="" placeholder="Cantidad..." v-model="producto.cantidad" required>
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12">
                                     <label for="" class="col-form-label">Ubicacion:</label>
-                                    <input type="text" id="" class="form-control" name="" placeholder="Ubicacion..." v-model="producto.ubicacion">
+                                    <input type="text" id="" class="form-control" name="" placeholder="Ubicacion..." v-model="producto.ubicacion" required>
                                     <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                 </div>
                             </div>

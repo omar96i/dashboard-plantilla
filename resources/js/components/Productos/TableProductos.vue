@@ -22,6 +22,7 @@
                 <thead>
                     <tr>
                         <th class="color-gray">Foto</th>
+                        <th class="color-gray">Codigo</th>
                         <th class="color-gray">Referencia</th>
                         <th class="color-gray">Nombre</th>
                         <th class="color-gray">Descripcion</th>
@@ -36,7 +37,10 @@
                         <th class="color-gray">Valor</th>
                         <th class="color-gray">Valor base</th>
                         <th class="color-gray">Valor</th>
-                        <th></th>
+                        <th class="color-gray">Ubicación</th>
+                        <th class="color-gray">Provedor</th>
+                        <th class="color-gray">Observación</th>
+                        <th>Opcion</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -56,12 +60,17 @@
                         <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
                         <th><input type="text" class="form-control"></th>
+                        <th><input type="text" class="form-control"></th>
+                        <th><input type="text" class="form-control"></th>
+                        <th><input type="text" class="form-control"></th>
+                        <th><input type="text" class="form-control"></th>
                         <th></th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr v-for="(producto, index) in productos" :key="index">
+                    <tr v-for="(producto, index) in productos" :key="index" class="text-nowrap">
                         <td><img v-bind:src="producto.files == null? 'img/img_productos/default.png': getUrl(producto.files)" style="width: 70px; border-radius: 50%; height: 60px;"></td>
+                        <td>{{producto.codigo_utopia}}</td>
                         <td>{{producto.referencia}}</td>
                         <td>{{producto.nombre}}</td>
                         <td>{{producto.descripcion}}</td>
@@ -76,6 +85,9 @@
                         <td><strong><small>USD</small> {{(producto.valores.length > 0) ? (producto.valores[0].tipo == 'dolar')? producto.valores[0].valor: '-' : "-"}}</strong></td>
                         <td>{{(producto.valores.length > 0) ? (producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].sub_valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].sub_valor) : ''}}</td>
                         <td>{{(producto.valores.length > 0) ? (producto.valores[0].tipo == 'dolar')? new Intl.NumberFormat('en-US').format((producto.valores[0].valor * dolar.valor)) : new Intl.NumberFormat('en-US').format(producto.valores[0].valor) : ''}}</td>
+                        <td>{{producto.ubicacion}}</td>
+                        <td>{{producto.provedor}}</td>
+                        <td>{{producto.observacion}}</td>
                         <td class="text-center">
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
