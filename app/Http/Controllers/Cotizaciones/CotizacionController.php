@@ -44,7 +44,7 @@ class CotizacionController extends Controller
         $cotizacion->user_id = Auth::id();
         $cotizacion->empresa_datos_id = $empresa_datos->id;
         $cotizacion->dolar_id = $dolar->id;
-        $cotizacion->fecha = Carbon::now();
+        $cotizacion->fecha = Carbon::now()->format('Y-m-d');
         $cotizacion->estado = "activo";
         $cotizacion->save();
         $tipo['accion'] = "insert";
