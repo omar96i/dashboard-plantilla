@@ -11,29 +11,28 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="">
-                            <div class="form-group row">
-                                <div class="col-12 col-sm-6">
-                                    <label for="a-i" class="col-form-label">Selecciona el área:</label>
-                                    <select name="" id="" class="form-control" v-model="sub_cotizacion.area">
-                                        <option value="" selected>Selecciona el área</option>
-                                        <option value="electrica">Electrica</option>
-                                        <option value="iluminacion">Iluminación</option>
-                                        <option value="control_iluminacion">Control Iluminacion</option>
-                                        <option value="audio">Audio</option>
-                                        <option value="integracion">Integración</option>
-                                        <option value="seguridad">Seguridad</option>
-                                        <option value="mano_obra">Mano de Obra</option>
-                                    </select>
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <label for="b-i" class="col-form-label">Descripcion:</label>
-                                    <input type="text" id="b-i" class="form-control" name="b-i" placeholder="Descripcion..." v-model="sub_cotizacion.descripcion">
-                                    <div class="invalid-feedback">El campo no debe quedar vacío</div>
-                                </div>
+                        <div class="form-group row">
+                            <div class="col-12 col-sm-6">
+                                <label for="a-i" class="col-form-label">Selecciona el área:</label>
+                                <select name="" id="" class="form-control" v-model="sub_cotizacion.area">
+                                    <option value="" selected>Selecciona el área</option>
+                                    <option value="electrica">Electrica</option>
+                                    <option value="iluminacion">Iluminación</option>
+                                    <option value="control_iluminacion">Control Iluminacion</option>
+                                    <option value="audio">Audio</option>
+                                    <option value="integracion">Integración</option>
+                                    <option value="seguridad">Seguridad</option>
+                                    <option value="mano_obra">Mano de Obra</option>
+                                    <option value="servicios">Servicios</option>
+                                </select>
+                                <div class="invalid-feedback">El campo no debe quedar vacío</div>
                             </div>
-                        </form>
+                            <div class="col-12 col-sm-6">
+                                <label for="b-i" class="col-form-label">Descripcion:</label>
+                                <input type="text" id="b-i" class="form-control" name="b-i" placeholder="Descripcion..." v-model="sub_cotizacion.descripcion">
+                                <div class="invalid-feedback">El campo no debe quedar vacío</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$parent.closeModalSubCotizacion()">Cerrar</button>

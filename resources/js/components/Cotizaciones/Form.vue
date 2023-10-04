@@ -228,7 +228,8 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12 col-lg-10 text-center p-2">
-                            <input type="file" class="form-control" accept=" video/*, image/*"  id="foto" name="foto" v-on:change="onImageChange">
+                            <!-- <input type="file" class="form-control-file" accept=" video/*, image/*, .pdf"  id="foto" name="foto" v-on:change="onFileChange"> -->
+                            <input type="file" class="form-control-file" accept=".pdf"  id="foto" name="foto" v-on:change="onFileChange">
                         </div>
                         <div class="text-center col-12 col-lg-2">
                             <b-button block variant="success" type="submit" v-bind:disabled="loading_btn"><b-spinner small type="grow" v-if="loading_btn"></b-spinner> Agregar</b-button>
@@ -239,15 +240,18 @@
             <div class="row row-cols-1 row-cols-md-2 g-4 mt-4" v-if="loading_files">
                 <div class="col" v-for="(file, index) in files.files" :key="index">
                     <div class="card">
-                        <div style="z-index: 1; position: absolute;">
-                            <button class="btn btn-danger btn-circle" @click="deleteFile(file.id)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <a target="_blank" :href="'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" class="btn btn-info btn-circle">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
+                        <!-- Visualización del archivo -->
+                        <div class="file-viewer-container">
+                            <iframe scrolling="auto" allowtransparency="true" :src="fileUrl(file.file)" width="100%" height="400"></iframe>
+                            <div class="file-actions">
+                                <button class="btn btn-danger btn-circle" @click="deleteFile(file.id)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <a target="_blank" :href="fileUrl(file.file)" class="btn btn-info btn-circle">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </div>
                         </div>
-                        <b-img-lazy :src="'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/'+file.file" alt="Image 1" style="height:300px;"></b-img-lazy>
                     </div>
                 </div>
             </div>
@@ -370,7 +374,7 @@
                 dolar: {},
                 show: true,
                 loading_btn: false,
-                image: '',
+                file: '',
                 files: {},
                 loading_files: false,
                 dolars: [],
@@ -391,6 +395,20 @@
             this.ruta = (this.tipo == "insert")? '/Cotizaciones/store' : `/Cotizaciones/update/${this.cotizacion.id}`
         },
         methods:{
+            isPdf(filename) {
+                // Verificar si el archivo es un PDF (puedes ajustar esta lógica según las extensiones de archivo que desees)
+                return filename.toLowerCase().endsWith('.pdf');
+            },
+            isImage(fileName) {
+                // Verifica si el archivo es una imagen basado en su extensión
+                const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+                const extension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
+                return imageExtensions.includes(`.${extension.toLowerCase()}`);
+            },
+            fileUrl(fileName) {
+                const cloudinaryBaseUrl = 'https://res.cloudinary.com/dcj3tck83/image/upload/v1650566179/cotizacion_planos/';
+                return `${cloudinaryBaseUrl}${fileName}`;
+            },
             abrirProyecto(){
                 window.location.href = `/Proyectos/form/aux/${this.cotizacion.id}`
             },
@@ -442,26 +460,24 @@
                     this.sub_cotizacion_valor.total = this.sub_cotizacion_valor.iva + this.sub_cotizacion_valor.sub_total
                 }
             },
-            onImageChange(e){
-                this.image = e.target.files[0]
+            onFileChange(e) {
+                this.file = e.target.files[0];
 
-                let reader  = new FileReader()
-
-                reader.addEventListener("load", function () {
-                    this.imagePreview = reader.result
-                }.bind(this), false);
-
-                if( this.image ){
-                    if ( /\.(jpe?g|png|gif)$/i.test( this.image.name ) ) {
-                        reader.readAsDataURL( this.image )
+                if (this.file) {
+                    if (/\.(pdf)$/i.test(this.file.name)) {
+                    // Puedes realizar cualquier acción que necesites con el archivo PDF aquí
+                    console.log('Archivo PDF cargado:', this.file.name);
+                    } else {
+                    // Puedes manejar aquí el caso en el que el archivo no sea un PDF
+                    console.error('El archivo seleccionado no es un PDF.');
                     }
                 }
             },
             storeImage(){
-                if(this.image != ''){
+                if(this.file != ''){
                     this.loading_btn = true
                     let data = new FormData();
-                    data.append("file", this.image)
+                    data.append("file", this.file)
                     data.append("cotizacion_id", this.cotizacion.id)
 
                     axios.post(`/Cotizaciones/Files/store/${this.cotizacion.id}`, data).then(res=>{
@@ -471,7 +487,7 @@
 
                         }
                         this.loading_btn = false
-                        this.image = ''
+                        this.file = ''
                     }).catch(function (error) {
                         console.log(error.response)
                         this.loading = false
@@ -840,3 +856,21 @@
         }
     }
 </script>
+
+<style>
+.file-viewer-container {
+  position: relative;
+}
+
+.file-actions {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.btn-circle:hover {
+  opacity: 1;
+}
+
+</style>

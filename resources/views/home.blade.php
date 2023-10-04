@@ -162,15 +162,25 @@ footer p a:hover{
 @section('page-title', 'Inicio')
 
 @section('content')
-    <div class="row">
+    <div class="row" id="app">
         <div class="col-12">
             <div class="card shadow mb-4">
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Dashboard</h6>
                 </div>
-                <div class="card-body" id="app">
+                <div class="card-body">
                     <home-index date="{{$date}}"></home-index>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Actividades</h6>
+                </div>
+                <div class="card-body" >
+                    <proyectos-tecnico-actividades-calendario></proyectos-tecnico-actividades-calendario>
                 </div>
             </div>
         </div>
