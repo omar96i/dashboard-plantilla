@@ -52,12 +52,12 @@ class SubCotizacionProducto extends Model
     }
 
     public static function validar($id, $cantidad){
-        return self::where('id', '=', $id)->where('cantidad', '<', $cantidad)->count();
+        return self::where('id', '=', $id)->where('cantidad', '>=', $cantidad)->exists();
     }
 
     public static function validarCantidad($id, $cantidad){
         return self::whereHas('productos', function ($query) use($cantidad) {
-            $query->where('cantidad', '<', $cantidad);
-       })->where('id', $id)->count();
+            $query->where('cantidad', '>', $cantidad);
+       })->where('id', $id)->exists();
     }
 }

@@ -218,6 +218,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/Files/delete/{file}', [ProyectoActividadController::class, 'deleteFiles'])->name('proyectos.actividades.files.delete');
             Route::get('/Files/get/{actividad}', [ProyectoActividadController::class, 'getFiles'])->name('proyectos.actividades.files.get');
             Route::post('/Inventario/store/{actividad}', [ProyectoActividadController::class, 'storeInventario'])->name('proyectos.actividades.inventario.store');
+            Route::delete('/Inventario/delete/{producto}', [ProyectoActividadController::class, 'deleteInventario'])->name('proyectos.actividades.inventario.delete');
             Route::get('/Inventario/get/{actividad}', [ProyectoActividadController::class, 'getInventario'])->name('proyectos.actividades.inventario.get');
 
             Route::group(['prefix' => 'Reportes'], function () {

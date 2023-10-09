@@ -91,7 +91,7 @@ class ProyectoActividadController extends Controller
             if(ProyectoActividadProducto::validarProductoSecundario($producto->producto_id, $producto->proyecto_actividad_id) > 0){
                 return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
             }
-            if(Producto::validar($producto->producto_id, $producto->cantidad) > 0){
+            if(Producto::validar($producto->producto_id, $producto->cantidad)){
                 return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
             }
             $producto->save();
@@ -102,10 +102,10 @@ class ProyectoActividadController extends Controller
             if(ProyectoActividadProducto::validarProducto($producto->sub_cotizacion_producto_id, $producto->proyecto_actividad_id) > 0){
                 return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
             }
-            if(SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
+            if(!SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad)){
                 return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
             }
-            if(SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad) > 0){
+            if(!SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad)){
                 return response()->json(['status' => false, 'msg' => 'Actualmente no hay cantidad suficiente para satisfacer la cantidad requerida']);
             }
             $sub_cotizacion_producto = SubCotizacionProducto::find($producto->sub_cotizacion_producto_id);
@@ -118,6 +118,15 @@ class ProyectoActividadController extends Controller
             $sub_cotizacion_producto->save();
         }
         return response()->json(['status' => true, 'msg' => 'Producto agregado.']);
+    }
+
+    public function deleteInventario(ProyectoActividadProducto $producto){
+        $sub_cotizacion_producto = SubCotizacionProducto::where('id', '=', $producto->sub_cotizacion_producto_id)->first();
+        $sub_cotizacion_producto->cantidad_usada -= $producto->cantidad;
+        $sub_cotizacion_producto->save();
+
+        $producto->delete();
+        return response()->json(['deleted' => true, 'msg' => 'Eliminado con exito.']);
     }
 
     public function getInventario(ProyectoActividad $actividad){
@@ -141,7 +150,16 @@ class ProyectoActividadController extends Controller
     }
 
     public function getActividadesUsuario(){
-        return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal', 'reagendamientos')->where('empleado_id', Auth::id())->get()]);
+        $usuario = Auth::user();
+    
+        // Verifica si el usuario tiene un rol específico (por ejemplo, 'lider')
+        if ($usuario->hasRole('lider.ingenieria') || $usuario->hasRole('lider.electrico') || $usuario->hasRole('admin') || $usuario->hasRole('sub.admin')) {
+            // Si el usuario es un administrador, devuelve todas las actividades
+            return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal', 'reagendamientos')->get()]);
+        } else {
+            // Si el usuario no es un lider, devuelve solo las actividades del usuario
+            return response()->json(['actividades' => ProyectoActividad::with('proyecto', 'empleado.informacionPersonal', 'reagendamientos')->where('empleado_id', $usuario->id)->get()]);
+        }
     }
 
     public function calendario(){

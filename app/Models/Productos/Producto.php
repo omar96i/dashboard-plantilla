@@ -75,8 +75,9 @@ class Producto extends Model
 		})->with('valores', 'subCotizaciones')->get();
 	}
 
+    // validar que la contidad insertada no sea mayor a la disponible
     public static function validar($id, $cantidad){
-        return self::where('id', '=', $id)->where('cantidad', '<', $cantidad)->count();
+        return self::where('id', '=', $id)->where('cantidad', '>=', $cantidad)->exists();
     }
 
     // Relaciones end

@@ -197,7 +197,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                                 <div class="dropdown-header">Acciones:</div>
-                                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
+                                                <button class="dropdown-item" href="#"  @click="deleteProducto(producto.id)"><i class="fas fa-trash"></i> Eliminar</button>
                                             </div>
                                         </div>
                                     </td>
@@ -223,7 +223,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                                 <div class="dropdown-header">Acciones:</div>
-                                                <button class="dropdown-item" href="#"><i class="fas fa-trash" ></i> Eliminar</button>
+                                                <button class="dropdown-item" href="#" @click="deleteProducto(producto.id)"><i class="fas fa-trash"></i> Eliminar</button>
                                             </div>
                                         </div>
                                     </td>
@@ -334,21 +334,56 @@
             },
 
             storeProducto(){
-                if(this.inventario.sub_cotizacion_producto_id != '' && this.inventario.cantidad != ''){
+                if(this.inventario.sub_cotizacion_producto_id != '' && this.inventario.cantidad != '' && this.inventario.cantidad != 0){
                     axios.post(`/Proyectos/Actividades/Inventario/store/${this.actividad.id}`, this.inventario).then(res=>{
+                        console.log(res);
                         if(res.data.status){
                             this.alert('Producto', res.data.msg, 'success')
                             this.inventario.sub_cotizacion_producto_id = ''
                             this.inventario.cantidad = ''
+                            this.getInventario()
                             this.getInventarioActividad()
                         }else{
                             this.alert('Producto', res.data.msg, 'error')
                         }
+                    }).catch(error => {
+                        console.log(error.response);
                     })
                 }else{
+                    this.alert('Producto', 'Revisa que haya un proyecto seleccionado', 'error')
                     this.inventarioValidador.sub_cotizacion_producto_id = (this.inventario.sub_cotizacion_producto_id == '')? false : true
                     this.inventarioValidador.cantidad = (this.inventario.cantidad == '')? false : true
                 }
+            },
+            
+            deleteProducto(product_id){
+                this.$fire({
+                    title: 'producto',
+                    text: 'Estas seguro de eliminar el producto?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#FF0000',
+                }).then((result) => {
+                    if(result.value){
+                        axios.delete(`/Proyectos/Actividades/Inventario/delete/${product_id}`).then(res=>{
+                            console.log(res);
+                            if(res.data.deleted){
+                                this.$fire({
+                                    title: 'Producto',
+                                    text: res.data.msg,
+                                    type: 'success',
+                                    timer: 3000
+                                })
+                                this.getInventarioActividad()
+                                this.getInventario()
+                            }
+                        }).catch(error => {
+                            console.log(error.response);
+                        })
+                    }
+                });
             },
 
             getInventarioActividad(){

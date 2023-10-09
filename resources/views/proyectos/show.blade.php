@@ -133,6 +133,7 @@
                                         <th>Temperatura</th>
                                         <th>Voltaje</th>
                                         <th>Cantidad asignada</th>
+                                        <th>Cantidad utilizada</th>
                                         <th>Ubicación</th>
                                         <th>Categoria</th>
                                         <th>Área</th>
@@ -150,6 +151,7 @@
                                         <th>Temperatura</th>
                                         <th>Voltaje</th>
                                         <th>Cantidad asignada</th>
+                                        <th>Cantidad utilizada</th>
                                         <th>Ubicación</th>
                                         <th>Categoria</th>
                                         <th>Área</th>
@@ -169,6 +171,7 @@
                                                 <td>{{$producto->productos->temperatura_calor}}</td>
                                                 <td>{{$producto->productos->voltaje}}</td>
                                                 <td>{{$producto->cantidad}}</td>
+                                                <td>{{$producto->cantidad_usada}}</td>
                                                 <td>{{$producto->ubicacion}}</td>
                                                 <td>{{$producto->productos->categoria != null ? $producto->productos->categoria['nombre'] : ''}}</td>
                                                 <td>{{$sub_cotizacion->area}}</td>

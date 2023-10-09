@@ -11,7 +11,7 @@
                     <th>Color</th>
                     <th>Temperatura</th>
                     <th>Voltaje</th>
-                    <th>Cantidad asignada</th>
+                    <th>Cantidad utilizada</th>
                     <th>Ubicacion</th>
                 </tr>
             </thead>

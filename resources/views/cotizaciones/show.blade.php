@@ -78,9 +78,9 @@
                                             <th>Referencia</th>
                                             <th>Marca</th>
                                             <th>Ubicacion</th>
-                                            <th>Cant. Asignada</th>
-                                            <th>Cant. Usada</th>
                                             <th>Cant. Disponible</th>
+                                            <th>Cant. Asignada</th>
+                                            <th>Cant. Utilizada</th>
                                             <th>Valor unidad</th>
                                             <th>Valor Total</th>
                                             <th>Valor unidad</th>
@@ -99,6 +99,17 @@
                                                 <td>
                                                     @if ($producto->cantidad > $producto->productos->cantidad)
                                                         <div class="alert alert-danger" role="alert">
+                                                            {{$producto->productos->cantidad}}
+                                                        </div>
+                                                    @else
+                                                        <div class="alert alert-success" role="alert">
+                                                            {{$producto->productos->cantidad}}
+                                                        </div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($producto->cantidad > $producto->productos->cantidad)
+                                                        <div class="alert alert-danger" role="alert">
                                                             {{$producto->cantidad}}
                                                         </div>
                                                     @else
@@ -108,17 +119,6 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$producto->cantidad_usada}}</td>
-                                                <td>
-                                                    @if ($producto->cantidad > $producto->productos->cantidad)
-                                                        <div class="alert alert-danger" role="alert">
-                                                            {{$producto->productos->cantidad}}
-                                                        </div>
-                                                    @else
-                                                        <div class="alert alert-success" role="alert">
-                                                            {{$producto->productos->cantidad}}
-                                                        </div>
-                                                    @endif
-                                                </td>
                                                 <td><small>USD</small> {{($producto->productos->valores[0]->tipo == 'dolar')? $producto->productos->valores[0]->valor: '-'}}</td>
                                                 <td><small>USD</small> {{($producto->productos->valores[0]->tipo == 'dolar')? $producto->productos->valores[0]->valor * $producto->cantidad: '-'}}</td>
                                                 <td>{{($producto->productos->valores[0]->tipo == 'dolar')? $producto->productos->valores[0]->valor * $cotizacion->dolar->valor : $producto->productos->valores[0]->valor}}</td>
