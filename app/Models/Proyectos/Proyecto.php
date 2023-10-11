@@ -47,4 +47,20 @@ class Proyecto extends Model
     public function interventorias(){
         return $this->hasMany(ProyectoInterventoria::class, 'proyecto_id');
     }
+
+    public function porcentaje(){
+        $cant_asignada = 0;
+        $cant_usada = 0;
+    
+        foreach ($this->cotizacion->subCotizaciones as $sub_cotizacion) {
+            foreach ($sub_cotizacion->productos as $producto) {
+                $cant_asignada += $producto->cantidad;
+                $cant_usada += $producto->cantidad_usada;
+            }
+        }
+        $this['porcentaje'] = $cant_usada * 100 / $cant_asignada;
+        $this->makeHidden(['cotizacion']);
+
+        return $this;
+    }
 }

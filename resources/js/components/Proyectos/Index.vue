@@ -7,6 +7,7 @@
                     <th class="color-gray">Nombre</th>
                     <th class="color-gray">Fecha inicial</th>
                     <th class="color-gray">Fecha final</th>
+                    <th class="color-gray">Vendido / Instalado</th>
                     <th class="color-gray"></th>
                 </tr>
             </thead>
@@ -16,6 +17,7 @@
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"><input type="text" class="form-control"></th>
                     <th class="color-gray"></th>
+                    <th class="color-gray"></th>
                 </tr>
             </tfoot>
             <tbody>
@@ -23,6 +25,11 @@
                     <td>{{proyecto.nombre}}</td>
                     <td>{{proyecto.fecha_inicial}}</td>
                     <td>{{proyecto.fecha_final}}</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" :style="{ width: `${proyecto.porcentaje}%` }" :aria-valuenow="proyecto.porcentaje" aria-valuemin="0" aria-valuemax="100">{{proyecto.porcentaje}}%</div>
+                        </div>
+                    </td>
                     <td class="text-center">
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -17,7 +17,11 @@ class ProyectoController extends Controller
     }
 
     public function get(){
-        return response()->json(['proyectos' => Proyecto::get()]);
+        $proyectos = Proyecto::get();
+        foreach ($proyectos as $proyecto) {
+            $proyecto->porcentaje();
+        }
+        return response()->json(['proyectos' => $proyectos]);
     }
 
     public function form(Proyecto $proyecto = null){
