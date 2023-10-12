@@ -96,26 +96,38 @@ class ProyectoActividadController extends Controller
             }
             $producto->save();
         }else{
-            $producto = new ProyectoActividadProducto($request->all());
-            $producto->proyecto_actividad_id = $actividad->id;
-            $producto->estado = "asignado";
-            if(ProyectoActividadProducto::validarProducto($producto->sub_cotizacion_producto_id, $producto->proyecto_actividad_id) > 0){
-                return response()->json(['status' => false, 'msg' => 'El producto ya se encuentra agregado']);
+            $actividad_producto = ProyectoActividadProducto::where('sub_cotizacion_producto_id', $request->sub_cotizacion_producto_id)->where('proyecto_actividad_id', $actividad->id)->first();
+            if($actividad_producto){
+                $actividad_producto->cantidad += $request->cantidad;
+                $sub_cotizacion_producto = SubCotizacionProducto::find($actividad_producto->sub_cotizacion_producto_id);
+                if(($sub_cotizacion_producto->cantidad - $sub_cotizacion_producto->cantidad_usada) < $actividad_producto->cantidad){
+                    return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+                }
+                $actividad_producto->save();
+                $sub_cotizacion_producto->cantidad_usada = $sub_cotizacion_producto->cantidad_usada + $actividad_producto->cantidad;
+                $sub_cotizacion_producto->update();
+                $sub_cotizacion_producto->save();
+                return response()->json(['status' => true, 'msg' => 'Producto agregado.']);
+            }else{
+                $producto = new ProyectoActividadProducto($request->all());
+                $producto->proyecto_actividad_id = $actividad->id;
+                $producto->estado = "asignado";
+    
+                if(!SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad)){
+                    return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+                }
+                if(!SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad)){
+                    return response()->json(['status' => false, 'msg' => 'Actualmente no hay cantidad suficiente para satisfacer la cantidad requerida']);
+                }
+                $sub_cotizacion_producto = SubCotizacionProducto::find($producto->sub_cotizacion_producto_id);
+                if(($sub_cotizacion_producto->cantidad - $sub_cotizacion_producto->cantidad_usada) < $producto->cantidad){
+                    return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
+                }
+                $producto->save();
+                $sub_cotizacion_producto->cantidad_usada = $sub_cotizacion_producto->cantidad_usada + $producto->cantidad;
+                $sub_cotizacion_producto->update();
+                $sub_cotizacion_producto->save();
             }
-            if(!SubCotizacionProducto::validar($producto->sub_cotizacion_producto_id, $producto->cantidad)){
-                return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
-            }
-            if(!SubCotizacionProducto::validarCantidad($producto->sub_cotizacion_producto_id, $producto->cantidad)){
-                return response()->json(['status' => false, 'msg' => 'Actualmente no hay cantidad suficiente para satisfacer la cantidad requerida']);
-            }
-            $sub_cotizacion_producto = SubCotizacionProducto::find($producto->sub_cotizacion_producto_id);
-            if(($sub_cotizacion_producto->cantidad - $sub_cotizacion_producto->cantidad_usada) < $producto->cantidad){
-                return response()->json(['status' => false, 'msg' => 'La cantidad asignada no se encuentra disponible']);
-            }
-            $producto->save();
-            $sub_cotizacion_producto->cantidad_usada = $sub_cotizacion_producto->cantidad_usada + $producto->cantidad;
-            $sub_cotizacion_producto->update();
-            $sub_cotizacion_producto->save();
         }
         return response()->json(['status' => true, 'msg' => 'Producto agregado.']);
     }

@@ -184,7 +184,7 @@
                                 <div class="col-12 col-sm-12">
                                     <label class="col-form-label">Categoria  <a href="#" @click="cambiarValorLoadCategoria()"><i class="fa-solid fa-gear"></i></a></label>
                                     <div v-if="!load_categoria">
-                                        <v-select multiple v-model="producto.categoria_id" :options="options_categoria" :reduce="(options_categoria) => options_categoria.id"  v-bind:class="[{ 'is-invalid': productoValidacion.categoria}]"/>
+                                        <v-select multiple v-model="producto.categoria_id" :options="options_categoria" :reduce="(options_categoria) => options_categoria.id"  v-bind:class="[{ 'is-invalid': productoValidacion.categoria_id}]"/>
                                         <div class="invalid-feedback">El campo no debe quedar vacío</div>
                                     </div>
                                     <div v-else>
@@ -477,6 +477,7 @@
                     }
 
                     axios.post(this.ruta, data).then(res=>{
+                        console.log(res);
                         this.loading = false
                         this.alert("Producto", (this.tipo == "edit")? "Producto Editado": "Producto Creado", "success")
                         this.closeModal()
@@ -541,6 +542,11 @@
                     this.productoValidacion.cantidad = true
                 }else{
                     this.productoValidacion.cantidad = false
+                }
+                if(this.producto.tipo == ''){
+                    this.productoValidacion.tipo = true
+                }else{
+                    this.productoValidacion.tipo = false
                 }
                 if(this.producto.valor == ''){
                     this.productoValidacion.valor = true

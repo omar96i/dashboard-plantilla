@@ -1,8 +1,7 @@
-require('./bootstrap');
-
 global.jQuery = require('jquery');
 var $ = global.jQuery;
 window.$ = $;
+require('./bootstrap');
 
 window.Vue = require('vue').default;
 import vSelect from 'vue-select'

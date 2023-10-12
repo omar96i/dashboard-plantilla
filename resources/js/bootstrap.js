@@ -1,8 +1,10 @@
 window._ = require('lodash');
 
 try {
-    require('bootstrap');
+    require('../../public/plugins/bootstrap/js/bootstrap');
 } catch (e) {}
+
+require('./sb-admin-2');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
