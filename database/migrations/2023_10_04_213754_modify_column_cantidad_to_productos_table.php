@@ -14,7 +14,7 @@ class ModifyColumnCantidadToProductosTable extends Migration
     public function up()
     {
         Schema::table('productos', function (Blueprint $table) {
-            $table->integer('cantidad')->change();
+            $table->integer('cantidad')->nullable()->change();
         });
     }
 
