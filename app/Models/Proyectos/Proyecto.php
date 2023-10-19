@@ -58,9 +58,15 @@ class Proyecto extends Model
                 $cant_usada += $producto->cantidad_usada;
             }
         }
-        $this['porcentaje'] = $cant_usada * 100 / $cant_asignada;
+    
+        if ($cant_asignada !== 0) {
+            $this['porcentaje'] = $cant_usada * 100 / $cant_asignada;
+        } else {
+            $this['porcentaje'] = 0;
+        }
+    
         $this->makeHidden(['cotizacion']);
-
+    
         return $this;
     }
 }
